@@ -32,14 +32,14 @@ var searchQuoteName = function() {
 	// console.log(companyName[$("#searchBox").val()].text);
 	var selectedTicker = ticker[$("#searchBox").val()].text;
 	$('#searchBox2').select2('val', '');
-	googleQuote(selectedTicker, 86400, '3d');
+	googleQuote(selectedTicker, 86400, '1Y');
 }
 
 var searchQuoteTicker = function() {
 	// console.log(ticker[$("#searchBox2").val()].text)
 	var selectedTicker = ticker[$("#searchBox2").val()].text;
 	$('#searchBox').select2('val', '');
-	googleQuote(selectedTicker, 86400, '3d');	
+	googleQuote(selectedTicker, 86400, '1Y');	
 }
 
 // Configure yahoo finance ajax calls
@@ -52,20 +52,36 @@ var googleQuote = function(ticker, interval, period) {
 		})
 		.done(function(data) {
 			var dateTime;
+			clearTable();
 			console.log('google GET call done');
 			console.log('=====================');
 			// console.log('http://www.google.com/finance/getprices?q=' + ticker + '&x=NASD&i=' + interval + '&p=' + period + '&f=d,c,v,k,o,h,l&df=cpct');
+
+			// split by new line
 			data = data.split('\n');
-			// console.log(data[7].split(',')[0].replace('a', ''));
-			dateTime = moment.unix(data[7].split(',')[0].replace('a', ''));
-			var temp = data.slice(8, -1);
-			temp = convertToQuote(temp, 'days', interval, dateTime);
-			// console.log(temp);
-			clearTable();
-			addChildren(temp, ticker);
-			// var result = JSON.parse(data)[0];
-			// console.log('Result: ' + result.id);
-			// return result;
+			
+			// replace all unix time
+			for (var i = 7; i < data.length - 1; i++) {
+				var entries = data[i].split(',');
+				entries[0] = entries[0].replace('a', '');
+				if (entries[0].includes('TIMEZONE_OFFSET')) {
+					continue;
+				}
+				// check if the line is a new time stamp
+				if (entries[0].length > 4) {
+					var dateTime = moment.unix(entries[0]);
+					var quote = convertToQuote(entries, 'days', interval);
+					// console.log('i = ' + i + ' | unixtime');
+				}
+				else {
+					// console.log('i = ' + i + ' | offset');
+					var quote = convertToQuote(entries, 'days', interval, dateTime);	
+				}
+				// console.log(quote);
+				// console.log('finished ' + i);
+				
+				addChildren(quote, ticker);
+			}
 		})
 		.fail(function() {
 			console.log("google GET call error");
@@ -89,22 +105,24 @@ var googleQuote = function(ticker, interval, period) {
 
 function convertToQuote(quoteArray, intervalText, interval, time) {
 	var quote = []; // create quote object
-	// var origin; // fixed for basis of offsetting
-	for (var i = 0; i < quoteArray.length; i++) {
-		var offset = quoteArray[i].split(',')[0];
-		// origin = time; // reset the origin
-		// console.log('time: ' + time);
-		var newDate = time.clone().add(offset, intervalText);
-		var newDateStr = newDate.format("dddd, MMMM Do YYYY, h:mm:ss a");
-		quote.push({
-			date: newDateStr,
-			close: quoteArray[i].split(',')[1],
-			high: quoteArray[i].split(',')[2],
-			low: quoteArray[i].split(',')[3],
-			open: quoteArray[i].split(',')[4],
-			volume: quoteArray[i].split(',')[5]
-		});
+	var offset = quoteArray[0];
+	console.log('offset: ' + offset);
+	// if true, then we are in the offset section
+	if (Number(offset) > 9999) {
+		var newDate = moment.unix(offset); // the offset is actually an unix time
 	}
+	else {
+		var newDate = time.clone().add(offset, intervalText);		
+	}
+	var newDateStr = newDate.format("dddd, MMMM Do YYYY, h:mm:ss a");
+	quote.push({
+		date: newDateStr,
+		close: quoteArray[1],
+		high: quoteArray[2],
+		low: quoteArray[3],
+		open: quoteArray[4],
+		volume: quoteArray[5]
+	});
 	return quote;
 }
 
