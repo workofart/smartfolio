@@ -1,0 +1,43 @@
+extends layout
+
+block content
+
+
+	div.row
+		div.col-md-4
+			div.well				
+				div.input-group
+					span(class='input-group-addon' id='basic-addon1') Company Name
+					input(class='form-control' placeholder='Company Name' style='width:200px' id='searchBox')
+					button(type='button' class='btn btn-default btn-sm' onclick='searchQuoteName()') 
+						span(class='glyphicon glyphicon-search' aria-hidden='true')
+				div.input-group
+					span(class='input-group-addon' id='basic-addon2') Ticker
+					input(class='form-control' placeholder='Ticker' style='width:200px' id='searchBox2')
+					button(type='button' class='btn btn-default btn-sm' onclick='searchQuoteTicker()') 
+						span(class='glyphicon glyphicon-search' aria-hidden='true')
+				br
+				a(class='btn btn-primary' data-toggle='collapse' href='#customizeSettings' aria-expanded='false' aria-controls='customizeSettings') Advanced Search &nbsp
+					span(class='glyphicon glyphicon-tasks')
+				div(class='collapse' id='customizeSettings')
+					div.well
+						div(class='input-group')
+							span(class='input-group-addon' id='period-addon') Period
+							input(type='text' class='form-control' placeholder='E.g. 1 day -  10 years' aria-describedby='sizing-addon1')
+						div(class='input-group')
+							span(class='input-group-addon' id='interval-addon') Interval
+							input(type='text' class='form-control' placeholder='E.g. 15 minutes - 1 day' aria-describedby='sizing-addon1')
+		div.col-md-8
+			h4 Market
+			table(class='table table-hover')
+				tbody(class='table-hover' id='quoteBody')
+					tr(class='info' id='header')
+						th Date									
+						th Ticker (Symbol)
+						th Company
+						th Opening Price
+						th Closing Price
+						th High
+						th Low
+						th Volume			
+	script(type='text/javascript' src='/javascripts/actions.js')
