@@ -32,21 +32,21 @@ var searchQuoteName = function() {
 	// console.log(companyName[$("#searchBox").val()].text);
 	var selectedTicker = ticker[$("#searchBox").val()].text;
 	$('#searchBox2').select2('val', '');
-	googleQuote(selectedTicker, 86400, '350d');
+	googleQuote(selectedTicker, 86400, '3d');
 }
 
 var searchQuoteTicker = function() {
 	// console.log(ticker[$("#searchBox2").val()].text)
 	var selectedTicker = ticker[$("#searchBox2").val()].text;
 	$('#searchBox').select2('val', '');
-	googleQuote(selectedTicker, 86400, '350d');	
+	googleQuote(selectedTicker, 86400, '3d');	
 }
 
 // Configure yahoo finance ajax calls
 // Populate the table with data
 var googleQuote = function(ticker, interval, period) {
 	$.ajax({
-			url: 'http://www.google.com/finance/getprices?q=' + ticker + '&x=NASD&i=' + interval + '&p=' + period + '&f=d,c,v,k,o,h,l&df=cpct',
+			url: 'https://www.google.com/finance/getprices?q=' + ticker + '&x=NASD&i=' + interval + '&p=' + period + '&f=d,c,v,k,o,h,l&df=cpct',
 			type: 'GET'
 				// contentType: 'application/x-www-form-urlencoded'
 		})
@@ -54,7 +54,7 @@ var googleQuote = function(ticker, interval, period) {
 			var dateTime;
 			console.log('google GET call done');
 			console.log('=====================');
-			console.log('http://www.google.com/finance/getprices?q=' + ticker + '&x=NASD&i=' + interval + '&p=' + period + '&f=d,c,v,k,o,h,l&df=cpct');
+			// console.log('http://www.google.com/finance/getprices?q=' + ticker + '&x=NASD&i=' + interval + '&p=' + period + '&f=d,c,v,k,o,h,l&df=cpct');
 			data = data.split('\n');
 			// console.log(data[7].split(',')[0].replace('a', ''));
 			dateTime = moment.unix(data[7].split(',')[0].replace('a', ''));
