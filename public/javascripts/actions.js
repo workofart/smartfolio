@@ -8,7 +8,9 @@ var companyList = $.ajax({
 	})
 	.done(function(data) {
 		console.log('done~!');
-		// console.log(data[0]);
+		// Select2 placeholder requires an empty option 
+		$("#searchBox").append($("<option>"));
+		$("#searchBox2").append($("<option>"));
 		for (var i = 0; i < data.length; i++) {
 			ticker.push({
 				id: i,
@@ -20,9 +22,12 @@ var companyList = $.ajax({
 			});
 		}
 		$("#searchBox").select2({
+			// Placeholder defined in Jade file apparently doesn't work
+			placeholder: "Company Name",
 			data: companyName
 		});
 		$("#searchBox2").select2({
+			placeholder: "Ticker",
 			data: ticker
 		});
 		return data;
@@ -41,6 +46,19 @@ var searchQuoteTicker = function() {
 	$('#searchBox').select2('val', '');
 	googleQuote(selectedTicker, 86400, '1Y');	
 }
+
+// Link selection boxes
+$("#searchBox").on("select2:select", function() {
+	var index = $("#searchBox").val();
+	var $box2 = $("#searchBox2").select2();
+	$box2.val(index).trigger("change");
+});
+
+$("#searchBox2").on("select2:select", function() {
+	var index = $("#searchBox2").val();
+	var $box = $("#searchBox").select2();
+	$box.val(index).trigger("change");
+});
 
 // Configure yahoo finance ajax calls
 // Populate the table with data
