@@ -15,8 +15,36 @@ block content
 					button(type='button' class='btn btn-default btn-sm' onclick='searchQuoteTicker()') 
 						span(class='glyphicon glyphicon-search' aria-hidden='true')
 				br
-				a(class='btn btn-primary' data-toggle='collapse' href='#customizeSettings' aria-expanded='false' aria-controls='customizeSettings') Advanced Search &nbsp
-					span(class='glyphicon glyphicon-tasks')
+				div(class='btn-toolbar' role='toolbar')
+					div(class='btn-group' role='group')
+						a(class='btn btn-primary' data-toggle='collapse' href='#customizeSettings' aria-expanded='false' aria-controls='customizeSettings') Advanced Search &nbsp
+							span(class='glyphicon glyphicon-tasks')
+					div(class='btn-group' role='group')
+						button(onclick='fillAddToPortfolioForm();' type='button' class='btn btn-danger' data-toggle='modal' data-target='#addToPortfolio') Add to Portfolio &nbsp
+							span(class='glyphicon glyphicon-plus')
+					div(class='modal fade' id='addToPortfolio' tabindex='-1' role='dialog' aria-labelledby='addToPortfolioLabel')
+						div(class='modal-dialog' role='document')
+							div.modal-content
+								div.modal-header
+									button(type='button' class='close' data-dismiss='modal' aria-label='Close' id='close') x
+									h4(class='modal-title' id='addToPortfolioLabel') Add to Portfolio
+								div.modal-body
+									div.input-group
+										span(class='input-group-addon' id='basic-addon1') Ticker
+										input(type='text' id='tickerInput' class='form-control' placeholder='E.g. AAPL' aria-describedby='basic-addon1')									
+									div.input-group
+										span(class='input-group-addon' id='basic-addon2') Quantity
+										input(type='text' class='form-control' placeholder='E.g. 1000' aria-describedby='basic-addon2')
+									div.input-group
+										span(class='input-group-addon') Latest Price
+										input(type='text' class='form-control disabled')
+									div.input-group										
+										span(class='input-group-addon') $
+										input(type='text' class='form-control' aria-label='Amount (to the nearest dollar)')
+										span(class='input-group-addon') .00
+								div.modal-footer
+									button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
+									button(type='button' class='btn btn-primary' data-dismiss='modal') Submit
 				div(class='collapse' id='customizeSettings')
 					div.well
 						div(class='input-group')
@@ -37,5 +65,11 @@ block content
 						th Closing Price
 						th High
 						th Low
-						th Volume			
+						th Volume
+
+	div.row
+		div.col-md-4
+			div.well
+				h3 Test
+					h3 tes		
 	script(type='text/javascript' src='/javascripts/actions.js')

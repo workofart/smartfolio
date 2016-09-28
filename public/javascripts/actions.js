@@ -186,3 +186,11 @@ function clearTable() {
 		}
 	})
 }
+
+// auto fill the add to portfolio fields
+function fillAddToPortfolioForm() {
+	if (ticker[$("#searchBox").val()] != null){
+		$('#tickerInput').val(ticker[$("#searchBox").val()].text);
+		console.log('Found ticker: ' + ticker[$("#searchBox").val()].text);
+	}
+}
