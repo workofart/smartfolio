@@ -1,20 +1,22 @@
 extends layout
 block content
-	h1= title
-	div.container
-		div.row
-			div(class='col-md-4 cols-sm-8')
-				div(class='text-center')
-					img(src='images/dashboard.png' class='img-rounded')
-					p
-						a(type='button' class='btn btn-primary' href='/analysis') Analysis
-			div(class='col-md-4 cols-sm-8')
-				div(class='text-center')
-					img(src='images/portfolio.png' class='img-rounded')
-					p
-						a(type='button' class='btn btn-primary' href='/portfolio') Portfolio
-			div(class='col-md-4 cols-sm-8')
-				div(class='text-center')
-					img(src='images/idea.png' class='img-rounded')
-					p
-						button(type='button' class='btn btn-primary') Insights
+    h1= title
+    div.container
+        div.row
+            div(class='col-md-4 cols-sm-8')
+                a(href='/analysis')
+                    div(class='text-center')
+                        img(src='images/dashboard.png' class='img-rounded')
+                        p
+                            button(type='button' class='btn btn-primary') Analysis
+            div(class='col-md-4 cols-sm-8')
+                a(href='/portfolio')
+                    div(class='text-center')
+                        img(src='images/portfolio.png' class='img-rounded')
+                        p
+                            button(type='button' class='btn btn-primary') Portfolio
+            div(class='col-md-4 cols-sm-8')
+                div(class='text-center')
+                    img(src='images/idea.png' class='img-rounded')
+                    p
+                        a(type='button' class='btn btn-primary') Insights
