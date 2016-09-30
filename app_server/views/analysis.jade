@@ -29,19 +29,17 @@ block content
 									button(type='button' class='close' data-dismiss='modal' aria-label='Close' id='close') x
 									h4(class='modal-title' id='addToPortfolioLabel') Add to Portfolio
 								div.modal-body
+									h4 Latest Price: &nbsp
+										span(class='label label-warning' id='latestPrice')
 									div.input-group
 										span(class='input-group-addon' id='basic-addon1') Ticker
 										input(type='text' id='tickerInput' class='form-control' placeholder='E.g. AAPL' aria-describedby='basic-addon1')									
 									div.input-group
 										span(class='input-group-addon' id='basic-addon2') Quantity
-										input(type='text' class='form-control' placeholder='E.g. 1000' aria-describedby='basic-addon2')
-									div.input-group
-										span(class='input-group-addon') Latest Price
-										input(type='text' class='form-control disabled')
-									div.input-group										
-										span(class='input-group-addon') $
-										input(type='text' class='form-control' aria-label='Amount (to the nearest dollar)')
-										span(class='input-group-addon') .00
+										input(type='text' id='quantity' onkeyup='getTotalAmount();' class='form-control' placeholder='E.g. 1000' aria-describedby='basic-addon2')
+									div(class='alert alert-danger' role='alert')
+										| Total Dollar Amount:
+										span(class='label label-danger' id='totalAmount')
 								div.modal-footer
 									button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
 									button(type='button' class='btn btn-primary' data-dismiss='modal') Submit
@@ -66,10 +64,4 @@ block content
 						th High
 						th Low
 						th Volume
-
-	div.row
-		div.col-md-4
-			div.well
-				h3 Test
-					h3 tes		
 	script(type='text/javascript' src='/javascripts/actions.js')
