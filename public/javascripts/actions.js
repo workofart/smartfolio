@@ -77,7 +77,7 @@ var googleQuote = function(ticker, interval, period) {
 
 			// split by new line
 			data = data.split('\n');
-			
+			var quote;
 			// replace all unix time
 			for (var i = 7; i < data.length - 1; i++) {
 				var entries = data[i].split(',');
@@ -88,18 +88,24 @@ var googleQuote = function(ticker, interval, period) {
 				// check if the line is a new time stamp
 				if (entries[0].length > 4) {
 					var dateTime = moment.unix(entries[0]);
-					var quote = convertToQuote(entries, 'days', interval);
+					quote = convertToQuote(entries, 'days', interval);
 					// console.log('i = ' + i + ' | unixtime');
 				}
 				else {
 					// console.log('i = ' + i + ' | offset');
-					var quote = convertToQuote(entries, 'days', interval, dateTime);	
+					quote = convertToQuote(entries, 'days', interval, dateTime);
 				}
-				// console.log(quote);
+
+
 				// console.log('finished ' + i);
 				
 				addChildren(quote, ticker);
 			}
+			// get the latest price and fill the form
+			var str = quote[0].close;
+			$('#latestPrice').text('$' + str);
+			// var dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(str);
+			// var link = document.getElementById('link').href = dataUri;
 		})
 		.fail(function() {
 			console.log("google GET call error");
@@ -185,4 +191,26 @@ function clearTable() {
 			// console.log('Removed ' + $(this));
 		}
 	})
+}
+
+// auto fill the add to portfolio fields
+function fillAddToPortfolioForm() {
+	if (ticker[$("#searchBox").val()] != null){
+		$('#tickerInput').val(ticker[$("#searchBox").val()].text);
+		console.log('Found ticker: ' + ticker[$("#searchBox").val()].text);
+	}
+}
+
+// Utility function
+function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
+
+// calculates the total dollar amount based on the latest price and quantity entered by user
+function getTotalAmount() {
+	var latestPrice = $('#latestPrice').text().substr(1);
+	var quantity = $('#quantity').val();
+	if (isNumber(quantity)) {
+		var totalAmount = (Number(latestPrice) * Number(quantity)).toFixed(2);
+		$('#totalAmount').text(totalAmount);
+	}
+
 }

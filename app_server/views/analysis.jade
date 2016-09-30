@@ -15,8 +15,34 @@ block content
 					button(type='button' class='btn btn-default btn-sm' onclick='searchQuoteTicker()') 
 						span(class='glyphicon glyphicon-search' aria-hidden='true')
 				br
-				a(class='btn btn-primary' data-toggle='collapse' href='#customizeSettings' aria-expanded='false' aria-controls='customizeSettings') Advanced Search &nbsp
-					span(class='glyphicon glyphicon-tasks')
+				div(class='btn-toolbar' role='toolbar')
+					div(class='btn-group' role='group')
+						a(class='btn btn-primary' data-toggle='collapse' href='#customizeSettings' aria-expanded='false' aria-controls='customizeSettings') Advanced Search &nbsp
+							span(class='glyphicon glyphicon-tasks')
+					div(class='btn-group' role='group')
+						button(onclick='fillAddToPortfolioForm();' type='button' class='btn btn-danger' data-toggle='modal' data-target='#addToPortfolio') Add to Portfolio &nbsp
+							span(class='glyphicon glyphicon-plus')
+					div(class='modal fade' id='addToPortfolio' tabindex='-1' role='dialog' aria-labelledby='addToPortfolioLabel')
+						div(class='modal-dialog' role='document')
+							div.modal-content
+								div.modal-header
+									button(type='button' class='close' data-dismiss='modal' aria-label='Close' id='close') x
+									h4(class='modal-title' id='addToPortfolioLabel') Add to Portfolio
+								div.modal-body
+									h4 Latest Price: &nbsp
+										span(class='label label-warning' id='latestPrice')
+									div.input-group
+										span(class='input-group-addon' id='basic-addon1') Ticker
+										input(type='text' id='tickerInput' class='form-control' placeholder='E.g. AAPL' aria-describedby='basic-addon1')									
+									div.input-group
+										span(class='input-group-addon' id='basic-addon2') Quantity
+										input(type='text' id='quantity' onkeyup='getTotalAmount();' class='form-control' placeholder='E.g. 1000' aria-describedby='basic-addon2')
+									div(class='alert alert-danger' role='alert')
+										| Total Dollar Amount:
+										span(class='label label-danger' id='totalAmount')
+								div.modal-footer
+									button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
+									button(type='button' class='btn btn-primary' data-dismiss='modal') Submit
 				div(class='collapse' id='customizeSettings')
 					div.well
 						div(class='input-group')
@@ -37,5 +63,5 @@ block content
 						th Closing Price
 						th High
 						th Low
-						th Volume			
+						th Volume
 	script(type='text/javascript' src='/javascripts/actions.js')
