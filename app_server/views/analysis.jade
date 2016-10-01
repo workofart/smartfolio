@@ -64,4 +64,14 @@ block content
 						th High
 						th Low
 						th Volume
+	div.row
+		div.col-md-2
+		div.col-md-8
+			div(id='combined-chart')
+		div.col-md-2
+	script(type='text/javascript' src='/javascripts/d3.min.js')
+	script(type='text/javascript' src='http://techanjs.org/techan.min.js')
+	script(type='text/javascript' src='/javascripts/data.js')
+	script(type='text/javascript' src='/javascripts/chart.js')
 	script(type='text/javascript' src='/javascripts/actions.js')
+	link(rel='stylesheet', href='/stylesheets/chart.css')
