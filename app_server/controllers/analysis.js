@@ -1,13 +1,10 @@
-
 // GET analysis page
-module.exports.analysis = function(req, res) {
-
+var renderAnalysis = function(req, res) {
 	res.render('analysis', {
-		title: 'Smartfolio - analysis',
-		// ticker: temp.l,
-		// lastPrice: temp.l,
-		// exchange: temp.e
+		title: 'Smartfolio - Analysis'
 	});
+};
 
-	// console.log(ticker);
+module.exports.analysis = function(req, res) {
+	renderAnalysis(req, res);
 };
