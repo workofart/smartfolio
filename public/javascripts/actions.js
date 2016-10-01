@@ -67,9 +67,9 @@ $("#searchBox2").on("select2:select", function() {
 
 // Begin combined-chart
 (function(window, d3, techanSite) {
-	d3.select('div#combined-chart').call(techanSite.bigchart);
+	d3.select('div#bigChart').call(techanSite.bigchart);
 	window.onresize = function() {
-		d3.select('div#combined-chart').call(techanSite.bigchart.resize);
+		d3.select('div#bigChart').call(techanSite.bigchart.resize);
 	};
 })(window, d3, techanSite);
 

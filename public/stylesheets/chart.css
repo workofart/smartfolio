@@ -1,182 +1,216 @@
+/* General Site */
+
+html, body {
+	height: 100%;
+}
+
+.jumbotron {
+	/* Looks cool but commented out as it results in very slow performance on Chrome MAC */
+	/*-webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.5);*/
+	/*box-shadow: inset 0 0 100px rgba(0,0,0,.5);*/
+	background-color: #333;
+	height: 60%;
+	min-height: 300px;
+	padding: 20px 0px;
+}
+
+.jumbotron .container {
+	height: 100%;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+
+div#bigChart {
+	height: 100%;
+}
+
+@media (min-width: 768px) {
+
+	.jumbotron {
+		height: 80%;
+		min-height: 500px;
+	}
+}
+
 /* Chart specific styling */
-
-svg {
-    font: 10px sans-serif;
+#bigChart svg {
+	font: 16px sans-serif;
 }
 
-text.version {
-    fill: #555555;
-    font: 10px sans-serif;
+#bigChart text.version {
+	fill: #555555;
+	font: 10px sans-serif;
 }
 
-.axis path,
-.axis line {
-    fill: none;
-    stroke: #BBBBBB;
-    shape-rendering: crispEdges;
+#bigChart .axis path,
+#bigChart .axis line {
+	fill: none;
+	stroke: #BBBBBB;
+	shape-rendering: crispEdges;
 }
 
-text {
-    fill: #DDDDDD;
+#bigChart text {
+	fill: #DDDDDD;
 }
 
-path {
-    fill: none;
-    stroke-width: 1;
+#bigChart path {
+	fill: none;
+	stroke-width: 1;
 }
 
-path.candle {
-    stroke: #000000;
+#bigChart path.candle {
+	stroke: #000000;
 }
 
-path.candle.body {
-    stroke-width: 0;
+#bigChart path.candle.body {
+	stroke-width: 0;
 }
 
-path.candle {
-    fill: #777777;
-    stroke: #777777;
+#bigChart path.candle {
+	fill: #777777;
+	stroke: #777777;
 }
 
-path.candle.up {
-    fill: #00AA00;
-    stroke: #00AA00;
+#bigChart path.candle.up {
+	fill: #00AA00;
+	stroke: #00AA00;
 }
 
-path.candle.down {
-    fill: #FF0000;
-    stroke: #FF0000;
+#bigChart path.candle.down {
+	fill: #FF0000;
+	stroke: #FF0000;
 }
 
-.closeValue.annotation.up path {
-    fill: #00AA00;
+#bigChart .closeValue.annotation.up path {
+	fill: #00AA00;
 }
 
-path.volume {
-    fill: #555555;
+#bigChart path.volume {
+	fill: #555555;
 }
 
-.indicator-plot path.line {
-    fill: none;
-    stroke-width: 1;
+#bigChart .indicator-plot path.line {
+	fill: none;
+	stroke-width: 1;
 }
 
-.ma-0 path.line {
-    stroke: #1f77b4;
+#bigChart .ma-0 path.line {
+	stroke: #1f77b4;
 }
 
-.ma-1 path.line {
-    stroke: #aec7e8;
+#bigChart .ma-1 path.line {
+	stroke: #aec7e8;
 }
 
-.ma-2 path.line {
-    stroke: #ff7f0e;
+#bigChart .ma-2 path.line {
+	stroke: #ff7f0e;
 }
 
-div#combined-chart button {
-    position: absolute;
-    right: 110px;
-    top: 25px;
+#bigChart button {
+	position: absolute;
+	right: 110px;
+	top: 25px;
 }
 
-path.macd {
-    stroke: #aec7e8;
+#bigChart path.macd {
+	stroke: #aec7e8;
 }
 
-path.signal {
-    stroke: #FF9999;
+#bigChart path.signal {
+	stroke: #FF9999;
 }
 
-path.zero {
-    stroke: #BBBBBB;
-    stroke-dasharray: 0;
-    stroke-opacity: 0.5;
+#bigChart path.zero {
+	stroke: #BBBBBB;
+	stroke-dasharray: 0;
+	stroke-opacity: 0.5;
 }
 
-path.difference {
-    fill: #777777;
+#bigChart path.difference {
+	fill: #777777;
 }
 
-path.rsi {
-    stroke: #aec7e8;
+#bigChart path.rsi {
+	stroke: #aec7e8;
 }
 
-path.overbought, path.oversold {
-    stroke: #FF9999;
-    stroke-dasharray: 5, 5;
+#bigChart path.overbought, path.oversold {
+	stroke: #FF9999;
+	stroke-dasharray: 5, 5;
 }
 
-path.middle, path.zero {
-    stroke: #BBBBBB;
-    stroke-dasharray: 5, 5;
+#bigChart path.middle, path.zero {
+	stroke: #BBBBBB;
+	stroke-dasharray: 5, 5;
 }
 
-.analysis path, .analysis circle {
-    stroke: yellow;
-    stroke-width: 0.7;
+#bigChart .analysis path, .analysis circle {
+	stroke: yellow;
+	stroke-width: 0.7;
 }
 
-.interaction path, .interaction circle {
-    pointer-events: all;
+#bigChart .interaction path, .interaction circle {
+	pointer-events: all;
 }
 
-.interaction .body {
-    cursor: move;
+#bigChart .interaction .body {
+	cursor: move;
 }
 
-.trendlines .interaction .start, .trendlines .interaction .end {
-    cursor: nwse-resize;
+#bigChart .trendlines .interaction .start, .trendlines .interaction .end {
+	cursor: nwse-resize;
 }
 
-.trendline circle {
-    stroke-width: 0;
-    display: none;
+#bigChart .trendline circle {
+	stroke-width: 0;
+	display: none;
 }
-.mouseover .trendline path {
-    stroke-width: 1;
-}
-
-.mouseover .trendline circle {
-    stroke-width: 1;
-    fill: yellow;
-    display: inline;
+#bigChart .mouseover .trendline path {
+	stroke-width: 1;
 }
 
-.supstance path {
-    stroke-dasharray: 2, 2;
+#bigChart .mouseover .trendline circle {
+	stroke-width: 1;
+	fill: yellow;
+	display: inline;
 }
 
-.supstances .interaction path {
-    pointer-events: all;
-    cursor: ns-resize;
+#bigChart .supstance path {
+	stroke-dasharray: 2, 2;
 }
 
-.supstances .axisannotation {
-    display: none;
+#bigChart .supstances .interaction path {
+	pointer-events: all;
+	cursor: ns-resize;
 }
 
-.supstances .mouseover .axisannotation {
-    display: inline;
+#bigChart .supstances .axisannotation {
+	display: none;
 }
 
-.supstances .axisannotation path {
-    fill: #806517;
-    stroke: none;
+#bigChart .supstances .mouseover .axisannotation {
+	display: inline;
 }
 
-.mouseover .supstance path {
-    stroke-width: 1.5;
+#bigChart .supstances .axisannotation path {
+	fill: #806517;
+	stroke: none;
 }
 
-.crosshair {
-    cursor: crosshair;
+#bigChart .mouseover .supstance path {
+	stroke-width: 1.5;
 }
 
-.crosshair path.wire {
-    stroke: #555555;
-    stroke-dasharray: 1, 1;
+#bigChart .crosshair {
+	cursor: crosshair;
 }
 
-.crosshair .axisannotation path {
-    fill: #777777;
+#bigChart .crosshair path.wire {
+	stroke: #555555;
+	stroke-dasharray: 1, 1;
+}
+
+#bigChart .crosshair .axisannotation path {
+	fill: #777777;
 }

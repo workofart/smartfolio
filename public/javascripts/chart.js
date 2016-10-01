@@ -77,12 +77,10 @@ techanSite.bigchart = (function(d3, techan) {
 				.append("rect")
 					.attr("x", 0);
 
-			/*
 			svg.append('text')
 					.attr("class", "version")
 					.style("text-anchor", "end")
 					.text("TechanJS v" + techan.version + ", D3 v" + d3.version);
-			*/
 
 			svg = svg.append("g")
 				.attr("class", "chart")
@@ -208,7 +206,6 @@ techanSite.bigchart = (function(d3, techan) {
 		function resize(selection) {
 			dim.width = selection.node().clientWidth;
 			dim.height = selection.node().clientHeight;
-			console.log(selection.node());
 			dim.plot.width = dim.width - dim.margin.left - dim.margin.right;
 			dim.plot.height = dim.height - dim.margin.top - dim.margin.bottom;
 			dim.ohlc.height = dim.plot.height * 0.67777777;
