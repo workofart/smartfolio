@@ -1,4 +1,5 @@
 var techanSite = techanSite || {};
+var GoogleFinanceData = GoogleFinanceData || {};
 
 
 // Get companyList JSON
@@ -37,18 +38,12 @@ var companyList = $.ajax({
 	})
 
 var searchQuoteName = function() {
-	// console.log(companyName[$("#searchBox").val()].text);
 	var selectedTicker = ticker[$("#searchBox").val()].text;
-	$('#searchBox2').select2('val', '');
 	googleQuote(selectedTicker, 86400, '1Y');
-
-
 }
 
 var searchQuoteTicker = function() {
-	// console.log(ticker[$("#searchBox2").val()].text)
 	var selectedTicker = ticker[$("#searchBox2").val()].text;
-	$('#searchBox').select2('val', '');
 	googleQuote(selectedTicker, 86400, '1Y');	
 }
 
@@ -72,6 +67,16 @@ $("#searchBox2").on("select2:select", function() {
 		d3.select('div#bigChart').call(techanSite.bigchart.resize);
 	};
 })(window, d3, techanSite);
+
+// Test
+var test = function() {
+	var selectedTicker = ticker[$("#searchBox2").val()].text;
+	var interval = 86400;
+	var period = '1Y';
+
+	var result = GoogleFinanceData.GetQuotesForTicker(selectedTicker, interval, period);
+	console.log(result);
+}
 
 // Configure yahoo finance ajax calls
 // Populate the table with data
