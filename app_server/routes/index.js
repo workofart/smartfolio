@@ -10,5 +10,9 @@ router.get('/', ctrlIndex.index);
 router.get('/analysis', ctrlAnalysis.analysis);
 /* GET Portfolio page */
 router.get('/portfolio', ctrlPortfolio.portfolio);
+/* GET write to file */
+router.get('/analysis/file', ctrlAnalysis.download);
+/* GET read file */
+router.get('/analysis/read', ctrlAnalysis.readFile);
 
 module.exports = router;
