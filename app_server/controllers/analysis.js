@@ -11,45 +11,11 @@ var renderAnalysis = function(req, res) {
 
 module.exports.analysis = function(req, res) {
 	renderAnalysis(req, res);
+	writeToFile(portfolio, 'portfolio');
+	readFromFile('portfolio');
 };
 
 var StoredQuotes = {};
-
-module.exports.test2 = function(req, res) {
-	/*
-	request(
-		'https://www.google.com/finance/getprices?q=FB&x=NASD&i=86400&p=1Y&f=d,c,v,k,o,h,l&df=cpct', 
-		function(error, response, body) {
-			// body is the decompressed response body
-			console.log('server encoded the data as: ' + (response.headers['content-encoding'] || 'identity'))
-			console.log('the decoded data is: ' + body)
-		})
-		.on("data", function(data) {
-			// decompressed data as it is received
-    		console.log('decoded chunk: ' + data)
-		})
-		.on('response', function(response) {
-			// unmodified http.IncomingMessage object
-			response.on('data', function(data) {
-				// compressed data as it is received
-				console.log('received ' + data.length + ' bytes of compressed data')
-			})
-		});
-	*/
-	var ticker = req.query.ticker;
-	var interval = req.query.interval;
-	var period = req.query.period;
-
-	request(
-		{
-			uri: 'https://www.google.com/finance/getprices?q=' + ticker + '&x=NASD&i=' + interval + '&p=' + period + '&f=d,c,v,k,o,h,l&df=cpct',
-			method: "GET"
-		}, 
-		function(error, response, data) {
-			res.json(data);
-		});
-	
-}
 
 module.exports.GetGoogleFinanceData = function(req, res) {
 	
@@ -122,4 +88,27 @@ module.exports.GetGoogleFinanceData = function(req, res) {
 		console.log("Getting " + ticker + " data from Google");
 		getQuotesInArray(ticker, interval, period);
 	}
+}
+
+
+var fs = require('fs');
+var storedPortfolio;
+
+var portfolio = {
+	pId : 'testVal',
+	pName: 'Portfolio2',
+	userId: 1
+}
+var writeToFile = function (data, fileName) {
+	fs.writeFile( fileName + '.json', JSON.stringify( data ), "utf8" );
+}
+
+var readFromFile = function (fileName) {
+	fs.readFile(fileName + '.json', 'utf8', function (err, data) {
+		if (err) {
+			return console.log(err);
+		}
+		storedPortfolio = data;
+	});
+	console.log(storedPortfolio); // server side console
 }
