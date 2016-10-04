@@ -103,7 +103,7 @@ module.exports.GetGoogleFinanceData = function(req, res) {
 		else {
 			var newDate = time.clone().add(offset, intervalText);		
 		}
-		var newDateStr = newDate.format("dddd, MMMM Do YYYY, h:mm:ss a");
+		var newDateStr = newDate.toDate();
 		quote.push({
 			date: newDateStr,
 			close: quoteArray[1],
