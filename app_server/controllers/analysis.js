@@ -7,23 +7,30 @@ var renderAnalysis = function(req, res) {
 
 module.exports.analysis = function(req, res) {
 	renderAnalysis(req, res);
+	writeToFile(portfolio, 'portfolio');
+	readFromFile('portfolio');
 };
 
 
 
 var fs = require('fs');
-var testJSON = {
-	key : 'testVal'
+var storedPortfolio;
+
+var portfolio = {
+	pId : 'testVal',
+	pName: 'Portfolio2',
+	userId: 1
 }
-module.exports.download = function(req, res) {
-	fs.writeFile( "filename.json", JSON.stringify( testJSON ), "utf8" );
+var writeToFile = function (data, fileName) {
+	fs.writeFile( fileName + '.json', JSON.stringify( data ), "utf8" );
 }
 
-module.exports.readFile = function (req, res) {
-	var myJson = fs.readFile('./filename.json', 'utf8', function (err, data) {
+var readFromFile = function (fileName) {
+	fs.readFile(fileName + '.json', 'utf8', function (err, data) {
 		if (err) {
 			return console.log(err);
 		}
-		console.log(data);
+		storedPortfolio = data;
 	});
+	console.log(storedPortfolio); // server side console
 }
