@@ -11,8 +11,7 @@ router.get('/analysis', ctrlAnalysis.analysis);
 /* GET Portfolio page */
 router.get('/portfolio', ctrlPortfolio.portfolio);
 
+/* GET request for getting stock data from Google */
 router.get('/analysis/GetGoogleFinanceData/', ctrlAnalysis.GetGoogleFinanceData)
-// Example URL localhost:3000/analysis/test2?id=3&ticker=fb
-router.get('/analysis/test2/', ctrlAnalysis.test2)
 
-module.exports = router;
+module.exports = router; 

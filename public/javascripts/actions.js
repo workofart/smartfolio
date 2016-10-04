@@ -74,8 +74,38 @@ var test = function() {
 	var interval = 86400;
 	var period = '1Y';
 
-	var result = GoogleFinanceData.GetQuotesForTicker(selectedTicker, interval, period);
-	console.log(result);
+	var results;
+
+	$.ajax(
+		{
+			url: "/analysis/GetGoogleFinanceData?ticker=" + selectedTicker + "&interval=" + interval + "&period=" + period,
+			type: "GET"
+		})
+		.done(function(data) {
+			PopulateTable(selectedTicker, data);
+		})
+}
+
+function PopulateTable(ticker, data) {
+	var company = companyName[$("#searchBox2").val()].text;
+	var table = $("#stockQuotes").DataTable();
+	table.clear().draw();
+	for (var i = 0; i < data.length; i++) {
+		var array = [];
+		array.push(data[i].date);
+		array.push(ticker);
+		array.push(company);
+		array.push(data[i].open);
+		array.push(data[i].close);
+		array.push(data[i].high);
+		array.push(data[i].low);
+		array.push(data[i].volume);
+		table.row.add(array).draw();
+	}
+}
+
+function PopulateChart() {
+	
 }
 
 // Configure yahoo finance ajax calls

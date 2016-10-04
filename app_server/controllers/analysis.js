@@ -46,7 +46,7 @@ module.exports.test2 = function(req, res) {
 			method: "GET"
 		}, 
 		function(error, response, data) {
-			res.send(data);
+			res.json(data);
 		});
 	
 }
