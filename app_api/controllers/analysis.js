@@ -40,7 +40,7 @@ module.exports.createPortfolio = function (req, res) {
     console.log(req.body.userId);
     console.log(req.body);
 
-
+    // For all nested objects, must follow req.body['key[subkey]'] to get the value
     var portfolio = {
         pId: req.params.id,
         pName: req.body.pName,
