@@ -85,6 +85,10 @@ var searchQuote = function() {
 			PopulateTable(selectedTicker, data);
 			d3.select('div#bigChart').select("svg").remove();
 			d3.select('div#bigChart').call(PopulateChart(data));
+
+			// get the latest price and fill the form
+			var str = data[data.length-1].close;
+			$('#latestPrice').text('$' + str);
 		})
 }
 
@@ -482,9 +486,7 @@ var googleQuote = function(ticker, interval, period) {
 				
 				addChildren(quote, ticker);
 			}
-			// get the latest price and fill the form
-			var str = quote[0].close;
-			$('#latestPrice').text('$' + str);
+
 			// var dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(str);
 			// var link = document.getElementById('link').href = dataUri;
 		})
