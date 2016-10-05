@@ -1,35 +1,17 @@
-// GET analysis page
-var request = require("request");
-var moment = require("moment");
-var async = require("async");
-
-var renderAnalysis = function(req, res) {
-	res.render('analysis', {
-		title: 'Smartfolio - Analysis'
-	});
-};
-
-module.exports.analysis = function(req, res) {
-	renderAnalysis(req, res);
-	writeToFile(portfolio, 'portfolio');
-	readFromFile('portfolio');
-};
+var GoogleFinanceData = GoogleFinanceData || {};
 
 var StoredQuotes = {};
 
-module.exports.GetGoogleFinanceData = function(req, res) {
+GoogleFinanceData.GetQuotesForTicker = function(ticker, interval, period) {
 	
-	var ticker = req.query.ticker;
-	var interval = req.query.interval;
-	var period = req.query.period;
-
 	function getQuotesInArray(ticker, interval, period) {
-		request(
-			{
-				uri: 'https://www.google.com/finance/getprices?q=' + ticker + '&x=NASD&i=' + interval + '&p=' + period + '&f=d,c,v,k,o,h,l&df=cpct',
-				method: "GET"
-			}, 
-			function(error, response, data) {
+		return $.ajax({
+				url: 'https://www.google.com/finance/getprices?q=' + ticker + '&x=NASD&i=' + interval + '&p=' + period + '&f=d,c,v,k,o,h,l&df=cpct',
+				type: 'GET',
+			})
+			.done(function(data) {
+				var dateTime;
+
 				// split by new line
 				data = data.split('\n');
 				var quoteData = [];
@@ -52,9 +34,12 @@ module.exports.GetGoogleFinanceData = function(req, res) {
 						quoteData.push(quote[0]);
 					}
 				}
-				
+
 				StoredQuotes[ticker] = quoteData;
-				res.send(StoredQuotes[ticker]);
+
+			})
+			.fail(function() {
+				console.log("google GET call error");
 			});
 	}
 
@@ -69,7 +54,7 @@ module.exports.GetGoogleFinanceData = function(req, res) {
 		else {
 			var newDate = time.clone().add(offset, intervalText);		
 		}
-		var newDateStr = newDate.toDate();
+		var newDateStr = newDate.format("dddd, MMMM Do YYYY, h:mm:ss a");
 		quote.push({
 			date: newDateStr,
 			close: quoteArray[1],
@@ -83,32 +68,19 @@ module.exports.GetGoogleFinanceData = function(req, res) {
 
 	if (ticker in StoredQuotes) {
 		console.log("Getting " + ticker + " data from memory");
-		res.send(StoredQuotes[ticker]);
+		return StoredQuotes[ticker];
 	} else {
 		console.log("Getting " + ticker + " data from Google");
 		getQuotesInArray(ticker, interval, period);
+		return StoredQuotes[ticker]
 	}
 }
 
-
-var fs = require('fs');
-var storedPortfolio;
-
-var portfolio = {
-	pId : 'testVal',
-	pName: 'Portfolio2',
-	userId: 1
+/*
+GoogleFinanceData.getQuotesInArray = function(ticker, interval, period) {
+	return $.ajax({
+			url: 'https://www.google.com/finance/getprices?q=' + ticker + '&x=NASD&i=' + interval + '&p=' + period + '&f=d,c,v,k,o,h,l&df=cpct',
+			type: 'GET',
+		});
 }
-var writeToFile = function (data, fileName) {
-	fs.writeFile( fileName + '.json', JSON.stringify( data ), "utf8" );
-}
-
-var readFromFile = function (fileName) {
-	fs.readFile(fileName + '.json', 'utf8', function (err, data) {
-		if (err) {
-			return console.log(err);
-		}
-		storedPortfolio = data;
-	});
-	console.log(storedPortfolio); // server side console
-}
+*/

@@ -11,4 +11,7 @@ router.get('/analysis', ctrlAnalysis.analysis);
 /* GET Portfolio page */
 router.get('/portfolio', ctrlPortfolio.portfolio);
 
-module.exports = router;
+/* GET request for getting stock data from Google */
+router.get('/analysis/GetGoogleFinanceData/', ctrlAnalysis.GetGoogleFinanceData)
+
+module.exports = router; 

@@ -5,7 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var routes = require('./app_server/routes/index');
+var routes = require('./app_server/routes/routes');
 var routesApi = require('./app_api/routes/api_routes');
 
 // define the app using express
