@@ -597,3 +597,29 @@ function getTotalAmount() {
 	}
 
 }
+
+function addPortfolio() {
+	var pId = getPortfolioId();
+	var ticker = $('#tickerInput').val();
+	var quantity = $('#quantity').val();
+	var jsonPortfolio = {
+		"pName" : "BestPortfolio",
+		"userId" : "100",
+		"stock" : {
+			"ticker" : ticker,
+			"quantity" : quantity
+		}
+	};
+	var portStr = JSON.stringify(jsonPortfolio);
+	console.log(portStr);
+	$.ajax({
+		url: '/api/analysis/' + pId,
+		type: 'POST',
+		datatype: 'application/json',
+		data: jsonPortfolio
+	});
+}
+
+function getPortfolioId() {
+	return 1;
+}
