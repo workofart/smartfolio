@@ -2,6 +2,7 @@
 var request = require("request");
 var moment = require("moment");
 var async = require("async");
+var http = require('http');
 
 var renderAnalysis = function(req, res) {
 	res.render('analysis', {
@@ -90,6 +91,30 @@ module.exports.GetGoogleFinanceData = function(req, res) {
 	}
 }
 
+// https://developers.google.com/feed/v1/jsondevguide
+// Keep this in here? Or move to client?
+module.exports.GetYahooFinanceNews = function(req, res) {
+
+	var ticker = req.query.ticker;
+	var yahooFeedUrl;
+	var num = 10;
+
+	if (!ticker) {
+		yahooFeedUrl = "https://finance.yahoo.com/rss/topfinstories";
+	} else {
+		yahooFeedUrl = "https://finance.yahoo.com/rss/industry?s=yhoo";
+	}
+	
+	request(
+		{
+			uri: 'https://ajax.googleapis.com/ajax/services/feed/load?v=2.0&num=' + num + '&q=' + yahooFeedUrl,
+			method: "GET"
+		},
+		function(error, respone, data) {
+			res.send(data);
+		}
+	);
+}
 
 var fs = require('fs');
 var storedPortfolio;

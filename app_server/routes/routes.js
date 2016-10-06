@@ -13,5 +13,6 @@ router.get('/portfolio', ctrlPortfolio.portfolio);
 
 /* GET request for getting stock data from Google */
 router.get('/analysis/GetGoogleFinanceData/', ctrlAnalysis.GetGoogleFinanceData)
-
+/* GET request for Yahoo Finance News */
+router.get('/analysis/GetYahooFinanceNews', ctrlAnalysis.GetYahooFinanceNews)
 module.exports = router; 
