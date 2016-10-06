@@ -428,6 +428,12 @@ function PopulateChart(dataQuotes) {
 				.selectAll("g.data .supstance").attr("clip-path", "url(#ohlcClip)"); // FIXME Component should do the clipping, too much internal knowledge here
 		}
 
+		
+		// Not Portable.. how to move this function out?
+		window.onresize = function() {
+			d3.select('div#bigChart').call(resize).call(draw);
+		}
+
 		return bigchart;
 	}
 
@@ -437,7 +443,7 @@ function PopulateChart(dataQuotes) {
 		ohlc: Preprocess(dataQuotes),
 		preroll: 100
 	};
-	console.log(chartData);
+
 	return BigChart(chartData);
 }
 
