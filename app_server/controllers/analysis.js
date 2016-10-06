@@ -102,7 +102,7 @@ module.exports.GetYahooFinanceNews = function(req, res) {
 	if (!ticker) {
 		yahooFeedUrl = "https://finance.yahoo.com/rss/topfinstories";
 	} else {
-		yahooFeedUrl = "https://finance.yahoo.com/rss/industry?s=yhoo";
+		yahooFeedUrl = "https://finance.yahoo.com/rss/industry?s=" + ticker;
 	}
 	
 	request(
