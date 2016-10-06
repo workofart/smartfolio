@@ -602,12 +602,15 @@ function addPortfolio() {
 	var pId = getPortfolioId();
 	var ticker = $('#tickerInput').val();
 	var quantity = $('#quantity').val();
+	var amount = $('#totalAmount').text();
+	console.log(amount);
 	var jsonPortfolio = {
 		"pName" : "BestPortfolio",
 		"userId" : "100",
 		"stock" : {
 			"ticker" : ticker,
-			"quantity" : quantity
+			"quantity" : quantity,
+			"totalAmount" : amount
 		}
 	};
 	var portStr = JSON.stringify(jsonPortfolio);
