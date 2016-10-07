@@ -7,3 +7,17 @@ body {
 .img-rounded {
 	padding: 5px;
 }
+
+.news-section .panel ul
+{
+    padding:0px;
+    margin:0px;
+    list-style:none;
+}
+
+.news-section .news-item
+{
+    padding:4px 4px;
+    margin:0px;
+    border-bottom:1px dotted #555; 
+}

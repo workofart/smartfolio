@@ -67,9 +67,34 @@ block content
 						th Low
 						th Volume
 				tbody(class='table-hover' id='quoteBody')
+	div(class='news-section')
+		div.row
+			div.col-md-2
+			div.col-md-4
+				div(class='panel panel-default')
+					div(class='panel-heading')
+						span(class='glyphicon glyphicon-list-alt') 
+							b Featured News
+					div(class='panel-body')
+						div.row
+							div.col-xs-12
+								ul(id='featured-news-list')
+					div(class='panel-footer')
+			div.col-md-4
+				div(class='panel panel-default')
+					div(class='panel-heading')
+						span(class='glyphicon glyphicon-list-alt') 
+							b Ticker News
+					div(class='panel-body')
+						div.row
+							div.col-xs-12
+								ul(id='ticker-news-list')
+					div(class='panel-footer')
+			div.col-md-2
 	div(class='jumbotron')
 		div(class='container')
 			div(id='bigChart')
+	
 	link(rel='stylesheet', href='/stylesheets/chart.css')
 	script(type='text/javascript' src='/javascripts/d3.min.js')
 	script(type='text/javascript' src='/javascripts/techan.min.js')

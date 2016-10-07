@@ -68,7 +68,7 @@ $("#searchBox2").on("select2:select", function() {
 // 	};
 // })(window, d3, techanSite);
 
-// Test
+// Function for handling when search button is clicked
 var searchQuote = function() {
 	var selectedTicker = ticker[$("#searchBox2").val()].text;
 	var interval = 86400;
@@ -83,6 +83,7 @@ var searchQuote = function() {
 		})
 		.done(function(data) {
 			PopulateTable(selectedTicker, data);
+			// Clear origin chart and populate
 			d3.select('div#bigChart').select("svg").remove();
 			d3.select('div#bigChart').call(PopulateChart(data));
 
@@ -90,7 +91,40 @@ var searchQuote = function() {
 			var str = data[data.length-1].close;
 			$('#latestPrice').text('$' + str);
 		})
+
+    // Featured news
+	$.ajax(
+		{
+			dataType: "json",
+			url: "/analysis/GetYahooFinanceNews",
+			type: "GET" 
+		})
+		.done(function(data) {
+			PopulateNews("#featured-news-list", data);
+		})
+	
+	// Ticker news
+	$.ajax(
+		{
+			dataType: "json",
+			url: "/analysis/GetYahooFinanceNews?ticker=" + selectedTicker,
+			type: "GET" 
+		})
+		.done(function(data) {
+			PopulateNews("#ticker-news-list", data);
+		})
 }
+
+function PopulateNews(listID, data) {
+	var length = data["responseData"]["feed"]["entries"].length;
+	for (var i = 0; i < length; i++) {
+		var entry = data["responseData"]["feed"]["entries"][i];
+		var link = '<a href="' + entry.link + '">Read more...</a>'
+
+		$(listID).append('<li class="news-item">' + entry.title + ' ' + link + '</li>')
+	}
+}
+
 
 function PopulateTable(ticker, data) {
 	var company = companyName[$("#searchBox2").val()].text;
