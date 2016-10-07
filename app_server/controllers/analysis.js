@@ -98,7 +98,7 @@ module.exports.GetYahooFinanceNews = function(req, res) {
 	var num = 10;
 
 	if (!ticker) {
-		yahooFeedUrl = "http://finance.yahoo.com/rss/topfinstories";
+		yahooFeedUrl = "https://finance.yahoo.com/rss/topfinstories";
 	} else {
 		yahooFeedUrl = "https://finance.yahoo.com/rss/industry?s=" + ticker;
 	}
