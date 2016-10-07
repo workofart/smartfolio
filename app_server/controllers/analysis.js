@@ -87,4 +87,3 @@ module.exports.GetGoogleFinanceData = function(req, res) {
 		getQuotesInArray(ticker, interval, period);
 	}
 }
-
