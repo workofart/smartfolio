@@ -120,8 +120,9 @@ function PopulateNews(listID, data) {
 	for (var i = 0; i < length; i++) {
 		var entry = data["responseData"]["feed"]["entries"][i];
 		var link = '<a href="' + entry.link + '">Read more...</a>'
-
-		$(listID).append('<li class="news-item">' + entry.title + ' ' + link + '</li>')
+		var upButton = '<a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-circle-arrow-up text-success"></span></a>'
+		var downButton = '<a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-circle-arrow-down text-danger"></span></a>'
+		$(listID).append('<li class="news-item">' + entry.title + ' ' + link + upButton + downButton + '</li>')
 	}
 }
 

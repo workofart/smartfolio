@@ -21,3 +21,13 @@ body {
     margin:0px;
     border-bottom:1px dotted #555; 
 }
+
+.news-section .news-item .btn
+{
+    border:0px solid transparent; /* this was 1px earlier */
+}
+
+.news-section a
+{
+    padding: 2px;
+}
