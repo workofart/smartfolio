@@ -1,12 +1,12 @@
 var request = require('request');
 var _ = require('underscore');
 
-var portfolios = [];
 var sendJsonResponse = function (res, status, content){
     res.status(status);
     res.json(content);
 }
 
+var storedPortfolio = [];
 
 // E.g.
 // GET: localhost:3000/api/analysis/123
@@ -35,10 +35,6 @@ module.exports.getPortfolioById = function (req, res){
 //     }
 // }
 module.exports.createPortfolio = function (req, res) {
-    console.log(req.params.id);
-    console.log(req.body.pName);
-    console.log(req.body.userId);
-    console.log(req.body);
 
     // For all nested objects, must follow req.body['key[subkey]'] to get the value
     var portfolio = {
@@ -47,15 +43,33 @@ module.exports.createPortfolio = function (req, res) {
         userId: req.body.userId,
         stock: {
             ticker: req.body['stock[ticker]'],
-            quantity: req.body['stock[quantity]']
+            quantity: req.body['stock[quantity]'],
+            amount: req.body['stock[totalAmount]']
         }
     }
 
-    portfolios.push(portfolio);
+    // File exists and not empty
+    if (!readFromFile('portfolio')){
+        console.log('storedPortfolio: ' + storedPortfolio);
+        storedPortfolio.push(portfolio);
+        console.log('File exist and not empty');
+        writeToFile(storedPortfolio, 'portfolio');
+    }
+    // File exists but empty
+    // OR
+    // File doesn't exist, but now created
+    else {
+        var newList = [];
+        newList.push(portfolio);
+        console.log('File doesn\'t exist and created');
+        writeToFile(newList, 'portfolio');
+    }
+
     sendJsonResponse(res, 200, {
         message: 'Portfolio created',
         portfolio : portfolio
     });
+
 };
 
 // E.g. Make POSTS first
@@ -128,3 +142,44 @@ function findPortfolioById(id) {
         }
     }
 }
+
+var fs = require('fs');
+
+
+function writeToFile (data, fileName) {
+    fs.writeFile( fileName + '.json', JSON.stringify( data ), "utf8" );
+}
+
+function readFromFile (fileName) {
+    fs.exists(fileName + '.json', function(exists) {
+        if (exists) {
+            // console.log('file exists');
+            fs.readFile(fileName + '.json', 'utf8', function (err, data) {
+                if (err) {
+                    console.log(err);
+                }
+                storedPortfolio = JSON.parse(data);
+                // console.log('data: ' + data);
+            });
+        }
+        else {
+            // console.log('created new file');
+            fs.writeFile(fileName + '.json', "", "utf8");
+            return false;
+        }
+    });
+    // return storedPortfolio; // DON'T FORGET TO RETURN FROM WITHIN TWO LAYERS OF FUNCTIONS
+}
+
+// Utility function for getting the latest pid
+// function findLatestPortfolioId(storedPortfolio) {
+//     var maxId = 0;
+//     for (var i = 0; i < storedPortfolio.length; i++) {
+//         console.log(storedPortfolio[i]);
+//         if (storedPortfolio[i].pId > maxId){
+//             maxId = storedPortfolio[i].pId + 1;
+//             console.log('Found maxId: ' + maxId);
+//         }
+//     }
+//     latestPid = maxId;
+// }
