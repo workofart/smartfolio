@@ -53,9 +53,10 @@ block content
 						div(class='input-group')
 							span(class='input-group-addon' id='interval-addon') Interval
 							input(type='text' class='form-control' placeholder='E.g. 15 minutes - 1 day' aria-describedby='sizing-addon1')
-		div.col-md-8
+	div.row
+		div.col-md-12
 			h4 Market
-			table(class='table table-hover' id='stockQuotes')
+			table(class='table display' id='stockQuotes')
 				thead(class='table-hover')
 					tr(class='info' id='header')
 						th Date									
@@ -99,5 +100,6 @@ block content
 	script(type='text/javascript' src='/javascripts/d3.min.js')
 	script(type='text/javascript' src='/javascripts/techan.min.js')
 	script(type='text/javascript' src='/javascripts/jquery.dataTables.min.js')
+	script(type='text/javascript' src='/javascripts/dataTables.bootstrap.min.js')
 	script(type='text/javascript' src='/javascripts/actions.js')
 	
