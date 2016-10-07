@@ -87,6 +87,7 @@ module.exports.GetGoogleFinanceData = function(req, res) {
 		console.log("Getting " + ticker + " data from Google");
 		getQuotesInArray(ticker, interval, period);
 	}
+}
 
 // https://developers.google.com/feed/v1/jsondevguide
 // Keep this in here? Or move to client?
@@ -101,7 +102,7 @@ module.exports.GetYahooFinanceNews = function(req, res) {
 	} else {
 		yahooFeedUrl = "https://finance.yahoo.com/rss/industry?s=" + ticker;
 	}
-	
+
 	request(
 		{
 			uri: 'https://ajax.googleapis.com/ajax/services/feed/load?v=2.0&num=' + num + '&q=' + yahooFeedUrl,
@@ -111,6 +112,4 @@ module.exports.GetYahooFinanceNews = function(req, res) {
 			res.send(data);
 		}
 	);
-}
-
 }
