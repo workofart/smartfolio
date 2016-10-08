@@ -18,7 +18,8 @@ var storedPortfolio = [];
 //     }
 // }
 module.exports.getPortfolioById = function (req, res){
-    var targetPortfolio = findPortfolioById(req.params.id);
+
+    var targetPortfolio = findPortfolioById(req.params.id, JSON.parse(portfolioIO('portfolio', null, 0)));
     sendJsonResponse(res, 200, {
         portfolio : targetPortfolio
     });
@@ -124,7 +125,7 @@ module.exports.deletePortfolioById = function (req, res) {
     })
 }
 
-function findPortfolioById(id) {
+function findPortfolioById(id, portfolios) {
     for (var i = 0; i < portfolios.length; i++) {
         if (portfolios[i].pId == id) {
             return portfolios[i];

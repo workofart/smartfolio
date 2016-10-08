@@ -8,7 +8,7 @@ var companyName = [];
 
 var companyList = $.ajax({
 		url: '/javascripts/companyList.json',
-		type: 'GET',
+		type: 'GET'
 	})
 	.done(function(data) {
 		console.log('done~!');
