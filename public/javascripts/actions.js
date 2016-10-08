@@ -130,8 +130,8 @@ function PopulateNews(listID, data) {
 function PopulateTable(ticker, data) {
 	var company = companyName[$("#searchBox2").val()].text;
 	var table = $("#stockQuotes").DataTable({
-		"autoWidth": false,
-		"processing": true
+		retrieve: true,
+		autoWidth: false
 	});
 	table.clear().draw();
 	for (var i = 0; i < data.length; i++) {
