@@ -27,7 +27,7 @@ body {
     border:0px solid transparent; /* this was 1px earlier */
 }
 
-.news-section a
+.news-section .news-item a
 {
     padding: 2px;
 }
@@ -36,4 +36,5 @@ body {
 div.dataTables_paginate ul.pagination li.paginate_button
 {
     padding: 0;
+    margin: 0;
 }
