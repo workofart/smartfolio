@@ -48,7 +48,7 @@ module.exports.createPortfolio = function (req, res) {
         }
     }
 
-    portfolioIO('portfolio', portfolio);
+    portfolioIO('portfolio', portfolio, 2);
 
     sendJsonResponse(res, 200, {
         message: 'Portfolio created',
@@ -78,7 +78,11 @@ module.exports.createPortfolio = function (req, res) {
 //     }
 // ]
 module.exports.getAllPortfolios = function (req, res) {
-    sendJsonResponse(res, 200, portfolios);
+    var portfolios;
+
+    portfolios = JSON.parse(portfolioIO('portfolio', null, 0));
+    sendJsonResponse(res, 200, portfolios)
+
 };
 
 // E.g. Make POSTS first
@@ -130,35 +134,63 @@ function findPortfolioById(id) {
 
 var fs = require('fs');
 
-function portfolioIO (fileName, newPortfolio) {
-    fs.exists(fileName + '.json', function(exists) {
-        if (exists) {
-            // console.log('file exists');
-            fs.readFile(fileName + '.json', 'utf8', function (err, data) {
-                if (err) {
-                    console.log(err);
-                }
-                var result;
-                if (data==""){
-                    result = [];
-                }
-                else {
-                    result = JSON.parse(data);
-                }
 
-                result.push(newPortfolio);
-                fs.writeFile(fileName + '.json', JSON.stringify(result), "utf8");
-                // storedPortfolio = JSON.parse(data);
-                // console.log('data: ' + data);
-            });
+// Case 1 (Write)
+/**
+ *
+ * @param fileName
+ * @param newPortfolio
+ * @param IOFlag - 1 for write, 0 for read, 2 for read and write
+ */
+function portfolioIO (fileName, newPortfolio, IOFlag) {
+    // Case 0 (Read)
+    if (IOFlag == 0) {
+        if (fs.existsSync(fileName + '.json')) {
+            return fs.readFileSync(fileName + '.json', 'utf8');
         }
         else {
-            // console.log('created new file');
-            var result = []
-            result.push(newPortfolio);
-            fs.writeFile(fileName + '.json', JSON.stringify(result), "utf8");
+            throw Error('The file ' + fileName + ' doesn\'t exist');
         }
-    });
+    }
+    if (IOFlag == 1) {
+        fs.writeFile(fileName, newPortfolio, "utf8");
+        return;
+    }
+
+    // Case 2 (Read and write)
+    if (IOFlag == 2) {
+        fs.exists(fileName + '.json', function (exists) {
+            if (exists) {
+                // console.log('file exists');
+                fs.readFile(fileName + '.json', 'utf8', function (err, data) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    var result;
+                    if (data == "") {
+                        result = [];
+                    }
+                    else {
+                        result = JSON.parse(data);
+                    }
+
+                    result.push(newPortfolio);
+                    fs.writeFile(fileName + '.json', JSON.stringify(result), "utf8");
+                    // storedPortfolio = JSON.parse(data);
+                    // console.log('data: ' + data);
+                });
+            }
+            else {
+                // console.log('created new file');
+                var result = []
+                result.push(newPortfolio);
+                fs.writeFile(fileName + '.json', JSON.stringify(result), "utf8");
+            }
+        });
+        return;
+    }
+
+    throw Error("Wrong IO Flag");
 }
 
 // Utility function for getting the latest pid
