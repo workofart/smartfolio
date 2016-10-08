@@ -135,7 +135,7 @@ function findPortfolioById(id) {
 var fs = require('fs');
 
 
-// Case 1 (Write)
+
 /**
  *
  * @param fileName
@@ -152,6 +152,7 @@ function portfolioIO (fileName, newPortfolio, IOFlag) {
             throw Error('The file ' + fileName + ' doesn\'t exist');
         }
     }
+    // Case 1 (Write)
     if (IOFlag == 1) {
         fs.writeFile(fileName, newPortfolio, "utf8");
         return;
