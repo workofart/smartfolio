@@ -3,11 +3,11 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-
 .img-rounded {
 	padding: 5px;
 }
 
+/* Belongs to Analysis.css, should move */
 .news-section .panel ul
 {
     padding:0px;
@@ -38,3 +38,4 @@ div.dataTables_paginate ul.pagination li.paginate_button
     padding: 0;
     margin: 0;
 }
+/* END Belongs to Analysis.css, should move */
