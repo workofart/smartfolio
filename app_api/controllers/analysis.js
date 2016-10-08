@@ -48,22 +48,7 @@ module.exports.createPortfolio = function (req, res) {
         }
     }
 
-    // File exists and not empty
-    if (!readFromFile('portfolio')){
-        console.log('storedPortfolio: ' + storedPortfolio);
-        storedPortfolio.push(portfolio);
-        console.log('File exist and not empty');
-        writeToFile(storedPortfolio, 'portfolio');
-    }
-    // File exists but empty
-    // OR
-    // File doesn't exist, but now created
-    else {
-        var newList = [];
-        newList.push(portfolio);
-        console.log('File doesn\'t exist and created');
-        writeToFile(newList, 'portfolio');
-    }
+    portfolioIO('portfolio', portfolio);
 
     sendJsonResponse(res, 200, {
         message: 'Portfolio created',
@@ -145,12 +130,7 @@ function findPortfolioById(id) {
 
 var fs = require('fs');
 
-
-function writeToFile (data, fileName) {
-    fs.writeFile( fileName + '.json', JSON.stringify( data ), "utf8" );
-}
-
-function readFromFile (fileName) {
+function portfolioIO (fileName, newPortfolio) {
     fs.exists(fileName + '.json', function(exists) {
         if (exists) {
             // console.log('file exists');
@@ -158,17 +138,27 @@ function readFromFile (fileName) {
                 if (err) {
                     console.log(err);
                 }
-                storedPortfolio = JSON.parse(data);
+                var result;
+                if (data==""){
+                    result = [];
+                }
+                else {
+                    result = JSON.parse(data);
+                }
+
+                result.push(newPortfolio);
+                fs.writeFile(fileName + '.json', JSON.stringify(result), "utf8");
+                // storedPortfolio = JSON.parse(data);
                 // console.log('data: ' + data);
             });
         }
         else {
             // console.log('created new file');
-            fs.writeFile(fileName + '.json', "", "utf8");
-            return false;
+            var result = []
+            result.push(newPortfolio);
+            fs.writeFile(fileName + '.json', JSON.stringify(result), "utf8");
         }
     });
-    // return storedPortfolio; // DON'T FORGET TO RETURN FROM WITHIN TWO LAYERS OF FUNCTIONS
 }
 
 // Utility function for getting the latest pid
