@@ -10,6 +10,6 @@ router.post('/portfolio/:id', ctrlPortfolio.createPortfolio);
 router.put('/portfolio/:id', ctrlPortfolio.changePortfolioById);
 router.delete('/portfolio/:id', ctrlPortfolio.deletePortfolioById);
 router.get('/portfolio', ctrlPortfolio.getAllPortfolios);
-router.get('/portfolio/latestPid', ctrlPortfolio.findLatestPortfolioId);
+router.get('/portfolio/pid/latestPid', ctrlPortfolio.findLatestPortfolioId);
 
 module.exports = router;

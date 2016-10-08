@@ -73,7 +73,7 @@ function addPortfolio() {
 function getPortfolioId() {
     var id;
     $.ajax({
-        url: '/api/portfolio/latestPid',
+        url: '/api/portfolio/pid/latestPid',
         type: 'GET',
         datatype: 'application/json'
     })

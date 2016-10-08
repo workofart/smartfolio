@@ -660,7 +660,7 @@ function addPortfolio() {
 	var portStr = JSON.stringify(jsonPortfolio);
 	console.log(portStr);
 	$.ajax({
-		url: '/api/analysis/' + pId,
+		url: '/api/portfolio/' + pId,
 		type: 'POST',
 		datatype: 'application/json',
 		data: jsonPortfolio
@@ -670,7 +670,7 @@ function addPortfolio() {
 function getPortfolioId() {
 	var id;
 	$.ajax({
-		url: '/api/portfolio/latestPid',
+		url: '/api/portfolio/pid/latestPid',
 		type: 'GET',
 		datatype: 'application/json',
 		async: false
