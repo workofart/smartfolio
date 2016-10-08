@@ -1,7 +1,7 @@
 
 function getAllPortfolios() {
     $.ajax({
-        url: '/api/analysis/',
+        url: '/api/portfolio/',
         type: 'GET',
         datatype: 'application/json'
     })
@@ -13,7 +13,7 @@ function getAllPortfolios() {
 function getPortfolioById() {
     var id = $('#getPIdParam').val();
     $.ajax({
-        url: '/api/analysis/'+id,
+        url: '/api/portfolio/'+id,
         type: 'GET',
         datatype: 'application/json'
     })
@@ -63,7 +63,7 @@ function addPortfolio() {
     var portStr = JSON.stringify(jsonPortfolio);
     console.log(portStr);
     $.ajax({
-        url: '/api/analysis/' + pId,
+        url: '/api/portfolio/' + pId,
         type: 'POST',
         datatype: 'application/json',
         data: jsonPortfolio
@@ -86,7 +86,7 @@ function getPortfolioId() {
 function deletePortfolioById() {
     var id = $('#deletePIdParam').val();
     $.ajax({
-        url: '/api/analysis/'+id,
+        url: '/api/portfolio/'+id,
         type: 'DELETE',
         datatype: 'application/json'
     })
