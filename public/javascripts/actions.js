@@ -668,5 +668,16 @@ function addPortfolio() {
 }
 
 function getPortfolioId() {
-	return 1;
+	var id;
+	$.ajax({
+		url: '/api/portfolio/latestPid',
+		type: 'GET',
+		datatype: 'application/json',
+		async: false
+	})
+		.done(function (data) {
+			console.log(data);
+			id = JSON.stringify(data.pId);
+		})
+	return id;
 }

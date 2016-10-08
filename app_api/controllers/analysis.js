@@ -200,14 +200,27 @@ function portfolioIO (fileName, newPortfolio, IOFlag) {
 }
 
 // Utility function for getting the latest pid
-// function findLatestPortfolioId(storedPortfolio) {
-//     var maxId = 0;
-//     for (var i = 0; i < storedPortfolio.length; i++) {
-//         console.log(storedPortfolio[i]);
-//         if (storedPortfolio[i].pId > maxId){
-//             maxId = storedPortfolio[i].pId + 1;
-//             console.log('Found maxId: ' + maxId);
-//         }
-//     }
-//     latestPid = maxId;
-// }
+module.exports.findLatestPortfolioId = function (req, res) {
+    var temp = portfolioIO('portfolio', null, 0);
+    var storedPortfolio;
+    if (temp != ''){
+        storedPortfolio = JSON.parse(temp);
+        var maxId = -1;
+        for (var i = 0; i < storedPortfolio.length; i++) {
+            if (storedPortfolio[i].pId > maxId){
+                maxId = Number(storedPortfolio[i].pId) + 1;
+                console.log('Found maxId: ' + maxId);
+            }
+        }
+        latestPid = maxId;
+        sendJsonResponse(res, 200, {
+            pId: latestPid
+        });
+        return;
+    }
+
+    console.log('Undefined');
+    sendJsonResponse(res, 200, {
+        pId: 0
+    });
+}
