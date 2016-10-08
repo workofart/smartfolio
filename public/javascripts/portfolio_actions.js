@@ -11,7 +11,7 @@ function getAllPortfolios() {
 }
 
 function getPortfolioById() {
-    var id = $('#pIdParam').val();
+    var id = $('#getPIdParam').val();
     $.ajax({
         url: '/api/analysis/'+id,
         type: 'GET',
@@ -72,4 +72,16 @@ function addPortfolio() {
 
 function getPortfolioId() {
     return 1;
+}
+
+function deletePortfolioById() {
+    var id = $('#deletePIdParam').val();
+    $.ajax({
+        url: '/api/analysis/'+id,
+        type: 'DELETE',
+        datatype: 'application/json'
+    })
+        .done(function(data) {
+            console.log(JSON.stringify(data));
+        })
 }

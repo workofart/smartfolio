@@ -28,13 +28,16 @@ block content
 							span(class='glyphicon glyphicon-search')
 						form(class='form-inline')
 							div.form-group
-								input(type='text' class='form-control' id='pIdParam' placeholder='pID')
+								input(type='text' class='form-control' id='getPIdParam' placeholder='pID')
 					div(class='btn-group' role='group')
 						button(onclick='modifyPortfolioById();' type='button' class='btn btn-info') Modify Portfolio By Id &nbsp
 							span(class='glyphicon glyphicon-pencil')
 					div(class='btn-group' role='group')
-						button(onclick='modifyPortfolioById();' type='button' class='btn btn-info') Sell Portfolio By Id &nbsp
+						button(onclick='deletePortfolioById();' type='button' class='btn btn-info') Sell Portfolio By Id &nbsp
 							span(class='glyphicon glyphicon-piggy-bank')
+						form(class='form-inline')
+							div.form-group
+								input(type='text' class='form-control' id='deletePIdParam' placeholder='pID')
 					div(class='modal fade' id='addToPortfolio' tabindex='-1' role='dialog' aria-labelledby='addToPortfolioLabel')
 						div(class='modal-dialog' role='document')
 							div.modal-content

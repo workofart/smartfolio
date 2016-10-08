@@ -118,8 +118,12 @@ module.exports.changePortfolioById = function (req, res) {
 //     "message": "Portfolio removed"
 // }
 module.exports.deletePortfolioById = function (req, res) {
-    var targetPortfolio = findPortfolioById(req.params.id);
+    var portfolios = JSON.parse(portfolioIO('portfolio', null, 0));
+    var targetPortfolio = findPortfolioById(req.params.id, portfolios);
     portfolios = _.without(portfolios, targetPortfolio);
+
+    // Write back the updated portfolio
+    portfolioIO('portfolio', portfolios, 1);
     sendJsonResponse(res, 200, {
         message: "Portfolio removed"
     })
@@ -155,7 +159,7 @@ function portfolioIO (fileName, newPortfolio, IOFlag) {
     }
     // Case 1 (Write)
     if (IOFlag == 1) {
-        fs.writeFile(fileName, newPortfolio, "utf8");
+        fs.writeFile(fileName + '.json', JSON.stringify(newPortfolio), "utf8");
         return;
     }
 
