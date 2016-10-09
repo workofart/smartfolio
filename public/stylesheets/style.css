@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'News Cycle';
+    src: url('font/NewsCycle-Regular.ttf');
+}
 body {
   padding: 70px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -19,7 +23,8 @@ body {
 {
     padding:4px 4px;
     margin:0px;
-    border-bottom:1px dotted #555; 
+    border-bottom:1px dotted #555;
+    font-family: 'News Cycle', sans-serif;
 }
 
 .news-section .news-item .btn

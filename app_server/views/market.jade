@@ -1,8 +1,8 @@
 extends layout
 block content
 	div.row
-		div.col-md-4
-			div.well				
+		div.col-md-6
+			div.well
 				div.input-group
 					span(class='input-group-addon' id='basic-addon1') Company Name
 					select(class='form-control' style='width:200px' id='searchBox')
@@ -52,45 +52,41 @@ block content
 						div(class='input-group')
 							span(class='input-group-addon' id='interval-addon') Interval
 							input(type='text' class='form-control' placeholder='E.g. 15 minutes - 1 day' aria-describedby='sizing-addon1')
-	div.row
-		div.col-md-12
+			div(class='news-section')
+				div.col-md-6
+					div(class='panel panel-default')
+						div(class='panel-heading')
+							span(class='glyphicon glyphicon-list-alt')
+								b Featured News
+						div(class='panel-body')
+							div.row
+								div.col-xs-12
+									ul(id='featured-news-list')
+						div(class='panel-footer')
+				div.col-md-6
+					div(class='panel panel-default')
+						div(class='panel-heading')
+							span(class='glyphicon glyphicon-list-alt')
+								b Ticker News
+						div(class='panel-body')
+							div.row
+								div.col-xs-12
+									ul(id='ticker-news-list')
+						div(class='panel-footer')
+		div.col-md-6
 			h4 Market
 			table(class='table display' id='stockQuotes')
 				thead(class='table-hover')
 					tr(class='info' id='header')
-						th Date									
-						th Ticker (Symbol)
-						th Company
+						th Date
+						//th Ticker (Symbol)
+						//th Company
 						th Opening Price
 						th Closing Price
 						th High
 						th Low
 						th Volume
 				tbody(class='table-hover' id='quoteBody')
-	div(class='news-section')
-		div.row
-			div.col-md-2
-			div.col-md-4
-				div(class='panel panel-default')
-					div(class='panel-heading')
-						span(class='glyphicon glyphicon-list-alt') 
-							b Featured News
-					div(class='panel-body')
-						div.row
-							div.col-xs-12
-								ul(id='featured-news-list')
-					div(class='panel-footer')
-			div.col-md-4
-				div(class='panel panel-default')
-					div(class='panel-heading')
-						span(class='glyphicon glyphicon-list-alt') 
-							b Ticker News
-					div(class='panel-body')
-						div.row
-							div.col-xs-12
-								ul(id='ticker-news-list')
-					div(class='panel-footer')
-			div.col-md-2
 	div(class='jumbotron')
 		div(class='container')
 			div(id='bigChart')
