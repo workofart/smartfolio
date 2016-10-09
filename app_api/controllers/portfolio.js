@@ -32,23 +32,29 @@ module.exports.getPortfolioById = function (req, res){
 //     "portfolio": {
 //         "pId": "123",
 //         "pName": "BestPortfolio",
-//         "userId": "99"
+//         "userId": "99",
+//         "stocks" : [
+//              { "ticker" : "AAPL",
+//                "quantity" : "100",
+//                "amount" : "2000"
 //     }
 // }
 module.exports.createPortfolio = function (req, res) {
-
+    print('body: ' + JSON.stringify(req.body));
     // For all nested objects, must follow req.body['key[subkey]'] to get the value
     var portfolio = {
         pId: req.params.id,
         pName: req.body.pName,
         userId: req.body.userId,
-        stock: {
-            ticker: req.body['stock[ticker]'],
-            quantity: req.body['stock[quantity]'],
-            amount: req.body['stock[totalAmount]']
-        }
+        stocks: [
+            {
+                ticker: req.body['stocks[ticker]'],
+                quantity: req.body['stocks[quantity]'],
+                amount: req.body['stocks[totalAmount]']
+            }
+        ]
     }
-
+    print('portfolio: ' + JSON.stringify(portfolio));
     portfolioIO('portfolio', portfolio, 2);
 
     sendJsonResponse(res, 200, {
@@ -151,7 +157,11 @@ function portfolioIO (fileName, newPortfolio, IOFlag) {
     // Case 0 (Read)
     if (IOFlag == 0) {
         if (fs.existsSync(fileName + '.json')) {
-            return fs.readFileSync(fileName + '.json', 'utf8');
+            var content = fs.readFileSync(fileName + '.json', 'utf8');
+            if (content == '') {
+                return '[]';
+            }
+            return content;
         }
         else {
             throw Error('The file ' + fileName + ' doesn\'t exist');
@@ -213,6 +223,9 @@ module.exports.findLatestPortfolioId = function (req, res) {
             }
         }
         latestPid = maxId;
+        if (storedPortfolio.length == 0){
+            latestPid = 1;
+        }
         sendJsonResponse(res, 200, {
             pId: latestPid
         });
@@ -221,6 +234,27 @@ module.exports.findLatestPortfolioId = function (req, res) {
 
     console.log('Undefined');
     sendJsonResponse(res, 200, {
-        pId: 0
+        pId: 1
     });
+}
+
+module.exports.addStockToPortfolio = function (req, res) {
+    var pId = req.params.id;
+    print('pId: ' + pId);
+    var portfolios = JSON.parse(portfolioIO('portfolio', null, 0));
+    print('portfolios: ' + JSON.stringify(portfolios));
+    var targetPortfolio = findPortfolioById(pId, portfolios);
+    print('targetPortfolio: ' + targetPortfolio);
+    var newStock = {
+        ticker: req.body.ticker,
+        quantity: req.body.quantity,
+        amount: req.body.totalAmount
+    }
+    print(newStock);
+    targetPortfolio.stocks.push(newStock);
+    console.log('New portfolio: ' + JSON.stringify(targetPortfolio));
+}
+
+function print(content) {
+    console.log(content);
 }

@@ -11,5 +11,5 @@ router.put('/portfolio/:id', ctrlPortfolio.changePortfolioById);
 router.delete('/portfolio/:id', ctrlPortfolio.deletePortfolioById);
 router.get('/portfolio', ctrlPortfolio.getAllPortfolios);
 router.get('/portfolio/pid/latestPid', ctrlPortfolio.findLatestPortfolioId);
-
+router.post('/portfolio/:id/addStockToPortfolio', ctrlPortfolio.addStockToPortfolio);
 module.exports = router;
