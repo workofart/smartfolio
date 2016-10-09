@@ -78,7 +78,7 @@ var searchQuote = function() {
 
 	$.ajax(
 		{
-			url: "/analysis/GetGoogleFinanceData?ticker=" + selectedTicker + "&interval=" + interval + "&period=" + period,
+			url: "/market/GetGoogleFinanceData?ticker=" + selectedTicker + "&interval=" + interval + "&period=" + period,
 			type: "GET"
 		})
 		.done(function(data) {
@@ -96,7 +96,7 @@ var searchQuote = function() {
 	$.ajax(
 		{
 			dataType: "json",
-			url: "/analysis/GetYahooFinanceNews",
+			url: "/market/GetYahooFinanceNews",
 			type: "GET" 
 		})
 		.done(function(data) {
@@ -107,7 +107,7 @@ var searchQuote = function() {
 	$.ajax(
 		{
 			dataType: "json",
-			url: "/analysis/GetYahooFinanceNews?ticker=" + selectedTicker,
+			url: "/market/GetYahooFinanceNews?ticker=" + selectedTicker,
 			type: "GET" 
 		})
 		.done(function(data) {

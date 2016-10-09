@@ -9,7 +9,7 @@ var sendJsonResponse = function (res, status, content){
 var storedPortfolio = [];
 
 // E.g.
-// GET: localhost:3000/api/analysis/123
+// GET: localhost:3000/api/market/123
 // Return: {
 //     "portfolio": {
 //         "pId": "123",
@@ -26,7 +26,7 @@ module.exports.getPortfolioById = function (req, res){
 };
 
 //E.g.
-// POST: localhost:3000/api/analysis/123
+// POST: localhost:3000/api/market/123
 // Return: {
 // "message": "Portfolio created",
 //     "portfolio": {
@@ -65,7 +65,7 @@ module.exports.createPortfolio = function (req, res) {
 };
 
 // E.g. Make POSTS first
-// GET: localhost:3000/api/analysis
+// GET: localhost:3000/api/market
 // Return:
 // [
 //     {
@@ -93,7 +93,7 @@ module.exports.getAllPortfolios = function (req, res) {
 };
 
 // E.g. Make POSTS first
-// PUT: localhost:3000/api/analysis/1
+// PUT: localhost:3000/api/market/1
 // With body as follows
 // pName : "WorstPortfolio"
 // userId : "1000"
@@ -118,7 +118,7 @@ module.exports.changePortfolioById = function (req, res) {
 }
 
 // E.g. Make POSTS first
-// DELETE: localhost:3000/api/analysis/1
+// DELETE: localhost:3000/api/market/1
 // Return:
 // {
 //     "message": "Portfolio removed"

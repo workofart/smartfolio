@@ -1,16 +1,16 @@
-// GET analysis page
+// GET market page
 var request = require("request");
 var moment = require("moment");
 var async = require("async");
 var http = require('http');
 
 var renderAnalysis = function(req, res) {
-	res.render('analysis', {
+	res.render('market', {
 		title: 'Smartfolio - Analysis'
 	});
 };
 
-module.exports.analysis = function(req, res) {
+module.exports.market = function(req, res) {
 	renderAnalysis(req, res);
 };
 

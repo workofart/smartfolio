@@ -4,7 +4,7 @@ var router = express.Router();
 // require the related controller files
 var ctrlPortfolio = require('../controllers/portfolio');
 
-// Define routes for analysis route
+// Define routes for Portfolio
 router.get('/portfolio/:id', ctrlPortfolio.getPortfolioById);
 router.post('/portfolio/:id', ctrlPortfolio.createPortfolio);
 router.put('/portfolio/:id', ctrlPortfolio.changePortfolioById);
