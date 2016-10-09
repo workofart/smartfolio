@@ -7,6 +7,22 @@ function getAllPortfolios() {
     })
         .done(function(data){
             console.log(JSON.stringify(data));
+            for (var i = 0; i < data.length; i++) {
+                var portfolio = data[i];
+
+                // Create the panels based on the portfolios we have
+                var htmlCode = '<div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group"> <div class="panel panel-primary"> <div role="tab" id="headingOne" class="panel-heading"> <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#portfolio_' +
+                    portfolio.pId + '_Body" aria-expanded="false" aria-controls="portfolio_' +
+                    portfolio.pId + '_Body">Portfolio ' +
+                    portfolio.pId + '</a></h4> </div><div id="portfolio_' +
+                    portfolio.pId + '_Body" role="tabpanel" aria-labelledby="headingOne" class="panel-collapse collapse in"> <div class="panel-body"> <div class="row"> <div class="col-md-6"> <div class="jumbotron"> <div class="container"> <div class="portfolio-breakdown-chart"></div></div></div></div><div class="col-md-6"> <div class="jumbotron"> <div class="container"> <div class="stock-daily-performance"></div></div></div></div></div><div class="jumbotron"> <div class="container"> <div id="portfolio-performance"></div></div></div></div></div></div></div>';
+                // var parser = new DOMParser();
+                // var doc = parser.parseFromString(htmlCode, "text/xml");
+                $('#panelList').append(htmlCode);
+
+                console.log('portfolio: ' + JSON.stringify(portfolio));
+            }
+            // return data;
         });
 }
 
@@ -93,4 +109,12 @@ function deletePortfolioById() {
         .done(function(data) {
             console.log(JSON.stringify(data));
         })
+}
+
+function displayAllPortfolios() {
+    var portfolios = getAllPortfolios();
+    console.log(portfolios);
+    for (var portfolio in portfolios) {
+        console.log('portfolio: ' + JSON.stringify(portfolio));
+    }
 }
