@@ -218,11 +218,12 @@ module.exports.findLatestPortfolioId = function (req, res) {
         var maxId = -1;
         for (var i = 0; i < storedPortfolio.length; i++) {
             if (storedPortfolio[i].pId > maxId){
-                maxId = Number(storedPortfolio[i].pId) + 1;
+                maxId = Number(storedPortfolio[i].pId);
                 console.log('Found maxId: ' + maxId);
             }
         }
-        latestPid = maxId;
+        latestPid = maxId + 1
+        print('findLatestPortfolioID (StoredPortfolio): ' + JSON.stringify(storedPortfolio));
         if (storedPortfolio.length == 0){
             latestPid = 1;
         }
