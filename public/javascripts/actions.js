@@ -137,8 +137,8 @@ function PopulateTable(ticker, data) {
 	for (var i = 0; i < data.length; i++) {
 		var array = [];
 		array.push(new Date(data[i].date));
-		array.push(ticker);
-		array.push(company);
+		// array.push(ticker);
+		// array.push(company);
 		array.push(data[i].open);
 		array.push(data[i].close);
 		array.push(data[i].high);
