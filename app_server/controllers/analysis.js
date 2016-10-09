@@ -80,6 +80,7 @@ module.exports.GetGoogleFinanceData = function(req, res) {
 		return quote;
 	}
 
+	/* FIXME: Need to add ways to remove quotes from memory, otherwise quotes would never update */
 	if (ticker in StoredQuotes) {
 		console.log("Getting " + ticker + " data from memory");
 		res.send(StoredQuotes[ticker]);
@@ -91,25 +92,46 @@ module.exports.GetGoogleFinanceData = function(req, res) {
 
 // https://developers.google.com/feed/v1/jsondevguide
 // Keep this in here? Or move to client?
+var YahooNews = {};
 module.exports.GetYahooFinanceNews = function(req, res) {
 
 	var ticker = req.query.ticker;
-	var yahooFeedUrl;
 	var num = 10;
 
-	if (!ticker) {
-		yahooFeedUrl = "https://finance.yahoo.com/rss/topfinstories";
-	} else {
-		yahooFeedUrl = "https://finance.yahoo.com/rss/industry?s=" + ticker;
+	function getNewsRSSInJson(ticker, num) {
+
+		var yahooFeedUrl;
+		if (!ticker) {
+			yahooFeedUrl = "https://finance.yahoo.com/rss/topfinstories";
+		} else {
+			yahooFeedUrl = "https://finance.yahoo.com/rss/industry?s=" + ticker;
+		}
+
+		request(
+			{
+				uri: 'https://ajax.googleapis.com/ajax/services/feed/load?v=2.0&num=' + num + '&q=' + yahooFeedUrl,
+				method: "GET"
+			},
+			function(error, respone, data) {
+				if (!ticker) {
+					YahooNews["top"] = data;
+				} else {
+					YahooNews[ticker] = data;	
+				}
+				res.send(data);
+			}
+		);
 	}
 
-	request(
-		{
-			uri: 'https://ajax.googleapis.com/ajax/services/feed/load?v=2.0&num=' + num + '&q=' + yahooFeedUrl,
-			method: "GET"
-		},
-		function(error, respone, data) {
-			res.send(data);
-		}
-	);
+	/* FIXME: Need to add ways to remove feeds from memory, otherwise news would never update */
+	if (ticker in YahooNews) {
+		console.log("Returning stored ticker news");
+		res.send(YahooNews[ticker]);
+	} else if (!ticker && "top" in YahooNews) {
+		console.log("Returning stored top news");
+		res.send(YahooNews["top"]);
+	} else {
+		console.log("Returning live news");
+		getNewsRSSInJson(ticker, num);
+	}
 }
