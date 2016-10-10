@@ -116,6 +116,7 @@ var searchQuote = function() {
 }
 
 function PopulateNews(listID, data) {
+	$(listID + ' li').remove();
 	var length = data["responseData"]["feed"]["entries"].length;
 	for (var i = 0; i < length; i++) {
 		var entry = data["responseData"]["feed"]["entries"][i];
