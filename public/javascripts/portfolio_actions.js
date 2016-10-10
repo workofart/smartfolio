@@ -12,8 +12,8 @@ function getAllPortfolios() {
                 var portfolio = data[i];
 
                 console.log('Current Price: $' + currentPrice);
-                console.log('Daily % change: ' + getPercentageChange(getPurchasePrice(portfolio), currentPrice));
-                console.log('Daily $ change: ' + getDollarChange(getPurchasePrice(portfolio), currentPrice));
+                console.log('Inception % change: ' + getPercentageChange(getPurchasePrice(portfolio), currentPrice));
+                console.log('Inception $ change: ' + getDollarChange(getPurchasePrice(portfolio), currentPrice));
                 // Create the panels based on the portfolios we have
                 var htmlCode = '<div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group"> <div class="panel panel-primary">' +
                     ' <div role="tab" id="heading' +
