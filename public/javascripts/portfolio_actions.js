@@ -163,3 +163,102 @@ function getDollarChange(purchasePrice, currentPrice) {
     }
     return dollarChanges;
 }
+
+
+/* Chart JS */
+var ctx = $("#myChart");
+
+var data = {
+    labels: [
+        "Red",
+        "Blue",
+        "Yellow"
+    ],
+    datasets: [
+        {
+            data: [300, 50, 100],
+            backgroundColor: [
+                "#FF6384",
+                "#36A2EB",
+                "#FFCE56"
+            ],
+            hoverBackgroundColor: [
+                "#FF6384",
+                "#36A2EB",
+                "#FFCE56"
+            ]
+        }]
+};
+
+var myChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: data,
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+
+/* D3 */
+// Disadvantage -- does not easily resize
+var blue="#348fe2",
+    blueLight="#5da5e8",
+    blueDark="#1993E4",
+    aqua="#49b6d6",
+    aquaLight="#6dc5de",
+    aquaDark="#3a92ab",
+    green="#00acac",
+    greenLight="#33bdbd",
+    greenDark="#008a8a",
+    orange="#f59c1a",
+    orangeLight="#f7b048",
+    orangeDark="#c47d15",
+    dark="#2d353c",
+    grey="#b6c2c9",
+    purple="#727cb6",
+    purpleLight="#8e96c5",
+    purpleDark="#5b6392",
+    red="#ff5b57";
+
+var e=[
+    {label:"One",value:29,color:red},
+    {label:"Two",value:12,color:orange},
+    {label:"Three",value:32,color:green},
+    {label:"Four",value:196,color:aqua},
+    {label:"Five",value:17,color:blue},
+    {label:"Six",value:98,color:purple},
+    {label:"Seven",value:13,color:grey},
+    {label:"Eight",value:5,color:dark}];
+
+nv.addGraph(
+    function(){
+        var a = nv.models.pieChart()
+            .x(function(e){return e.label})
+            .y(function(e){return e.value})
+            .showLabels(!0)
+            .labelThreshold(.05)
+            .labelType("percent")
+            .donut(!0)
+            .donutRatio(.35)
+            .width(600)
+            .height(400);
+        
+        //nv.utils.windowResize(function() { a.update() });
+        return d3.select("#nv-donut-chart")
+            .append("svg")
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 600 400")
+            .classed("svg-content-responsive", true)
+            .datum(e)
+            .transition()
+            .duration(350)
+            .call(a)
+            .style({ 'width': 600, 'height': 400 }),a
+    }
+)
