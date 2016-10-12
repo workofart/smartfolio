@@ -1,7 +1,17 @@
 const pg = require('pg');
 const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/smartfolio';
 
-const client = new pg.Client(connectionString);
+var config = {
+    user: 'postgres',
+    database: 'smartfolio',
+    password: 'Welcome1',
+    host: 'localhost',
+    port: 5432,
+    max: 10,
+    idleTimeoutMillis: 30000,
+};
+
+const client = new pg.Client(config);
 client.connect();
 
 client.query('DROP TABLE IF EXISTS stock_daily;');
@@ -27,3 +37,24 @@ const query2 = client.query('CREATE TABLE dw_Historical(ticker VARCHAR(8) NOT NU
                             'datetime TIMESTAMP NOT NULL,' +
                             'price MONEY NOT NULL,' +
                             'PRIMARY KEY (ticker, datetime));');
+
+client.query('DROP TABLE IF EXISTS users;');
+client.query('CREATE TABLE users(userid SERIAL,' +
+                            'username VARCHAR(32) NOT NULL,' +
+                            'password VARCHAR(32) NOT NULL,' +
+                            'PRIMARY KEY (userid));');
+
+client.query('DROP TABLE IF EXISTS portfolios;');
+client.query('CREATE TABLE portfolios(portfolioid SERIAL,' +
+                            'userid INTEGER REFERENCES users(userid),' +
+                            'portfolioname VARCHAR(32) NOT NULL,' +
+                            'PRIMARY KEY (portfolioid));');
+
+client.query('DROP TABLE IF EXISTS transactions;');
+client.query('CREATE TABLE transactions(transactionid SERIAL,' +
+                            'portfolioid INTEGER REFERENCES portfolios(portfolioid),' +
+                            'datetime TIMESTAMP NOT NULL,' +
+                            'ticker VARCHAR(8) NOT NULL,' +
+                            'quantity INTEGER NOT NULL,' +
+                            'price MONEY NOT NULL,' +
+                            'PRIMARY KEY (transactionid));');
