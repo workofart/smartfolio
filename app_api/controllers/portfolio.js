@@ -1,6 +1,22 @@
 var request = require('request');
 var _ = require('underscore');
 
+const pg = require('pg');
+const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/smartfolio';
+
+var config = {
+    user: 'postgres',
+    database: 'smartfolio',
+    password: 'Welcome1',
+    host: 'localhost',
+    port: 5432,
+    max: 10,
+    idleTimeoutMillis: 30000,
+};
+
+const client = new pg.Client(config);
+
+
 var sendJsonResponse = function (res, status, content){
     res.status(status);
     res.json(content);
@@ -84,11 +100,30 @@ module.exports.createPortfolio = function (req, res) {
 //         "userId": "3"
 //     }
 // ]
+// module.exports.getAllPortfolios = function (req, res) {
+//     var portfolios;
+//
+//     portfolios = JSON.parse(portfolioIO('portfolio', null, 0));
+//     sendJsonResponse(res, 200, portfolios)
+//
+// };
+
 module.exports.getAllPortfolios = function (req, res) {
     var portfolios;
 
-    portfolios = JSON.parse(portfolioIO('portfolio', null, 0));
-    sendJsonResponse(res, 200, portfolios)
+    const client = new pg.Client(config);
+    client.connect();
+    client.query('select * from portfolios;', function (err, result) {
+        result = result['rows'];
+        if (err) throw err;
+        sendJsonResponse(res, 200, result);
+        client.end();
+    });
+
+
+
+    // portfolios = JSON.parse(portfolioIO('portfolio', null, 0));
+    // sendJsonResponse(res, 200, portfolios)
 
 };
 
