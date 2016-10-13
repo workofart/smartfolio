@@ -20,12 +20,12 @@ module.exports = function(passport) {
 
     /* Login Page */
     router.get('/login', function(req, res) {
-        res.render('login');
+        res.render('login', { message: req.flash('loginMessage') });
     })
     /* Signup Page */
     router.get('/signup', function(req, res) {
-        res.render('signup');
+        res.render('signup', { message: req.flash('signupMessage') });
     })
-    
+
     return router;
 }

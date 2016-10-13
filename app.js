@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session')
 var passport = require('passport')
-var localStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash');
 // var pg = require('pg')
 
 // define the app using express
@@ -27,9 +27,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Setting up passport
+require('./app_server/configs/passport')(passport); // No need to save, only used in setup
 app.use(session({ secret: 'su3g41p4204', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login session
+app.use(flash());
 
 // var config = {
 //     user: 'postgres',
