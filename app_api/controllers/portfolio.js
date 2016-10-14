@@ -33,12 +33,40 @@ var storedPortfolio = [];
 //         "userId": "99"
 //     }
 // }
+// module.exports.getPortfolioById = function (req, res){
+//
+//     var targetPortfolio = findPortfolioById(req.params.id, JSON.parse(portfolioIO('portfolio', null, 0)));
+//     sendJsonResponse(res, 200, {
+//         portfolio : targetPortfolio
+//     });
+// };
 module.exports.getPortfolioById = function (req, res){
+    var query ="\
+        SELECT t1.portfolioid AS pId,\
+            portfolioname AS pName,\
+            userid,\
+            ticker,\
+            quantity,\
+            price\
+    FROM    portfolios t1,\
+            transactions t2\
+    WHERE   t1.portfolioid = t2.portfolioid AND\
+            t1.portfolioid = " + req.params.id + ";\
+    ";
 
-    var targetPortfolio = findPortfolioById(req.params.id, JSON.parse(portfolioIO('portfolio', null, 0)));
-    sendJsonResponse(res, 200, {
-        portfolio : targetPortfolio
+    const client = new pg.Client(config);
+    client.connect();
+    console.log(query);
+    client.query(query, function (err, result) {
+        // console.log(result['rows']);
+        if (result['rows'] != '[]') {
+            result = result['rows'];
+            if (err) throw err;
+            sendJsonResponse(res, 200, result);
+        }
+        client.end();
     });
+
 };
 
 //E.g.
@@ -55,65 +83,94 @@ module.exports.getPortfolioById = function (req, res){
 //                "amount" : "2000"
 //     }
 // }
+// module.exports.createPortfolio = function (req, res) {
+//     print('body: ' + JSON.stringify(req.body));
+//     // For all nested objects, must follow req.body['key[subkey]'] to get the value
+//     var portfolio = {
+//         pId: req.params.id,
+//         pName: req.body.pName,
+//         userId: req.body.userId,
+//         stocks: [
+//             {
+//                 ticker: req.body['stocks[ticker]'],
+//                 quantity: req.body['stocks[quantity]'],
+//                 amount: req.body['stocks[totalAmount]']
+//             }
+//         ]
+//     }
+//     print('portfolio: ' + JSON.stringify(portfolio));
+//     portfolioIO('portfolio', portfolio, 2);
+//
+//     sendJsonResponse(res, 200, {
+//         message: 'Portfolio created',
+//         portfolio : portfolio
+//     });
+//
+// };
 module.exports.createPortfolio = function (req, res) {
-    print('body: ' + JSON.stringify(req.body));
-    // For all nested objects, must follow req.body['key[subkey]'] to get the value
-    var portfolio = {
-        pId: req.params.id,
-        pName: req.body.pName,
-        userId: req.body.userId,
-        stocks: [
-            {
-                ticker: req.body['stocks[ticker]'],
-                quantity: req.body['stocks[quantity]'],
-                amount: req.body['stocks[totalAmount]']
-            }
-        ]
-    }
-    print('portfolio: ' + JSON.stringify(portfolio));
-    portfolioIO('portfolio', portfolio, 2);
 
-    sendJsonResponse(res, 200, {
-        message: 'Portfolio created',
-        portfolio : portfolio
+    var query ="\
+    INSERT INTO portfolios (userid, portfolioname)\
+    VALUES (1,\
+            'BESTportfolio') returning portfolioid;\
+    ";
+
+    // var insertTransaction ="\
+
+
+    const client = new pg.Client(config);
+    client.connect();
+    client.query(query, function (err, result) {
+        var pId = result['rows'][0].portfolioid;
+        var insertTranscation ="\
+        INSERT INTO transactions (portfolioid, datetime, ticker, quantity, price)\
+        VALUES (" +
+            pId + ", " +
+            "CURRENT_TIMESTAMP,'" +
+            req.body['stocks[ticker]'] + "', " +
+            req.body['stocks[quantity]'] + ", " +
+            req.body['stocks[totalAmount]'] + ")\
+        ";
+        console.log(insertTranscation);
+        if (err) throw err;
+        sendJsonResponse(res, 200, result);
+        client.query(insertTranscation);
+        client.end();
     });
 
 };
 
-// E.g. Make POSTS first
+
 // GET: localhost:3000/api/market
 // Return:
 // [
-//     {
-//         "pId": "1",
-//         "pName": "BestPortfolio",
-//         "userId": "1"
-//     },
-//     {
-//         "pId": "2",
-//         "pName": "BestPortfolio",
-//         "userId": "2"
-//     },
-//     {
-//         "pId": "3",
-//         "pName": "BestPortfolio",
-//         "userId": "3"
-//     }
+//      {
+//         "pid": 1,
+//         "pname": "BESTportfolio",
+//         "userid": 1,
+//         "ticker": "AAPL",
+//         "quantity": 100,
+//         "price": "$10.00"
+//      }
 // ]
-// module.exports.getAllPortfolios = function (req, res) {
-//     var portfolios;
-//
-//     portfolios = JSON.parse(portfolioIO('portfolio', null, 0));
-//     sendJsonResponse(res, 200, portfolios)
-//
-// };
-
+// TODO: Currently only returns the portfolios that have transactions associated
 module.exports.getAllPortfolios = function (req, res) {
     var portfolios;
+    var query ="\
+    SELECT t1.portfolioid AS pId,\
+            portfolioname AS pName,\
+            userid,\
+            ticker,\
+            quantity,\
+            price\
+    FROM    portfolios t1,\
+            transactions t2\
+    WHERE   t1.portfolioid = t2.portfolioid;\
+    ";
 
     const client = new pg.Client(config);
     client.connect();
-    client.query('select * from portfolios;', function (err, result) {
+    client.query(query, function (err, result) {
         result = result['rows'];
         if (err) throw err;
         sendJsonResponse(res, 200, result);
@@ -141,6 +198,7 @@ module.exports.getAllPortfolios = function (req, res) {
 //         "userId": "1000"
 // }
 // }
+// TODO: Not yet migrated to db
 module.exports.changePortfolioById = function (req, res) {
     var targetPortfolio = findPortfolioById(req.params.id);
     targetPortfolio.pName = req.body.pName;
@@ -158,17 +216,55 @@ module.exports.changePortfolioById = function (req, res) {
 // {
 //     "message": "Portfolio removed"
 // }
+// module.exports.deletePortfolioById = function (req, res) {
+//     var portfolios = JSON.parse(portfolioIO('portfolio', null, 0));
+//     var targetPortfolio = findPortfolioById(req.params.id, portfolios);
+//     portfolios = _.without(portfolios, targetPortfolio);
+//
+//     // Write back the updated portfolio
+//     portfolioIO('portfolio', portfolios, 1);
+//     sendJsonResponse(res, 200, {
+//         message: "Portfolio removed"
+//     })
+// }
 module.exports.deletePortfolioById = function (req, res) {
-    var portfolios = JSON.parse(portfolioIO('portfolio', null, 0));
-    var targetPortfolio = findPortfolioById(req.params.id, portfolios);
-    portfolios = _.without(portfolios, targetPortfolio);
+    var portfolios;
+    var deletePortfolio ="\
+    DELETE\
+    FROM portfolios\
+    WHERE portfolioid = " + req.params.id + ";\
+    ";
 
-    // Write back the updated portfolio
-    portfolioIO('portfolio', portfolios, 1);
-    sendJsonResponse(res, 200, {
-        message: "Portfolio removed"
-    })
+    var deleteTransactions ="\
+    DELETE\
+    FROM transactions\
+    WHERE transactions.portfolioid = " + req.params.id + ";\
+    ";
+
+    const client = new pg.Client(config);
+    client.connect();
+    client.query(deleteTransactions, function (err, result) {
+        if (err) throw err;
+        sendJsonResponse(res, 200, result);
+    });
+
+    client.query(deletePortfolio, function (err, result) {
+        if (err) throw err;
+        sendJsonResponse(res, 200, result);
+        client.end();
+    });
+
+    // var portfolios = JSON.parse(portfolioIO('portfolio', null, 0));
+    // var targetPortfolio = findPortfolioById(req.params.id, portfolios);
+    // portfolios = _.without(portfolios, targetPortfolio);
+    //
+    // // Write back the updated portfolio
+    // portfolioIO('portfolio', portfolios, 1);
+    // sendJsonResponse(res, 200, {
+    //     message: "Portfolio removed"
+    // })
 }
+
 
 function findPortfolioById(id, portfolios) {
     for (var i = 0; i < portfolios.length; i++) {
@@ -179,8 +275,6 @@ function findPortfolioById(id, portfolios) {
 }
 
 var fs = require('fs');
-
-
 
 /**
  *

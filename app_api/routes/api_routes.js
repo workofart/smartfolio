@@ -6,7 +6,7 @@ var ctrlPortfolio = require('../controllers/portfolio');
 
 // Define routes for Portfolio
 router.get('/portfolio/:id', ctrlPortfolio.getPortfolioById);
-router.post('/portfolio/:id', ctrlPortfolio.createPortfolio);
+router.post('/portfolio', ctrlPortfolio.createPortfolio);
 router.put('/portfolio/:id', ctrlPortfolio.changePortfolioById);
 router.delete('/portfolio/:id', ctrlPortfolio.deletePortfolioById);
 router.get('/portfolio', ctrlPortfolio.getAllPortfolios);
