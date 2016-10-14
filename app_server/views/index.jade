@@ -26,3 +26,5 @@ block content
                 span(class='glyphicons glyphicons-user') Login
             a(href='/signup' class='btn btn-default')
                 span(class='glyphicons glyphicons-user') Signup
+        if Message && Message.length
+            div(class='alert alert-danger') #{Message}

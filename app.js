@@ -27,10 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Setting up passport
-require('./app_server/configs/passport')(passport); // No need to save, only used in setup
 app.use(session({ secret: 'su3g41p4204', resave: false, saveUninitialized: false }));
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login session
+require('./app_server/configs/setupPassport')(app, passport); // No need to save, only used in setup
 app.use(flash());
 
 // var config = {
