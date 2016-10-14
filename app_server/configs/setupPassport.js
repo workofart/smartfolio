@@ -10,7 +10,6 @@ module.exports = function(app, passport) {
             passReqToCallback: true
         },
         function(req, username, password, done) {
-            console.log("DEBUG");
             process.nextTick(function() {
                 Model.Users.findOne({
                     where: {
@@ -20,11 +19,15 @@ module.exports = function(app, passport) {
                     if (user) {
                         return done(null, false, req.flash('signupMessage', 'The username is already taken.'));
                     } else {
-                        Model.Users.create({
+
+                        var newUser = {
                             username: username,
-                            password: password,
-                        }).then(function(newUser) {
-                            return done(null, newUser);
+                            password: password
+                        }
+
+                        Model.Users.create(newUser).then(function(newUser2) {
+                            console.log(newUser2);
+                            return done(null, newUser2);
                         })
                     }
                 })
@@ -33,13 +36,15 @@ module.exports = function(app, passport) {
     );
 
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        console.log(user);
+        console.log(user.dataValues.userid);
+        done(null, user.dataValues.userid);
     });
 
     passport.deserializeUser(function(id, done) {
-        Model.User.findOne({
+        Model.Users.findOne({
             where: {
-                'id': id
+                'userid': id
             }
         }).then(function (user) {
             if (user == null) {
