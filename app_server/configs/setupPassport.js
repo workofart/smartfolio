@@ -24,7 +24,7 @@ module.exports = function(app, passport) {
 
                         var newUser = {
                             username: username,
-                            password: password
+                            password: bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
                         }
 
                         Model.Users.create(newUser).then(function(newUser2) {
@@ -49,8 +49,9 @@ module.exports = function(app, passport) {
                 if (user == null) {
                     return done(null, false, req.flash('loginMessage', 'Incorrect username or password.'));
                 }
-
-                if (user.password === password) {
+                
+                
+                if (bcrypt.compareSync(password, user.password)) {
                     return done(null, user);
                 }
 

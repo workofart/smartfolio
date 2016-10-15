@@ -52,7 +52,7 @@ const query2 = client.query('CREATE TABLE dw_Historical(ticker VARCHAR(8) NOT NU
 
 client.query('CREATE TABLE users(userid SERIAL,' +
                             'username VARCHAR(32) UNIQUE NOT NULL,' +
-                            'password VARCHAR(32) NOT NULL,' +
+                            'password TEXT NOT NULL,' +
                             'isActive boolean NOT NULL DEFAULT TRUE,' +
                             'PRIMARY KEY (userid));');
 
