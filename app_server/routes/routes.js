@@ -5,6 +5,7 @@ module.exports = function(passport) {
     var ctrlMarket = require('../controllers/market');
     var ctrlIndex = require('../controllers/index');
     var ctrlPortfolio = require('../controllers/portfolio');
+    var signupController = require('../controllers/signup');
 
     var isAuthenticated = function (req, res, next) {
         if (req.isAuthenticated())
@@ -39,11 +40,7 @@ module.exports = function(passport) {
     router.get('/signup', function(req, res) {
         res.render('signup', { message: req.flash('signupMessage') });
     })
-    router.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/portfolio', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-    }));
+    router.post('/signup', signupController.signup);
 
     /* Logout */
     router.get('/logout', function(req, res) {

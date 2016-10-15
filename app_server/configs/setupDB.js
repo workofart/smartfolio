@@ -81,3 +81,7 @@ client.query("INSERT INTO dw_historical (TICKER, NAME, DATETIME, price) VALUES "
     "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00);");
 client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price) VALUES " +
     "(1, CURRENT_TIMESTAMP, 'AAPL', 100, 10.00);");
+client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price) VALUES " +
+    "(1, CURRENT_TIMESTAMP, 'FB', 100, 30.00);");
+client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price) VALUES " +
+    "(1, CURRENT_TIMESTAMP, 'GOOG', 100, 20.00);");
