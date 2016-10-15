@@ -6,10 +6,12 @@ module.exports = function(app, passport) {
     app.use(passport.initialize());
     app.use(passport.session()); // persistent login session
 
+    /* Handle signup process */
     passport.use('local-signup', new LocalStrategy({
             passReqToCallback: true
         },
         function(req, username, password, done) {
+            /* Need this? Else nothing will happen */
             process.nextTick(function() {
                 Model.Users.findOne({
                     where: {
@@ -35,6 +37,29 @@ module.exports = function(app, passport) {
         })
     );
 
+    passport.use('local-login', new LocalStrategy({
+            passReqToCallback: true // allow us to pass back the req
+        },
+        function(req, username, password, done) {
+            Model.Users.findOne({
+                where: {
+                    'username': username
+                }
+            }).then(function(user) {
+                if (user == null) {
+                    return done(null, false, req.flash('loginMessage', 'Incorrect username or password.'));
+                }
+
+                if (user.password === password) {
+                    return done(null, user);
+                }
+
+                return done(null, false, req.flash('loginMessage', 'Incorrect username or password.'));
+            })
+        })
+    );
+
+    /* Need serialize and deserialize to keep session alive */
     passport.serializeUser(function(user, done) {
         console.log(user);
         console.log(user.dataValues.userid);

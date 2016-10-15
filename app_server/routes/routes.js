@@ -29,6 +29,12 @@ module.exports = function(passport) {
     router.get('/login', function(req, res) {
         res.render('login', { message: req.flash('loginMessage') });
     })
+    router.post('/login', passport.authenticate('local-login', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash: true
+    }));
+
     /* Signup Page */
     router.get('/signup', function(req, res) {
         res.render('signup', { message: req.flash('signupMessage') });

@@ -59,13 +59,3 @@ client.query('CREATE TABLE transactions(transactionid SERIAL,' +
                             'quantity INTEGER NOT NULL,' +
                             'price MONEY NOT NULL,' +
                             'PRIMARY KEY (transactionid));');
-
-var Model = require('./models.js');
-
-    Model.Users.create({
-      username: 'user',
-      password: 'user',
-    }).then(function() {
-        console.log('finsihed');
-        process.exit();
-    })
