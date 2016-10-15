@@ -647,7 +647,7 @@ function getTotalAmount() {
  * Creates a new portfolio by reading the form values, making the POST request with a given stock info
  */
 function addPortfolio() {
-	var pId = getPortfolioId();
+	// var pId = getPortfolioId();
 	var ticker = $('#tickerInput').val();
 	var quantity = $('#quantity').val();
 	var amount = $('#totalAmount').text();
@@ -664,7 +664,7 @@ function addPortfolio() {
 	var portStr = JSON.stringify(jsonPortfolio);
 	console.log(portStr);
 	$.ajax({
-		url: '/api/portfolio/' + pId,
+		url: '/api/portfolio',
 		type: 'POST',
 		datatype: 'application/json',
 		data: jsonPortfolio

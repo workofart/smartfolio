@@ -1,37 +1,38 @@
 
 function getAllPortfolios() {
     $.ajax({
-        url: '/api/portfolio/',
+        url: '/api/portfolio',
         type: 'GET',
         datatype: 'application/json'
     })
         .done(function(data){
-            // console.log(JSON.stringify(data));
-            var currentPrice = [10, 12];
-            for (var i = 0; i < data.length; i++) {
-                var portfolio = data[i];
+            console.log(JSON.stringify(data));
+            // var currentPrice = [10, 12];
+            // for (var i = 0; i < data.length; i++) {
+                // var portfolio = data[i];
 
-                console.log('Current Price: $' + currentPrice);
-                console.log('Inception % change: ' + getPercentageChange(getPurchasePrice(portfolio), currentPrice));
-                console.log('Inception $ change: ' + getDollarChange(getPurchasePrice(portfolio), currentPrice));
+                // console.log('Current Price: $' + currentPrice);
+                // console.log('Inception % change: ' + getPercentageChange(getPurchasePrice(portfolio), currentPrice));
+                // console.log('Inception $ change: ' + getDollarChange(getPurchasePrice(portfolio), currentPrice));
+
                 // Create the panels based on the portfolios we have
-                var htmlCode = '<div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group"> <div class="panel panel-primary">' +
-                    ' <div role="tab" id="heading' +
-                    portfolio.pId + '" class="panel-heading"> <h4 class="panel-title"><a role="button" data-toggle="collapse" ' +
-                    'data-parent="#accordion" href="#portfolio_' +
-                    portfolio.pId + '_Body" aria-expanded="false" aria-controls="portfolio_' +
-                    portfolio.pId + '_Body">Portfolio ' +
-                    portfolio.pId + '</a></h4> </div><div id="portfolio_' +
-                    portfolio.pId + '_Body" role="tabpanel" aria-labelledby="heading' +
-                    portfolio.pId + '" class="panel-collapse collapse in"> <div class="panel-body"> Stocks: ' +
-                    JSON.stringify(portfolio.stocks)+
-                    ' <div class="row"> <div class="col-md-6"> <div class="jumbotron"> <div class="container"> <div class="portfolio-breakdown-chart">' +
-                    '</div></div></div></div><div class="col-md-6"> <div class="jumbotron"> <div class="container"> <div class="stock-daily-performance">' +
-                    '</div></div></div></div></div><div class="jumbotron"> <div class="container"> <div id="portfolio-performance"></div></div></div></div></div></div></div>';
-                $('#panelList').append(htmlCode);
+                // var htmlCode = '<div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group"> <div class="panel panel-primary">' +
+                //     ' <div role="tab" id="heading' +
+                //     portfolio.pId + '" class="panel-heading"> <h4 class="panel-title"><a role="button" data-toggle="collapse" ' +
+                //     'data-parent="#accordion" href="#portfolio_' +
+                //     portfolio.pId + '_Body" aria-expanded="false" aria-controls="portfolio_' +
+                //     portfolio.pId + '_Body">Portfolio ' +
+                //     portfolio.pId + '</a></h4> </div><div id="portfolio_' +
+                //     portfolio.pId + '_Body" role="tabpanel" aria-labelledby="heading' +
+                //     portfolio.pId + '" class="panel-collapse collapse in"> <div class="panel-body"> Stocks: ' +
+                //     JSON.stringify(portfolio.stocks)+
+                //     ' <div class="row"> <div class="col-md-6"> <div class="jumbotron"> <div class="container"> <div class="portfolio-breakdown-chart">' +
+                //     '</div></div></div></div><div class="col-md-6"> <div class="jumbotron"> <div class="container"> <div class="stock-daily-performance">' +
+                //     '</div></div></div></div></div><div class="jumbotron"> <div class="container"> <div id="portfolio-performance"></div></div></div></div></div></div></div>';
+                // $('#panelList').append(htmlCode);
 
                 // console.log('portfolio: ' + JSON.stringify(portfolio));
-            }
+            // }
         });
 }
 
@@ -74,7 +75,6 @@ function getTotalAmount() {
  * Creates a new portfolio by reading the form values, making the POST request with a given stock info
  */
 function addPortfolio() {
-    var pId = getPortfolioId();
     var ticker = $('#tickerInput').val();
     var quantity = $('#quantity').val();
     var amount = $('#totalAmount').text();
@@ -91,24 +91,11 @@ function addPortfolio() {
     var portStr = JSON.stringify(jsonPortfolio);
     console.log(portStr);
     $.ajax({
-        url: '/api/portfolio/' + pId,
+        url: '/api/portfolio',
         type: 'POST',
         datatype: 'application/json',
         data: jsonPortfolio
     });
-}
-
-function getPortfolioId() {
-    var id;
-    $.ajax({
-        url: '/api/portfolio/pid/latestPid',
-        type: 'GET',
-        datatype: 'application/json'
-    })
-        .done(function (data) {
-            id = JSON.stringify(data);
-        })
-    return id;
 }
 
 function deletePortfolioById() {
