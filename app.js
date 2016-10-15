@@ -5,8 +5,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var routes = require('./app_server/routes/routes');
-var routesApi = require('./app_api/routes/api_routes');
+var session = require('express-session')
+var passport = require('passport')
+var flash = require('connect-flash');
+// var pg = require('pg')
 
 // define the app using express
 var app = express();
@@ -22,6 +24,42 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+// Setting up passport
+app.use(session({ secret: 'su3g41p4204', resave: false, saveUninitialized: false }));
+require('./app_server/configs/setupPassport')(app, passport); // No need to save, only used in setup
+app.use(flash());
+
+// var config = {
+//     user: 'postgres',
+//     database: 'smartfolio',
+//     password: 'Welcome1',
+//     host: 'localhost',
+//     port: 5432,
+//     max: 10,
+//     idleTimeoutMillis: 30000,
+// };
+
+// const client = new pg.Client(config);
+// client.connect(function(err) {
+//   if (err) {
+//     return console.error('Could not connect to postgres', err);
+//   }
+
+//   client.query('SELECT NOW() AS "Time"', function(err, result) {
+//     if (err) {
+//       return console.error('Error running query', err);
+//     }
+//     console.log(result.rows[0].Time);
+//     client.end();
+//   });
+
+// });
+
+// Set up router after Passport is set up
+var routes = require('./app_server/routes/routes')(passport);
+var routesApi = require('./app_api/routes/api_routes');
 app.use('/', routes);
 app.use('/api', routesApi);
 
@@ -65,6 +103,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

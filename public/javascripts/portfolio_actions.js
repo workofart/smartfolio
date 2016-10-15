@@ -231,11 +231,34 @@ nv.addGraph(
             .showLabels(!0)
             .labelThreshold(.05)
             .labelType("percent")
-            .donut(!0)
+            .donut(true)
             .donutRatio(.35)
             .width(600)
-            .height(400);
+            .height(400)
+            .padAngle(.03)
+            .cornerRadius(5);
+
+        a.title("Portfolio");
+        a.pie.donutLabelsOutside(true).donut(true);
         
+        // LISTEN TO WINDOW RESIZE
+        // nv.utils.windowResize(a.update);
+        // LISTEN TO CLICK EVENTS ON SLICES OF THE PIE/DONUT
+        // a.pie.dispatch.on('elementClick', function() {
+        //     code...
+        // });
+        // a.pie.dispatch.on('chartClick', function() {
+        //     code...
+        // });
+        // LISTEN TO DOUBLECLICK EVENTS ON SLICES OF THE PIE/DONUT
+        // a.pie.dispatch.on('elementDblClick', function() {
+        //     code...
+        // });
+        // LISTEN TO THE renderEnd EVENT OF THE PIE/DONUT
+        // a.pie.dispatch.on('renderEnd', function() {
+        //     code...
+        // });
+
         //nv.utils.windowResize(function() { a.update() });
         return d3.select("#nv-donut-chart")
             .append("svg")

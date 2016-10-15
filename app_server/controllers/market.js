@@ -6,7 +6,7 @@ var http = require('http');
 
 var renderAnalysis = function(req, res) {
 	res.render('market', {
-		title: 'Smartfolio - Analysis'
+		title: 'Smartfolio - Market'
 	});
 };
 

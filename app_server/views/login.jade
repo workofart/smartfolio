@@ -1,0 +1,30 @@
+doctype html
+html
+    head
+        title Smartfolio - Login
+        link(rel='stylesheet' href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
+        link(rel='stylesheet' href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
+        style.
+            body { padding-top:80px }
+    body
+        div.container
+            div(class='col-sm-6 col-sm-offset-3')
+                h1
+                    span(class='fa fa-sign-in')  Login
+
+                if message && message.length
+                    div(class='alert alert-danger') #{message}
+                    
+                form(action='/login' method='post')
+                    div(class='form-group')
+                        label Username
+                        input(type='text' class='form-control' name='username')
+                    div(class='form-group')
+                        label Password
+                        input(type='password' class='form-control' name='password')
+                    button(type='submit' class='btn btn-warning btn-lg') Login
+                hr
+                p Don't have an account? 
+                    a(href='/signup') Signup
+                p Or go back to
+                    a(href='/')  Homepage

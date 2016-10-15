@@ -44,20 +44,17 @@ const query1 = client.query('CREATE TABLE stock_live(ticker VARCHAR(8) NOT NULL,
                             'price MONEY NOT NULL,' +
                             'PRIMARY KEY (ticker, datetime));');
 
-
 const query2 = client.query('CREATE TABLE dw_Historical(ticker VARCHAR(8) NOT NULL,' +
                             'name VARCHAR(256) NOT NULL,' +
                             'datetime TIMESTAMP NOT NULL,' +
                             'price MONEY NOT NULL,' +
                             'PRIMARY KEY (ticker, datetime));');
 
-
 client.query('CREATE TABLE users(userid SERIAL,' +
-                            'username VARCHAR(32) NOT NULL,' +
+                            'username VARCHAR(32) UNIQUE NOT NULL,' +
                             'password VARCHAR(32) NOT NULL,' +
                             'isActive boolean NOT NULL DEFAULT TRUE,' +
                             'PRIMARY KEY (userid));');
-
 
 client.query('CREATE TABLE portfolios(portfolioid SERIAL,' +
                             'userid INTEGER REFERENCES users(userid),' +
@@ -65,7 +62,6 @@ client.query('CREATE TABLE portfolios(portfolioid SERIAL,' +
                             'balance MONEY NOT NULL DEFAULT 0,' +
                             'isActive boolean NOT NULL DEFAULT TRUE ,' +
                             'PRIMARY KEY (portfolioid));');
-
 
 client.query('CREATE TABLE transactions(transactionid SERIAL,' +
                             'portfolioid INTEGER REFERENCES portfolios(portfolioid),' +
