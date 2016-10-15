@@ -44,8 +44,7 @@ module.exports.createPortfolio = function (req, res) {
 // GET: localhost:3000/api/portfolio
 // TODO: Currently only returns the portfolios that are active
 module.exports.getAllPortfolios = function (req, res) {
-    model.Portfolios.findAll({ where: { isActive : true}}).then(function (portfolios) {
-        console.log(portfolios);
+    model.Portfolios.findAll({ where: { isactive : 'true' }}).then(function (portfolios) {
         sendJsonResponse(res, 200, portfolios);
     })
 };
