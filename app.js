@@ -57,7 +57,7 @@ app.use(flash());
 
 // });
 
-// Set up router after Passport is set up
+// Set up router after Passport is set up, since we are passing passport into router
 var routes = require('./app_server/routes/routes')(passport);
 var routesApi = require('./app_api/routes/api_routes');
 app.use('/', routes);
