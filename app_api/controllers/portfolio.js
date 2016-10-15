@@ -21,8 +21,6 @@ var sendJsonResponse = function (res, status, content){
     res.json(content);
 }
 
-var storedPortfolio = [];
-
 // GET: localhost:3000/api/portfolio/123
 module.exports.getPortfolioById = function (req, res){
     var query ="\
@@ -93,9 +91,11 @@ module.exports.getAllPortfolios = function (req, res) {
     client.connect();
     client.query(query, function (err, result) {
         if (err) throw err;
-        result = result['rows'];
-        sendJsonResponse(res, 200, result);
-        client.end();
+        if (result['rows'] != '[]') {
+            result = result['rows'];
+            sendJsonResponse(res, 200, result);
+            client.end();
+        }
     });
 
 };
@@ -131,21 +131,4 @@ module.exports.deletePortfolioById = function (req, res) {
         client.end();
     });
 
-}
-
-
-var fs = require('fs');
-
-
-
-function findPortfolioById(id, portfolios) {
-    for (var i = 0; i < portfolios.length; i++) {
-        if (portfolios[i].pId == id) {
-            return portfolios[i];
-        }
-    }
-}
-
-function print(content) {
-    console.log(content);
 }

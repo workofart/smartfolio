@@ -75,7 +75,6 @@ function getTotalAmount() {
  * Creates a new portfolio by reading the form values, making the POST request with a given stock info
  */
 function addPortfolio() {
-    // var pId = getPortfolioId();
     var ticker = $('#tickerInput').val();
     var quantity = $('#quantity').val();
     var amount = $('#totalAmount').text();
@@ -97,20 +96,6 @@ function addPortfolio() {
         datatype: 'application/json',
         data: jsonPortfolio
     });
-}
-
-function getPortfolioId() {
-    // var id;
-    // $.ajax({
-    //     url: '/api/portfolio/pid/latestPid',
-    //     type: 'GET',
-    //     datatype: 'application/json'
-    // })
-    //     .done(function (data) {
-    //         id = JSON.stringify(data);
-    //     })
-    // return id;
-    return 1;
 }
 
 function deletePortfolioById() {
