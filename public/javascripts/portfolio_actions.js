@@ -1,15 +1,15 @@
 
 function getAllPortfolios() {
     $.ajax({
-        url: '/api/portfolio/',
+        url: '/api/portfolio',
         type: 'GET',
         datatype: 'application/json'
     })
         .done(function(data){
-            // console.log(JSON.stringify(data));
-            var currentPrice = [10, 12];
-            for (var i = 0; i < data.length; i++) {
-                var portfolio = data[i];
+            console.log(JSON.stringify(data));
+            // var currentPrice = [10, 12];
+            // for (var i = 0; i < data.length; i++) {
+                // var portfolio = data[i];
 
                 // console.log('Current Price: $' + currentPrice);
                 // console.log('Inception % change: ' + getPercentageChange(getPurchasePrice(portfolio), currentPrice));
@@ -31,8 +31,8 @@ function getAllPortfolios() {
                 //     '</div></div></div></div></div><div class="jumbotron"> <div class="container"> <div id="portfolio-performance"></div></div></div></div></div></div></div>';
                 // $('#panelList').append(htmlCode);
 
-                console.log('portfolio: ' + JSON.stringify(portfolio));
-            }
+                // console.log('portfolio: ' + JSON.stringify(portfolio));
+            // }
         });
 }
 

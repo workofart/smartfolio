@@ -88,14 +88,16 @@ module.exports.getAllPortfolios = function (req, res) {
     WHERE   t1.isActive = true;\
     ";
 
+    const client = new pg.Client(config);
     client.connect();
     client.query(query, function (err, result) {
         if (err) throw err;
         if (result['rows'] != '[]') {
             result = result['rows'];
             sendJsonResponse(res, 200, result);
-            client.end();
+
         }
+        client.end();
     });
 
 };
