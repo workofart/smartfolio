@@ -16,4 +16,5 @@ router.post('/transaction/:id/buyStock', ctrlTransaction.buyStock);
 router.post('/transaction/:id/sellStock', ctrlTransaction.sellStock);
 router.get('/transaction/:id', ctrlTransaction.getTransactions);
 router.get('/transaction', ctrlTransaction.getAllTransactions);
+
 module.exports = router;

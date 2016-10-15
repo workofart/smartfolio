@@ -7,19 +7,20 @@ module.exports = function(passport) {
     var ctrlPortfolio = require('../controllers/portfolio');
     var signupController = require('../controllers/signup');
 
-    var isAuthenticated = function (req, res, next) {
-        if (req.isAuthenticated())
-            return next()
-        req.flash('accessMessage', 'You have to be logged in to access the page.')
-        res.redirect('/')
-    }
+    // var isAuthenticated = function (req, res, next) {
+    //     if (req.isAuthenticated())
+    //         return next()
+    //     req.flash('accessMessage', 'You have to be logged in to access the page.')
+    //     res.redirect('/')
+    // }
 
     /* GET home page. */
     router.get('/', ctrlIndex.index);
     /* GET Analysis page */
     router.get('/market', ctrlMarket.market);
     /* GET Portfolio page */
-    router.get('/portfolio', isAuthenticated, ctrlPortfolio.portfolio);
+    // router.get('/portfolio', isAuthenticated, ctrlPortfolio.portfolio);
+    router.get('/portfolio', ctrlPortfolio.portfolio);
 
     /* GET request for getting stock data from Google */
     router.get('/market/GetGoogleFinanceData/', ctrlMarket.GetGoogleFinanceData)
