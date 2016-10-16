@@ -7,10 +7,18 @@ var apiOptions = {
 
 /* GET portfolio page. */
 var renderPortfolio = function(req, res) {
-  res.render('portfolio', {
-  	title: 'Smartfolio - Portfolio',
-      ids: ids
-  });
+    var user = req.user.get({
+        plain: true
+    });
+    var userid = user.userid;
+    var username = user.username;
+
+      res.render('portfolio', {
+        title: 'Smartfolio - Portfolio',
+          ids: ids,
+          count: totalPortfolios,
+          username: username
+      });
 };
 
 module.exports.portfolio = function(req, res) {
@@ -19,15 +27,25 @@ module.exports.portfolio = function(req, res) {
 
 
 var ids = [];
+var totalPortfolios = 0;
 function getAllPortfolios(req, res, callback) {
-    model.Portfolios.findAll({ where: { isactive : 'true' }}).then(function (portfolios) {
+    var user = req.user.get({
+        plain: true
+    });
+    var userid = user.userid;
+    var username = user.username;
+    model.Portfolios.findAll({ where: { isactive : 'true', userid : userid }}).then(function (portfolios) {
         ids = [];
         for (var i = 0; i < portfolios.length; i++){
             ids.push(portfolios[i].get({
                 plain: true
             }).portfolioid);
         }
-        callback(req, res);
+        model.Portfolios.count( { where: { isactive : 'true', userid : userid }}).then (function (c) {
+            console.log('Count: ' + c);
+            totalPortfolios = c;
+            callback(req, res);
+        });
     });
 
 }
@@ -40,7 +58,7 @@ module.exports.portfolioDetail = function(req, res){
 
 var renderDetailPage = function (req, res, data) {
     res.render('portfolio_detail', {
-        title: 'Smartfolio - Portfolio' + req.params.pid,
+        title: 'Smartfolio - Portfolio ' + req.params.pid,
         // pId: req.params.pid,
         header: 'Portfolio ' + req.params.pid,
         ids: ids,
