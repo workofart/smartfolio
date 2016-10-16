@@ -2,6 +2,9 @@ extends layout
 block content
     h1= title
     div.container
+        if Message && Message.length
+            div(class='alert alert-danger') #{Message}
+    div.container
         div.row
             div(class='col-md-4 cols-sm-8')
                 a(href='/market')
@@ -20,6 +23,3 @@ block content
                     img(src='images/idea.png' class='img-rounded')
                     p
                         a(type='button' class='btn btn-primary') Insights
-    div.container
-        if Message && Message.length
-            div(class='alert alert-danger') #{Message}
