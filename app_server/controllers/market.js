@@ -4,7 +4,7 @@ var moment = require("moment");
 var async = require("async");
 var http = require('http');
 
-var renderAnalysis = function(req, res) {
+var renderMarket = function(req, res) {
 
 	var custom = {
 		title: 'Smartfolio', 
@@ -21,7 +21,7 @@ var renderAnalysis = function(req, res) {
 };
 
 module.exports.market = function(req, res) {
-	renderAnalysis(req, res);
+	renderMarket(req, res);
 };
 
 var StoredQuotes = {};
