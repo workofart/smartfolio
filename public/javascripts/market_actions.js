@@ -142,6 +142,7 @@ function PopulateNews(listID, data) {
 
 	// rss2json
 	var length = data["items"].length;
+	length = length >= 10 ? 10 : length; 
 	for (var i = 0; i < length; i++) {
 		var entry = data["items"][i];
 		var link = '<a href="' + entry.link + '">Read more...</a>'
