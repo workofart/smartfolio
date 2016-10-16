@@ -14,7 +14,9 @@ nav(class='navbar navbar-default navbar-fixed-top')
 				li
 					a(href='#') Insights
 			ul(class='nav navbar-nav navbar-right')
-				li
-					a(href='/login') Login
-				li
-					a(href='/logout') Logout
+				if isLoggedIn === false
+					li
+						a(href='/login') Login
+				else
+					li
+						a(href='/logout') Logout

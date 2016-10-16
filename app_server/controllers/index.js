@@ -1,4 +1,16 @@
 // GET home page
 module.exports.index = function(req, res) {
-	res.render('index', {title: 'Smartfolio', Message: req.flash('accessMessage')});
+
+	var custom = {
+		title: 'Smartfolio', 
+		Message: req.flash('accessMessage')
+	};
+
+	if (req.user) {
+		custom.isLoggedIn = true;
+	} else {
+		custom.isLoggedIn = false;
+	}
+	
+	res.render('index', custom);
 };

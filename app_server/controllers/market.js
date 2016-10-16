@@ -5,9 +5,19 @@ var async = require("async");
 var http = require('http');
 
 var renderAnalysis = function(req, res) {
-	res.render('market', {
-		title: 'Smartfolio - Market'
-	});
+
+	var custom = {
+		title: 'Smartfolio', 
+		Message: req.flash('accessMessage')
+	};
+
+	if (req.user) {
+		custom.isLoggedIn = true;
+	} else {
+		custom.isLoggedIn = false;
+	}
+
+	res.render('market', custom);
 };
 
 module.exports.market = function(req, res) {
