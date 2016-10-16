@@ -1,0 +1,18 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/datatables.min.css')
+        link(rel='stylesheet', href='/stylesheets/select2.min.css')
+        link(rel="stylesheet", href="/stylesheets/font/NewsCycle-Regular.ttf")
+        block page-specific-js-css
+    body
+        script(type='text/javascript' src='/javascripts/jquery.min.js')
+        script(type='text/javascript' src='/javascripts/bootstrap.min.js')
+        script(type='text/javascript' src='/javascripts/select2.full.js')
+        script(type='text/javascript' src='/javascripts/moment-with-locales.js')
+        include header_auth
+        block content
+
