@@ -34,6 +34,15 @@ var companyList = $.ajax({
 			placeholder: "Ticker",
 			data: ticker
 		});
+
+		// Search a random ticker when page loads
+		var random = Math.floor((Math.random() * data.length) + 1);
+		var $box1 = $("#searchBox").select2();
+		var $box2 = $("#searchBox2").select2();
+		$box1.val(random).trigger("change");
+		$box2.val(random).trigger("change");
+		searchQuote();
+
 		return data;
 	})
 
@@ -59,6 +68,7 @@ $("#searchBox2").on("select2:select", function() {
 	var $box = $("#searchBox").select2();
 	$box.val(index).trigger("change");
 });
+
 
 // Begin combined-chart
 // (function(window, d3, techanSite) {
