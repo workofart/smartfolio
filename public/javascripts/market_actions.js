@@ -127,9 +127,23 @@ var searchQuote = function() {
 
 function PopulateNews(listID, data) {
 	$(listID + ' li').remove();
+	
+	// Google Feed API
+	/*
 	var length = data["responseData"]["feed"]["entries"].length;
 	for (var i = 0; i < length; i++) {
 		var entry = data["responseData"]["feed"]["entries"][i];
+		var link = '<a href="' + entry.link + '">Read more...</a>'
+		var upButton = '<a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-circle-arrow-up text-success"></span></a>'
+		var downButton = '<a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-circle-arrow-down text-danger"></span></a>'
+		$(listID).append('<li class="news-item">' + entry.title + ' ' + link + upButton + downButton + '</li>')
+	}
+	*/
+
+	// rss2json
+	var length = data["items"].length;
+	for (var i = 0; i < length; i++) {
+		var entry = data["items"][i];
 		var link = '<a href="' + entry.link + '">Read more...</a>'
 		var upButton = '<a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-circle-arrow-up text-success"></span></a>'
 		var downButton = '<a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-circle-arrow-down text-danger"></span></a>'

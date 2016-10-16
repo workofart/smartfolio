@@ -117,6 +117,8 @@ module.exports.GetYahooFinanceNews = function(req, res) {
 			yahooFeedUrl = "https://finance.yahoo.com/rss/industry?s=" + ticker;
 		}
 
+		// Commented out because Google feed api will be deprecated on Dec 16 2016
+		/*
 		request(
 			{
 				uri: 'https://ajax.googleapis.com/ajax/services/feed/load?v=2.0&num=' + num + '&q=' + yahooFeedUrl,
@@ -125,8 +127,25 @@ module.exports.GetYahooFinanceNews = function(req, res) {
 			function(error, respone, data) {
 				if (!ticker) {
 					YahooNews["top"] = data;
+					console.log(data);
 				} else {
-					YahooNews[ticker] = data;	
+					YahooNews[ticker] = data;
+				}
+				res.send(data);
+			}
+		);
+		*/
+
+		request(
+			{
+				uri: 'http://rss2json.com/api.json?rss_url=' + yahooFeedUrl,
+				method: "GET"
+			},
+			function(error, respone, data) {
+				if (!ticker) {
+					YahooNews["top"] = data;
+				} else {
+					YahooNews[ticker] = data;
 				}
 				res.send(data);
 			}
