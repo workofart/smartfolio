@@ -18,8 +18,11 @@ module.exports = function(passport) {
     router.get('/', ctrlIndex.index);
     /* GET Analysis page */
     router.get('/market', ctrlMarket.market);
-    /* GET Portfolio page */
+    /* GET Portfolio Overview page */
     router.get('/portfolio', isAuthenticated, ctrlPortfolio.portfolio);
+
+    /* GET Individual Portfolio page */
+    router.get('/portfolio/:pid', isAuthenticated, ctrlPortfolio.portfolioDetail);
 
     /* GET request for getting stock data from Google */
     router.get('/market/GetGoogleFinanceData/', ctrlMarket.GetGoogleFinanceData)

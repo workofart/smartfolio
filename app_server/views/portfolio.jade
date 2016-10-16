@@ -48,19 +48,6 @@ block content
 									div.modal-footer
 										button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
 										button(type='button' onclick='addPortfolio();' class='btn btn-primary' data-dismiss='modal') Submit
-			br
-	div.row
-		div.col-md-6
-			div(class='panel panel-primary')
-				div(class='panel-heading') Portfolio Composition
-				div(class='panel-body')
-					canvas(id='myChart')
-		div.col-md-6
-			div(class='panel panel-primary')
-				div(class='panel-heading') Portfolio Composition
-				div(class='panel-body')
-					div(class='svg-container')
-					div(id='nv-donut-chart')
 	script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js')
 	script(type='text/javascript' src='/javascripts/nv.d3.min.js')
 	script(type='text/javascript' src='/javascripts/Chart.min.js')
