@@ -271,4 +271,12 @@ nv.addGraph(
             .call(a)
             .style({ 'width': 600, 'height': 400 }),a
     }
-)
+);
+
+function fillBuyStockForm () {
+
+}
+
+function fillSellStockForm () {
+
+}

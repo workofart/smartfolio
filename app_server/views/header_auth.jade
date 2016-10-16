@@ -2,7 +2,7 @@ nav(class='navbar navbar-default navbar-fixed-top')
     div.container-fluid
         div.navbar-header
             a(href='/')
-                img(src='images/chart.png' height='50px' width='50px')
+                img(src='/images/chart.png' height='50px' width='50px')
         div(id='navbar' class='navbar-collapse collapse')
             ul(class='nav navbar-nav')
                 li
@@ -13,6 +13,9 @@ nav(class='navbar navbar-default navbar-fixed-top')
                     a(class='dropdown-toggle' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') Portfolio
                         span.caret
                     ul(class='dropdown-menu')
+                        li
+                            a(href='/portfolio') Portfolio Overview
+                        li(role='separator' class='divider')
                         each val in ids
                             li
                                 a(href='/portfolio/' + val) Portfolio #{val}

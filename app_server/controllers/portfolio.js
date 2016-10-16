@@ -34,40 +34,46 @@ function getAllPortfolios(req, res, callback) {
 
 /* GET 'Portfolio details' page */
 module.exports.portfolioDetail = function(req, res){
-    renderDetailPage(req, res);
+    getPortfolioDetails(req, res, renderDetailPage);
 };
 
 
-var renderDetailPage = function (req, res) {
+var renderDetailPage = function (req, res, data) {
     res.render('portfolio_detail', {
         title: 'Smartfolio - Portfolio' + req.params.pid,
-        pId: req.params.pid,
+        // pId: req.params.pid,
         header: 'Portfolio ' + req.params.pid,
-        ids: ids
+        ids: ids,
+        pId: data.portfolioid,
+        portfolioname: data.portfolioname,
+        balance: data.balance,
+        userid: data.userid
     })
 }
 
-// var getPortfolioDetail = function (req, res, callback) {
-//     var requestOptions, path;
-//     path = "/api/portfolio/" + req.params.pid;
-//     requestOptions = {
-//         url: apiOptions.server + path,
-//         method: "GET",
-//         json : {}
-//     };
-//     request (
-//         requestOptions,
-//         function(err, response, body) {
-//             var data = body;
-//             if (response.statusCode === 200) {
-//                 data.coords = {
-//                     lng: body.coords[0],
-//                     lat: body.coords[1]
-//                 };
-//                 callback(req, res, data);
-//             } else {
-//                 _showError(req, res, response.statusCode);
-//             }
-//         }
-//     );
-// };
+var getPortfolioDetails = function (req, res, callback) {
+    // Make get request to api/portfolio/{id}
+    var requestOptions, path;
+    path = "/api/portfolio/" + req.params.pid;
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json : {}
+    };
+
+    request (
+        requestOptions,
+        function(err, response, body) {
+            var data = body;
+            console.log('body: ' + JSON.stringify(data));
+            if (response.statusCode === 200) {
+                // pass the returned data to res.render
+                callback(req, res, data);
+            } else {
+                throw err;
+            }
+        }
+    );
+
+
+}
