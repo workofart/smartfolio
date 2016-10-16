@@ -1,98 +1,56 @@
-const pg = require('pg');
-const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/smartfolio';
-
-var config = {
-    user: 'postgres',
-    database: 'smartfolio',
-    password: 'Welcome1',
-    host: 'localhost',
-    port: 5432,
-    max: 10,
-    idleTimeoutMillis: 30000,
-};
-
-const client = new pg.Client(config);
+var sqlz = require('sequelize');
+var connection = require('../../app_server/configs/sequelize');
+var model = require('../../app_server/models/models');
+var moment = require('moment');
 
 var sendJsonResponse = function (res, status, content){
     res.status(status);
     res.json(content);
 }
 
+// For avoiding the deprecation warning for moment
+moment.createFromInputFallback = function(config) {
+    // unreliable string magic, or
+    config._d = new Date(config._i);
+};
 
 module.exports.buyStock = function (req, res) {
-    var pId = req.params.id;
-    var buyStock = "\
-    INSERT INTO transactions (portfolioid, datetime, ticker, quantity, price)\
-    VALUES (" +
-            pId + ", " +
-            "CURRENT_TIMESTAMP,'" +
-            req.body.stocks['ticker'] + "', " +
-            req.body.stocks['quantity'] + ", " +
-            req.body.stocks['price'] + ")\
-     ;";
+    model.Transactions.create( {
+        portfolioid: req.params.id,
+        datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
+        ticker: req.body.stocks['ticker'],
+        quantity: req.body.stocks['quantity'],
+        price: req.body.stocks['price']
 
-    client.connect();
-    client.query(buyStock, function (err, result) {
-        if (err) throw err;
-        sendJsonResponse(res, 200, result);
-        client.end();
+    }).then(function (transaction) {
+        sendJsonResponse(res, 200, 'Success');
     });
 
 
 }
 
 module.exports.sellStock = function (req, res) {
-    var pId = req.params.id;
-    var sellStock = "\
-    INSERT INTO transactions (portfolioid, datetime, ticker, quantity, price)\
-    VALUES (" +
-        pId + ", " +
-        "CURRENT_TIMESTAMP,'" +
-        req.body.stocks['ticker'] + "', -" +
-        req.body.stocks['quantity'] + ", " +
-        req.body.stocks['price'] + ")\
-     ;";
+    model.Transactions.create( {
+        portfolioid: req.params.id,
+        datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
+        ticker: req.body.stocks['ticker'],
+        quantity: -req.body.stocks['quantity'],
+        price: req.body.stocks['price']
 
-    client.connect();
-    client.query(sellStock, function (err, result) {
-        if (err) throw err;
-        sendJsonResponse(res, 200, result);
-        client.end();
+    }).then(function (transaction) {
+        sendJsonResponse(res, 200, 'Success');
     });
 }
 
 module.exports.getTransactions = function (req, res) {
-    var pId = req.params.id;
-    var query = "\
-    SELECT * FROM TRANSACTIONS\
-    WHERE TRANSACTIONS.PORTFOLIOID = " +
-        pId + ";\
-    ";
-    client.connect();
-    client.query(query, function (err, result) {
-        if (err) throw err;
-        if (result['rows'] != '[]') {
-            result = result['rows'];
-            sendJsonResponse(res, 200, result);
-        }
-        client.end();
+    model.Transactions.find({ where: { portfolioid: req.params.id }}).then(function (transactions) {
+        sendJsonResponse(res, 200, transactions);
     });
-
 }
 
 module.exports.getAllTransactions = function (req, res) {
-    var pId = req.params.id;
-    var query = "\
-    SELECT * FROM TRANSACTIONS;\
-    ";
-    client.connect();
-    client.query(query, function (err, result) {
-        if (err) throw err;
-        if (result['rows'] != '[]') {
-            result = result['rows'];
-            sendJsonResponse(res, 200, result);
-        }
-        client.end();
+    model.Transactions.findAll().then(function (transactions) {
+        sendJsonResponse(res, 200, transactions);
     });
 }
 
