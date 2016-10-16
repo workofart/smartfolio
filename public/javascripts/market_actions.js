@@ -664,7 +664,6 @@ function addPortfolio() {
 	console.log(amount);
 	var jsonPortfolio = {
 		"pName" : "BestPortfolio",
-		"userId" : "100",
 		"stocks" : {
 			"ticker" : ticker,
 			"quantity" : quantity,

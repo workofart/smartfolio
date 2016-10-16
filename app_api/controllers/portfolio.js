@@ -19,34 +19,50 @@ module.exports.getPortfolioById = function (req, res){
 
 // POST: localhost:3000/api/portfolio
 module.exports.createPortfolio = function (req, res) {
+    var user = getUserObject(req);
     // TODO: need to get userid from somewhere
-    model.Portfolios.create({ userid : '1', portfolioname : 'BESTportfolio'}).then(
-        function (portfolio) {
-            // sendJsonResponse(res, 200, portfolio);
-            console.log(portfolio);
-            model.Transactions.create( {
-                portfolioid: portfolio.get({
-                    plain: true
-                }).portfolioid,
-                datetime: moment.tz(moment().format('YYYY/MM/DD HH:mm:ss'), "America/New_York"),
-                ticker: req.body['stocks[ticker]'],
-                quantity: req.body['stocks[quantity]'],
-                price: req.body['stocks[totalAmount]']
+    if (user != {}){
+        model.Portfolios.create({ userid : user.userid , portfolioname : 'BESTportfolio'}).then(
+            function (portfolio) {
+                console.log(portfolio);
+                model.Transactions.create( {
+                    portfolioid: portfolio.get({
+                        plain: true
+                    }).portfolioid,
+                    datetime: moment.tz(moment().format('YYYY/MM/DD HH:mm:ss'), "America/New_York"),
+                    ticker: req.body['stocks[ticker]'],
+                    quantity: req.body['stocks[quantity]'],
+                    price: req.body['stocks[totalAmount]']
 
-            }).then(function (transaction) {
+                }).then(function (transaction) {
                     sendJsonResponse(res, 200, transaction);
-            });
-        }
-    );
+                    return;
+                });
+            }
+        );
+    }
+    else {
+        sendJsonResponse(res, 404, 'Not authorized to perform that action');
+    }
+
 
 };
 
 // GET: localhost:3000/api/portfolio
 // TODO: Currently only returns the portfolios that are active
 module.exports.getAllPortfolios = function (req, res) {
-    model.Portfolios.findAll({ where: { isactive : 'true' }}).then(function (portfolios) {
-        sendJsonResponse(res, 200, portfolios);
-    })
+    var user = getUserObject(req);
+    if (user != {}) {
+        model.Portfolios.findAll({ where: { isactive : 'true' , userid: user.userid }}).then(function (portfolios) {
+            sendJsonResponse(res, 200, portfolios);
+            return;
+        });
+    }
+    else {
+        sendJsonResponse(res, 404, 'Not authorized to perform that action');
+    }
+
+
 };
 
 // PUT: localhost:3000/api/portfolio/1
@@ -64,14 +80,42 @@ module.exports.changePortfolioById = function (req, res) {
 
 // DELETE: localhost:3000/api/portfolio/1
 module.exports.deletePortfolioById = function (req, res) {
-    model.Portfolios.update(
-        { isactive : "false" },
-        { where: {
-            portfolioid : req.params.id
-        }
-    }).then(
-        sendJsonResponse(res, 200, 'success')
-    );
+    var user = getUserObject(req);
+    if (user != {}) {
+        model.Portfolios.update(
+            { isactive : "false" },
+            { where: {
+                portfolioid : req.params.id,
+                userid : user.userid
+            }
+            }).then(function (portfolio) {
+                sendJsonResponse(res, 200, portfolio);
+                return;
+            });
+    }
+    else {
+        sendJsonResponse(res, 404, 'Not authorized to perform that action');
+    }
 }
 
+/**
+ * Utility function for getting the current user
+ * @param req
+ * @returns {*}
+ */
+function getUserObject (req) {
+    if (req.user) {
+        var user = req.user.get({
+            plain: true
+        });
+        var userid = user.userid;
+        var username = user.username;
 
+        user = {};
+        user.userid = userid;
+        user.username = username;
+        return user;
+    }
+
+    return {};
+}
