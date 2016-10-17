@@ -13,12 +13,21 @@ var renderPortfolio = function(req, res) {
     var userid = user.userid;
     var username = user.username;
 
-      res.render('portfolio', {
+    var custom = {
         title: 'Smartfolio - Portfolio',
-          ids: ids,
-          count: totalPortfolios,
-          username: username
-      });
+        ids: ids,
+        count: totalPortfolios,
+        username: username
+    };
+
+    if (req.user) {
+        custom.isLoggedIn = true;
+    } else {
+        custom.isLoggedIn = false;
+    }
+
+    res.render('portfolio', custom);
+
 };
 
 module.exports.portfolio = function(req, res) {
@@ -34,6 +43,7 @@ function getAllPortfolios(req, res, callback) {
     });
     var userid = user.userid;
     var username = user.username;
+
     model.Portfolios.findAll({ where: { isactive : 'true', userid : userid }}).then(function (portfolios) {
         ids = [];
         for (var i = 0; i < portfolios.length; i++){
@@ -57,16 +67,24 @@ module.exports.portfolioDetail = function(req, res){
 
 
 var renderDetailPage = function (req, res, data) {
-    res.render('portfolio_detail', {
+    var custom = {
         title: 'Smartfolio - Portfolio ' + req.params.pid,
-        // pId: req.params.pid,
         header: 'Portfolio ' + req.params.pid,
         ids: ids,
         pId: data.portfolioid,
         portfolioname: data.portfolioname,
         balance: data.balance,
-        userid: data.userid
-    })
+        userid: data.userid,
+        Message: req.flash('accessMessage')
+    };
+
+    if (req.user) {
+        custom.isLoggedIn = true;
+    } else {
+        custom.isLoggedIn = false;
+    }
+
+    res.render('portfolio_detail', custom);
 }
 
 var getPortfolioDetails = function (req, res, callback) {
@@ -92,6 +110,4 @@ var getPortfolioDetails = function (req, res, callback) {
             }
         }
     );
-
-
 }

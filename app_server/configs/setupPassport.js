@@ -62,8 +62,8 @@ module.exports = function(app, passport) {
 
     /* Need serialize and deserialize to keep session alive */
     passport.serializeUser(function(user, done) {
-        console.log(user);
-        console.log(user.dataValues.userid);
+        // console.log(user);
+        console.log('Serializing user: ' + user.dataValues.userid);
         done(null, user.dataValues.userid);
     });
 
