@@ -135,3 +135,37 @@ function getUserObject (req) {
     }
 
 }
+
+
+// Not sure if this should be here
+// getPortfolioCompositionById
+// Example: [{"ticker":"AAPL","portion":"$1,000.00"},
+//           {"ticker":"FB","portion":"$3,000.00"},
+//           {"ticker":"GOOG","portion":"$2,000.00"}]
+module.exports.getPortfolioCompositionById = function (req, res) {
+    var user = getUserObject(req);
+    var uid = parseInt(req.params.uid);
+    var pid = parseInt(req.params.pid);
+
+    console.log(user);
+
+    if (Object.keys(user).length === 0 || user.userid !== uid) {
+        sendJsonResponse(res, 404, 'Not authorized to perform that action');
+    } else {
+        query = 'SELECT * FROM public.GetPortfolioCompositionById(:uid, :pid);'
+        connection.query(query, 
+            {
+                replacements: {
+                    uid: uid,
+                    pid: pid
+                },
+                type: connection.QueryTypes.SELECT
+            })
+            .then(function(result) {
+                console.log(result);
+                sendJsonResponse(res, 200, result);
+            })
+    }
+
+    
+}

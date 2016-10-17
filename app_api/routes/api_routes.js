@@ -12,6 +12,7 @@ router.put('/portfolio/:id', ctrlPortfolio.changePortfolioById);
 router.delete('/portfolio/:id', ctrlPortfolio.deletePortfolioById);
 router.get('/portfolio', ctrlPortfolio.getAllPortfolios);
 router.get('/portfolioCount', ctrlPortfolio.portfolioCount);
+router.get('/portfolio/composition/:uid/:pid', ctrlPortfolio.getPortfolioCompositionById);
 
 router.post('/transaction/:id/buyStock', ctrlTransaction.buyStock);
 router.post('/transaction/:id/sellStock', ctrlTransaction.sellStock);

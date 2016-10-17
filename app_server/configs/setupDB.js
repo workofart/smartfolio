@@ -71,7 +71,8 @@ client.query('CREATE TABLE transactions(transactionid SERIAL,' +
                             'price MONEY NOT NULL,' +
                             'PRIMARY KEY (transactionid));');
 
-client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('dummy', 'fakepassword');");
+// Password is 1234
+client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test', '$2a$08$7/AjFJISfFFIQ83vkV9AAeInVmANXU/af0/Nnu4y6xRRHTsOykS8W');");
 client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname) VALUES (1, 'BESTportfolio');");
 client.query("INSERT INTO STOCK_DAILY (TICKER, NAME, DATETIME, OPEN, CLOSE, HIGH, LOW) VALUES " +
     "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00, 12.15, 15.23, 8.99);");
