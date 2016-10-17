@@ -159,8 +159,8 @@ function fillSellStockForm () {
 
 }
 
-function getPortfolioCompositionById(uid, pid) {
-    var urlparts = '/' + uid + '/' + pid;
+function getPortfolioCompositionById(pid) {
+    var urlparts = '/' + pid;
     $.ajax({
             url: '/api/portfolio/composition' + urlparts,
             type: 'GET',
@@ -176,7 +176,9 @@ function getPortfolioCompositionById(uid, pid) {
         });
 }
 // Testing Only
-getPortfolioCompositionById(1, 1);
+var arr = window.location.href.split('/');
+var currentpid = arr[arr.length-1];
+getPortfolioCompositionById(currentpid);
 
 /* Chart JS */
 // var ctx = $("#myChart");

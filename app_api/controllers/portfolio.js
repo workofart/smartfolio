@@ -143,7 +143,8 @@ function getUserObject (req) {
 //           {"ticker":"GOOG","portion":"$2,000.00"}]
 module.exports.getPortfolioCompositionById = function (req, res) {
     var user = getUserObject(req);
-    var uid = parseInt(req.params.uid);
+    // var uid = parseInt(req.params.uid);
+    var uid = parseInt(user.userid);
     var pid = parseInt(req.params.pid);
 
     console.log(user);
