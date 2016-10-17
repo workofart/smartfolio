@@ -151,6 +151,26 @@ function getDollarChange(purchasePrice, currentPrice) {
     return dollarChanges;
 }
 
+function fillBuyStockForm () {
+
+}
+
+function fillSellStockForm () {
+
+}
+
+function getPortfolioCompositionById(uid, pid) {
+    var urlparts = '/' + uid + '/' + pid;
+    $.ajax({
+            url: '/api/portfolio/composition' + urlparts,
+            type: 'GET',
+            datatype: 'application/json'
+        })
+        .done(function(data) {
+            console.log(data);
+        });
+}
+
 
 /* Chart JS */
 var ctx = $("#myChart");
@@ -239,7 +259,7 @@ nv.addGraph(
             .cornerRadius(5);
 
         a.title("Portfolio");
-        a.pie.donutLabelsOutside(true).donut(true);
+        a.pie.labelsOutside(true).donut(true);
         
         // LISTEN TO WINDOW RESIZE
         // nv.utils.windowResize(a.update);
@@ -272,11 +292,3 @@ nv.addGraph(
             .style({ 'width': 600, 'height': 400 }),a
     }
 );
-
-function fillBuyStockForm () {
-
-}
-
-function fillSellStockForm () {
-
-}
