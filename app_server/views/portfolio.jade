@@ -13,13 +13,14 @@ block content
 			div(class='panel panel-primary')
 				div(class='panel-heading') Placeholder - Each portfolio's value out of total
 				div(class='panel-body')
-					canvas(id='myChart')
+					div(class='svg-container')
+						div(id='myChart')
 		div.col-md-6
 			div(class='panel panel-primary')
 				div(class='panel-heading') Placeholder - Industry Composition for all portfolios
 				div(class='panel-body')
 					div(class='svg-container')
-					div(id='nv-donut-chart')
+						div(id='nv-donut-chart')
 	script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js')
 	script(type='text/javascript' src='/javascripts/nv.d3.min.js')
 	script(type='text/javascript' src='/javascripts/Chart.min.js')
