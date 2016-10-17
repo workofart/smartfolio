@@ -168,53 +168,60 @@ function getPortfolioCompositionById(uid, pid) {
         })
         .done(function(data) {
             console.log(data);
+            for (var i = 0; i < data.length; i++) {
+                data[i].portion = Number((data[i].portion).replace(/[^0-9\.]+/g,""));
+            }
+            populateCompositionChart(data, '#myChart');
+            populateCompositionChart(data, '#nv-donut-chart');
         });
 }
-
+// Testing Only
+getPortfolioCompositionById(1, 1);
 
 /* Chart JS */
-var ctx = $("#myChart");
+// var ctx = $("#myChart");
 
-var data = {
-    labels: [
-        "Red",
-        "Blue",
-        "Yellow"
-    ],
-    datasets: [
-        {
-            data: [300, 50, 100],
-            backgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
-            ],
-            hoverBackgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
-            ]
-        }]
-};
+// var data = {
+//     labels: [
+//         "Red",
+//         "Blue",
+//         "Yellow"
+//     ],
+//     datasets: [
+//         {
+//             data: [300, 50, 100],
+//             backgroundColor: [
+//                 "#FF6384",
+//                 "#36A2EB",
+//                 "#FFCE56"
+//             ],
+//             hoverBackgroundColor: [
+//                 "#FF6384",
+//                 "#36A2EB",
+//                 "#FFCE56"
+//             ]
+//         }]
+// };
 
-var myChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: data,
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
+// var myChart = new Chart(ctx, {
+//     type: 'doughnut',
+//     data: data,
+//     options: {
+//         scales: {
+//             yAxes: [{
+//                 ticks: {
+//                     beginAtZero:true
+//                 }
+//             }]
+//         }
+//     }
+// });
 
 
 /* D3 */
 // Disadvantage -- does not easily resize
-var blue="#348fe2",
+var populateCompositionChart = function(data, chartId) {
+    var blue="#348fe2",
     blueLight="#5da5e8",
     blueDark="#1993E4",
     aqua="#49b6d6",
@@ -233,62 +240,184 @@ var blue="#348fe2",
     purpleDark="#5b6392",
     red="#ff5b57";
 
-var e=[
-    {label:"One",value:29,color:red},
-    {label:"Two",value:12,color:orange},
-    {label:"Three",value:32,color:green},
-    {label:"Four",value:196,color:aqua},
-    {label:"Five",value:17,color:blue},
-    {label:"Six",value:98,color:purple},
-    {label:"Seven",value:13,color:grey},
-    {label:"Eight",value:5,color:dark}];
+    nv.addGraph(
+        function(){
+            var a = nv.models.pieChart()
+                .x(function(e){return e.ticker})
+                .y(function(e){return e.portion})
+                .showLabels(!0)
+                .labelThreshold(.05)
+                .labelType("percent")
+                .donut(true)
+                .donutRatio(.35)
+                .width(600)
+                .height(400)
+                .padAngle(.03)
+                .cornerRadius(5);
 
-nv.addGraph(
-    function(){
-        var a = nv.models.pieChart()
-            .x(function(e){return e.label})
-            .y(function(e){return e.value})
-            .showLabels(!0)
-            .labelThreshold(.05)
-            .labelType("percent")
-            .donut(true)
-            .donutRatio(.35)
-            .width(600)
-            .height(400)
-            .padAngle(.03)
-            .cornerRadius(5);
+            a.title("Portfolio");
+            a.pie.labelsOutside(true).donut(true);
+            
+            // LISTEN TO WINDOW RESIZE
+            // nv.utils.windowResize(a.update);
+            // LISTEN TO CLICK EVENTS ON SLICES OF THE PIE/DONUT
+            // a.pie.dispatch.on('elementClick', function() {
+            //     code...
+            // });
+            // a.pie.dispatch.on('chartClick', function() {
+            //     code...
+            // });
+            // LISTEN TO DOUBLECLICK EVENTS ON SLICES OF THE PIE/DONUT
+            // a.pie.dispatch.on('elementDblClick', function() {
+            //     code...
+            // });
+            // LISTEN TO THE renderEnd EVENT OF THE PIE/DONUT
+            // a.pie.dispatch.on('renderEnd', function() {
+            //     code...
+            // });
 
-        a.title("Portfolio");
-        a.pie.labelsOutside(true).donut(true);
+            //nv.utils.windowResize(function() { a.update() });
+            return d3.select(chartId)
+                .append("svg")
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .attr("viewBox", "0 0 600 400")
+                .classed("svg-content-responsive", true)
+                .datum(data)
+                .transition()
+                .duration(350)
+                .call(a)
+                .style({ 'width': 600, 'height': 400 }),a
+        }
+    );
+}
+
+// var blue="#348fe2",
+//     blueLight="#5da5e8",
+//     blueDark="#1993E4",
+//     aqua="#49b6d6",
+//     aquaLight="#6dc5de",
+//     aquaDark="#3a92ab",
+//     green="#00acac",
+//     greenLight="#33bdbd",
+//     greenDark="#008a8a",
+//     orange="#f59c1a",
+//     orangeLight="#f7b048",
+//     orangeDark="#c47d15",
+//     dark="#2d353c",
+//     grey="#b6c2c9",
+//     purple="#727cb6",
+//     purpleLight="#8e96c5",
+//     purpleDark="#5b6392",
+//     red="#ff5b57";
+
+// var e=[
+//     {label:"One",value:29,color:red},
+//     {label:"Two",value:12,color:orange},
+//     {label:"Three",value:32,color:green},
+//     {label:"Four",value:196,color:aqua},
+//     {label:"Five",value:17,color:blue},
+//     {label:"Six",value:98,color:purple},
+//     {label:"Seven",value:13,color:grey},
+//     {label:"Eight",value:5,color:dark}];
+
+// // Left Chart
+// nv.addGraph(
+//     function(){
+//         var a = nv.models.pieChart()
+//             .x(function(e){return e.label})
+//             .y(function(e){return e.value})
+//             .showLabels(!0)
+//             .labelThreshold(.05)
+//             .labelType("percent")
+//             .donut(true)
+//             .donutRatio(.35)
+//             .width(600)
+//             .height(400)
+//             .padAngle(.03)
+//             .cornerRadius(5);
+
+//         a.title("Portfolio");
+//         a.pie.labelsOutside(true).donut(true);
         
-        // LISTEN TO WINDOW RESIZE
-        // nv.utils.windowResize(a.update);
-        // LISTEN TO CLICK EVENTS ON SLICES OF THE PIE/DONUT
-        // a.pie.dispatch.on('elementClick', function() {
-        //     code...
-        // });
-        // a.pie.dispatch.on('chartClick', function() {
-        //     code...
-        // });
-        // LISTEN TO DOUBLECLICK EVENTS ON SLICES OF THE PIE/DONUT
-        // a.pie.dispatch.on('elementDblClick', function() {
-        //     code...
-        // });
-        // LISTEN TO THE renderEnd EVENT OF THE PIE/DONUT
-        // a.pie.dispatch.on('renderEnd', function() {
-        //     code...
-        // });
+//         // LISTEN TO WINDOW RESIZE
+//         // nv.utils.windowResize(a.update);
+//         // LISTEN TO CLICK EVENTS ON SLICES OF THE PIE/DONUT
+//         // a.pie.dispatch.on('elementClick', function() {
+//         //     code...
+//         // });
+//         // a.pie.dispatch.on('chartClick', function() {
+//         //     code...
+//         // });
+//         // LISTEN TO DOUBLECLICK EVENTS ON SLICES OF THE PIE/DONUT
+//         // a.pie.dispatch.on('elementDblClick', function() {
+//         //     code...
+//         // });
+//         // LISTEN TO THE renderEnd EVENT OF THE PIE/DONUT
+//         // a.pie.dispatch.on('renderEnd', function() {
+//         //     code...
+//         // });
 
-        //nv.utils.windowResize(function() { a.update() });
-        return d3.select("#nv-donut-chart")
-            .append("svg")
-            .attr("preserveAspectRatio", "xMinYMin meet")
-            .attr("viewBox", "0 0 600 400")
-            .classed("svg-content-responsive", true)
-            .datum(e)
-            .transition()
-            .duration(350)
-            .call(a)
-            .style({ 'width': 600, 'height': 400 }),a
-    }
-);
+//         //nv.utils.windowResize(function() { a.update() });
+//         return d3.select("#myChart")
+//             .append("svg")
+//             .attr("preserveAspectRatio", "xMinYMin meet")
+//             .attr("viewBox", "0 0 600 400")
+//             .classed("svg-content-responsive", true)
+//             .datum(e)
+//             .transition()
+//             .duration(350)
+//             .call(a)
+//             .style({ 'width': 600, 'height': 400 }),a
+//     }
+// );
+
+// // Right Chart
+// nv.addGraph(
+//     function(){
+//         var a = nv.models.pieChart()
+//             .x(function(e){return e.label})
+//             .y(function(e){return e.value})
+//             .showLabels(!0)
+//             .labelThreshold(.05)
+//             .labelType("percent")
+//             .donut(true)
+//             .donutRatio(.35)
+//             .width(600)
+//             .height(400)
+//             .padAngle(.03)
+//             .cornerRadius(5);
+
+//         a.title("Portfolio");
+//         a.pie.labelsOutside(true).donut(true);
+        
+//         // LISTEN TO WINDOW RESIZE
+//         // nv.utils.windowResize(a.update);
+//         // LISTEN TO CLICK EVENTS ON SLICES OF THE PIE/DONUT
+//         // a.pie.dispatch.on('elementClick', function() {
+//         //     code...
+//         // });
+//         // a.pie.dispatch.on('chartClick', function() {
+//         //     code...
+//         // });
+//         // LISTEN TO DOUBLECLICK EVENTS ON SLICES OF THE PIE/DONUT
+//         // a.pie.dispatch.on('elementDblClick', function() {
+//         //     code...
+//         // });
+//         // LISTEN TO THE renderEnd EVENT OF THE PIE/DONUT
+//         // a.pie.dispatch.on('renderEnd', function() {
+//         //     code...
+//         // });
+
+//         //nv.utils.windowResize(function() { a.update() });
+//         return d3.select("#nv-donut-chart")
+//             .append("svg")
+//             .attr("preserveAspectRatio", "xMinYMin meet")
+//             .attr("viewBox", "0 0 600 400")
+//             .classed("svg-content-responsive", true)
+//             .datum(e)
+//             .transition()
+//             .duration(350)
+//             .call(a)
+//             .style({ 'width': 600, 'height': 400 }),a
+//     }
+// );
