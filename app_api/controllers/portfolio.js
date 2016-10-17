@@ -20,7 +20,6 @@ module.exports.getPortfolioById = function (req, res){
 // POST: localhost:3000/api/portfolio
 module.exports.createPortfolio = function (req, res) {
     var user = getUserObject(req);
-    // TODO: need to get userid from somewhere
     if (user != {}){
         model.Portfolios.create({ userid : user.userid , portfolioname : 'BESTportfolio'}).then(
             function (portfolio) {
