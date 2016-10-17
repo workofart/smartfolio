@@ -43,9 +43,8 @@ module.exports.createPortfolio = function (req, res) {
     }
     else {
         sendJsonResponse(res, 404, 'Not authorized to perform that action');
+        return;
     }
-
-
 };
 
 // GET: localhost:3000/api/portfolio
@@ -60,9 +59,8 @@ module.exports.getAllPortfolios = function (req, res) {
     }
     else {
         sendJsonResponse(res, 404, 'Not authorized to perform that action');
+        return;
     }
-
-
 };
 
 // PUT: localhost:3000/api/portfolio/1
@@ -95,6 +93,22 @@ module.exports.deletePortfolioById = function (req, res) {
     }
     else {
         sendJsonResponse(res, 404, 'Not authorized to perform that action');
+        return;
+    }
+}
+
+// GET: localhost:3000/api/portfolioCount
+module.exports.portfolioCount = function (req, res) {
+    var user = getUserObject(req);
+    if (user != {}) {
+        model.Portfolios.count( { where: { isactive : 'true', userid : user.userid}}).then (function (c) {
+            sendJsonResponse(res, 200, c);
+            return;
+        });
+    }
+    else {
+        sendJsonResponse(res, 404, 'Not authorized to perform that action');
+        return;
     }
 }
 
@@ -116,6 +130,8 @@ function getUserObject (req) {
         user.username = username;
         return user;
     }
+    else {
+        return {};
+    }
 
-    return {};
 }

@@ -4,8 +4,10 @@ block page-specific-js-css
 block content
     div.row
         div(class='col-md-12' id='panelList')
-            h4 #{header} (#{portfolioname})
-            h5 Balance #{balance}
+            h4 #{header} (#{portfolioname}) &nbsp
+                small Cash Balance: #{balance} &nbsp
+                    button(class='btn btn-warning btn-xs') Recharge &nbsp
+                        span(class='glyphicon glyphicon-flash')
             br
     div.row
         div.col-md-6
