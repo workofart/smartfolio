@@ -21,7 +21,7 @@ module.exports.getPortfolioById = function (req, res){
 module.exports.createPortfolioWithStock = function (req, res) {
     var user = getUserObject(req);
     if (user != {}){
-        model.Portfolios.create({ userid : user.userid , portfolioname : 'BESTportfolio'}).then(
+        model.Portfolios.create({ userid : user.userid , portfolioname : req.body.pName}).then(
             function (portfolio) {
                 console.log(portfolio);
                 model.Transactions.create( {
@@ -31,7 +31,7 @@ module.exports.createPortfolioWithStock = function (req, res) {
                     datetime: moment.tz(moment().format('YYYY/MM/DD HH:mm:ss'), "America/New_York"),
                     ticker: req.body['stocks[ticker]'],
                     quantity: req.body['stocks[quantity]'],
-                    price: req.body['stocks[totalAmount]']
+                    price: req.body['stocks[price]']
 
                 }).then(function (transaction) {
                     sendJsonResponse(res, 200, transaction);

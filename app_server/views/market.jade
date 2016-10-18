@@ -37,20 +37,21 @@ block content
 								div.modal-body
 									h4 Latest Price: &nbsp
 										span(class='label label-warning' id='latestPrice')
-									h4 Portfolio Id:
-										span(class='label label-info' id='pId')= latestPid
 									div.input-group
-										span(class='input-group-addon' id='basic-addon1') Ticker
-										input(type='text' id='tickerInput' class='form-control' placeholder='E.g. AAPL' aria-describedby='basic-addon1')									
+										span(class='input-group-addon' id='basic-addon1') Portfolio Name
+										input(type='text' id='portfolioName' class='form-control' placeholder='E.g. Best Portfolio' aria-describedby='basic-addon1')
 									div.input-group
-										span(class='input-group-addon' id='basic-addon2') Quantity
-										input(type='text' id='quantity' onkeyup='getTotalAmount();' class='form-control' placeholder='E.g. 1000' aria-describedby='basic-addon2')
+										span(class='input-group-addon' id='basic-addon2') Ticker
+										input(type='text' id='tickerInput' class='form-control' placeholder='E.g. AAPL' aria-describedby='basic-addon2' disabled)
+									div.input-group
+										span(class='input-group-addon' id='basic-addon3') Quantity
+										input(type='text' id='quantity' onkeyup='getTotalAmount();' class='form-control' placeholder='E.g. 1000' aria-describedby='basic-addon3')
 									div(class='alert alert-danger' role='alert')
 										| Total Dollar Amount:
 										span(class='label label-danger' id='totalAmount')
 								div.modal-footer
 									button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
-									button(type='button' onclick='addPortfolio();' class='btn btn-primary' data-dismiss='modal') Submit
+									button(type='button' onclick='createPortfolioWithStock();' class='btn btn-primary' data-dismiss='modal') Submit
 				div(class='collapse' id='customizeSettings')
 					div.well
 						div(class='input-group')

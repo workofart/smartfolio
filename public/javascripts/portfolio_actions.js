@@ -71,32 +71,6 @@ function getTotalAmount() {
 
 }
 
-/**
- * Creates a new portfolio by reading the form values, making the POST request with a given stock info
- */
-function addPortfolio() {
-    var ticker = $('#tickerInput').val();
-    var quantity = $('#quantity').val();
-    var amount = $('#totalAmount').text();
-    console.log(amount);
-    var jsonPortfolio = {
-        "pName" : "BestPortfolio",
-        "userId" : "100",
-        "stocks" : {
-            "ticker" : ticker,
-            "quantity" : quantity,
-            "totalAmount" : amount
-        }
-    };
-    var portStr = JSON.stringify(jsonPortfolio);
-    console.log(portStr);
-    $.ajax({
-        url: '/api/portfolio',
-        type: 'POST',
-        datatype: 'application/json',
-        data: jsonPortfolio
-    });
-}
 
 function deletePortfolioById() {
     var id = $('#deletePIdParam').val();
@@ -111,7 +85,7 @@ function deletePortfolioById() {
 }
 
 /**
- * Calculates the purchase price based on amount and quanitty for every stock in the portfolio
+ * Calculates the purchase price based on amount and quantity for every stock in the portfolio
  *
  * @param portfolio - the portfolio we are calculating the prices for
  * @returns - an array of prices the index corresponding to the index of the stock within a given portfolio
