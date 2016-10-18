@@ -147,24 +147,33 @@ module.exports.getPortfolioCompositionById = function (req, res) {
     var uid = parseInt(user.userid);
     var pid = parseInt(req.params.pid);
 
-    console.log(user);
+    
 
-    if (Object.keys(user).length === 0 || user.userid !== uid) {
+    if (Object.keys(user).length === 0) {
         sendJsonResponse(res, 404, 'Not authorized to perform that action');
     } else {
-        query = 'SELECT * FROM public.GetPortfolioCompositionById(:uid, :pid);'
-        connection.query(query, 
-            {
-                replacements: {
-                    uid: uid,
-                    pid: pid
-                },
-                type: connection.QueryTypes.SELECT
-            })
-            .then(function(result) {
-                console.log(result);
-                sendJsonResponse(res, 200, result);
-            })
+
+        model.Portfolios.findOne({
+            where: { portfolioid: pid }
+        }).then(function(result) {
+            if (user.userid !== result.dataValues.userid) {
+                sendJsonResponse(res, 404, 'Not authorized to perform that action');
+            } else {
+                query = 'SELECT * FROM public.GetPortfolioCompositionById(:uid, :pid);'
+                connection.query(query, 
+                    {
+                        replacements: {
+                            uid: user.userid,
+                            pid: pid
+                        },
+                        type: connection.QueryTypes.SELECT
+                    })
+                    .then(function(result) {
+                        console.log(result);
+                        sendJsonResponse(res, 200, result);
+                    })
+            }
+        })
     }
 
     
