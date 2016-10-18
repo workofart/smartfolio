@@ -5,7 +5,7 @@ block content
 	div.row
 		h2 Welcome [#{username}] &nbsp
 			small You have #{count} portfolios
-		button(class='btn btn-warning btn-lg') Create Portfolio &nbsp
+		button(class='btn btn-warning btn-lg' data-toggle='modal' data-target='#createPortfolio') Create Portfolio &nbsp
 			span(class='glyphicon glyphicon-file')
 	div.row
 		h2 General Overview
@@ -21,6 +21,26 @@ block content
 				div(class='panel-body')
 					div(class='svg-container')
 						div(id='nv-donut-chart')
+		div(class='modal fade' id='createPortfolio' tabindex='-1' role='dialog' aria-labelledby='createPortfolioLabel')
+			div(class='modal-dialog' role='document')
+				div.modal-content
+					div.modal-header
+						button(type='button' class='close' data-dismiss='modal' aria-label='Close' id='close') x
+						h4(class='modal-title' id='createPortfolioLabel') Create Portfolio
+					div.modal-body
+						div.input-group
+							span(class='input-group-addon' id='basic-addon1') Portfolio Name
+							input(type='text' id='portfolioname' class='form-control' placeholder='E.g. Best Portfolio' aria-describedby='basic-addon1')
+						div.input-group
+							div.checkbox
+								label
+									input(type='checkbox' disabled)
+									| Participate in Ranking (Work-in-progress)
+					div.modal-footer
+						button(type='button' class='btn btn-default' data-dismiss='modal' id='close')
+							span(class='glyphicon glyphicon-remove')
+						button(type='button' onclick='createPortfolio();' class='btn btn-success' data-dismiss='modal')
+							span(class='glyphicon glyphicon-ok')
 	script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js')
 	script(type='text/javascript' src='/javascripts/nv.d3.min.js')
 	script(type='text/javascript' src='/javascripts/Chart.min.js')

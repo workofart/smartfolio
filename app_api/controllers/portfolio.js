@@ -17,8 +17,8 @@ module.exports.getPortfolioById = function (req, res){
     });
 };
 
-// POST: localhost:3000/api/portfolio
-module.exports.createPortfolio = function (req, res) {
+// POST: localhost:3000/api/portfoliowithstock
+module.exports.createPortfolioWithStock = function (req, res) {
     var user = getUserObject(req);
     if (user != {}){
         model.Portfolios.create({ userid : user.userid , portfolioname : 'BESTportfolio'}).then(
@@ -45,6 +45,23 @@ module.exports.createPortfolio = function (req, res) {
         return;
     }
 };
+
+// POST: localhost:3000/api/portfolio
+module.exports.createPortfolio = function (req, res) {
+    var user = getUserObject(req);
+    if (user != {}) {
+        model.Portfolios.create({ userid : user.userid, portfolioname : String(req.body.pName)}).then(
+            function (portfolio) {
+                console.log('created new portfolio: ' + portfolio);
+                sendJsonResponse(res, 200, portfolio);
+                return;
+            });
+    }
+    else {
+        sendJsonResponse(res, 404, 'Not authorized to perform that action');
+        return;
+    }
+}
 
 // GET: localhost:3000/api/portfolio
 // TODO: Currently only returns the portfolios that are active

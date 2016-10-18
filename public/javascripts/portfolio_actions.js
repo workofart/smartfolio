@@ -159,6 +159,21 @@ function fillSellStockForm () {
 
 }
 
+function createPortfolio () {
+    var portfolioname = $('#portfolioname').val();
+    console.log('input name: ' + portfolioname);
+    var jsonPortfolio = {
+        "pName" : portfolioname
+    };
+
+    $.ajax({
+        url: '/api/portfolio',
+        type: 'POST',
+        datatype: 'application/json',
+        data: jsonPortfolio
+    });
+}
+
 function getPortfolioCompositionById(pid) {
     var urlparts = '/' + pid;
     $.ajax({
@@ -175,10 +190,7 @@ function getPortfolioCompositionById(pid) {
             populateCompositionChart(data, '#nv-donut-chart');
         });
 }
-// Testing Only
-var arr = window.location.href.split('/');
-var currentpid = arr[arr.length-1];
-getPortfolioCompositionById(currentpid);
+
 
 /* Chart JS */
 // var ctx = $("#myChart");
