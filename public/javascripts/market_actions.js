@@ -39,8 +39,8 @@ var companyList = $.ajax({
 		var random = Math.floor((Math.random() * data.length) + 1);
 		var $box1 = $("#searchBox").select2();
 		var $box2 = $("#searchBox2").select2();
-		$box1.val(random).trigger("change");
-		$box2.val(random).trigger("change");
+		$box1.val(42).trigger("change");
+		$box2.val(42).trigger("change");
 		searchQuote();
 
 		return data;
