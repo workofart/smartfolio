@@ -8,6 +8,7 @@ var ctrlTransaction= require('../controllers/transaction');
 // Define routes for Portfolio
 router.get('/portfolio/:id', ctrlPortfolio.getPortfolioById);
 router.post('/portfolio', ctrlPortfolio.createPortfolio);
+router.post('/portfoliowithstock', ctrlPortfolio.createPortfolioWithStock);
 router.put('/portfolio/:id', ctrlPortfolio.changePortfolioById);
 router.delete('/portfolio/:id', ctrlPortfolio.deletePortfolioById);
 router.get('/portfolio', ctrlPortfolio.getAllPortfolios);
