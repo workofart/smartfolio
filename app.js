@@ -80,6 +80,8 @@ app.use(function (req, res, next) {
   next();
 });
 
+// Start running cronjob
+require('./app_server/configs/cron_PopulateStockLive');
 
 // error handlers
 
