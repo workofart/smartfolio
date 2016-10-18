@@ -1,9 +1,16 @@
 var model = require('../models/models');
 var request = require('request');
+var csv = require('papaparse');
 
 var apiOptions = {
     server: "http://localhost:3000"
 };
+
+var sendJsonResponse = function (res, status, content){
+    res.status(status);
+    res.json(content);
+}
+
 
 /* GET portfolio page. */
 var renderPortfolio = function(req, res) {
@@ -110,4 +117,26 @@ var getPortfolioDetails = function (req, res, callback) {
             }
         }
     );
+}
+
+
+module.exports.latestPrice = function (req, res) {
+    path = 'http://download.finance.yahoo.com/d/quotes.csv?s=' + req.query.ticker + '&f=l1';
+
+    requestOptions = {
+        url: path,
+        method: "GET",
+        json : {}
+    };
+    request (
+        requestOptions,
+        function(err, response, body) {
+            if (response.statusCode === 200) {
+                sendJsonResponse(res, 200, body);
+            } else {
+                throw err;
+            }
+        }
+    );
+
 }

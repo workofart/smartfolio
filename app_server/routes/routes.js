@@ -29,6 +29,9 @@ module.exports = function(passport) {
     /* GET request for Yahoo Finance News */
     router.get('/market/GetYahooFinanceNews', ctrlMarket.GetYahooFinanceNews)
 
+    /* GET latest price from Yahoo Finance */
+    router.get('/getLatestPrice', ctrlPortfolio.latestPrice);
+
     /* Login Page */
     router.get('/login', function(req, res) {
         res.render('login', { message: req.flash('loginMessage') });

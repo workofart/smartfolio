@@ -671,24 +671,26 @@ function getTotalAmount() {
 /**
  * Creates a new portfolio by reading the form values, making the POST request with a given stock info
  */
-function addPortfolio() {
+function createPortfolioWithStock() {
 	// var pId = getPortfolioId();
 	var ticker = $('#tickerInput').val();
 	var quantity = $('#quantity').val();
-	var amount = $('#totalAmount').text();
+	var amount = $('#totalAmount').text(); // not used
+	var price = $('#latestPrice').text().substr(1);
+	var pName = $('#portfolioName').val();
 	console.log(amount);
 	var jsonPortfolio = {
-		"pName" : "BestPortfolio",
+		"pName" : pName,
 		"stocks" : {
 			"ticker" : ticker,
 			"quantity" : quantity,
-			"totalAmount" : amount
+			"price" : price
 		}
 	};
 	var portStr = JSON.stringify(jsonPortfolio);
 	console.log(portStr);
 	$.ajax({
-		url: '/api/portfolio',
+		url: '/api/portfoliowithstock',
 		type: 'POST',
 		datatype: 'application/json',
 		data: jsonPortfolio

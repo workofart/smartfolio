@@ -15,8 +15,8 @@ router.get('/portfolio', ctrlPortfolio.getAllPortfolios);
 router.get('/portfolioCount', ctrlPortfolio.portfolioCount);
 router.get('/portfolio/composition/:pid', ctrlPortfolio.getPortfolioCompositionById);
 
-router.post('/transaction/:id/buyStock', ctrlTransaction.buyStock);
-router.post('/transaction/:id/sellStock', ctrlTransaction.sellStock);
+router.post('/transaction/buyStock/:id', ctrlTransaction.buyStock);
+router.post('/transaction/sellStock/:id', ctrlTransaction.sellStock);
 router.get('/transaction/:id', ctrlTransaction.getTransactions);
 router.get('/transaction', ctrlTransaction.getAllTransactions);
 
