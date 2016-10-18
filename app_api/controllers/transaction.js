@@ -18,9 +18,9 @@ module.exports.buyStock = function (req, res) {
     model.Transactions.create( {
         portfolioid: req.params.id,
         datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
-        ticker: req.body.stocks['ticker'],
-        quantity: req.body.stocks['quantity'],
-        price: req.body.stocks['price']
+        ticker: req.body.ticker,
+        quantity: req.body.quantity,
+        price: req.body.price
 
     }).then(function (transaction) {
         sendJsonResponse(res, 200, 'Success');
@@ -33,9 +33,9 @@ module.exports.sellStock = function (req, res) {
     model.Transactions.create( {
         portfolioid: req.params.id,
         datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
-        ticker: req.body.stocks['ticker'],
-        quantity: -req.body.stocks['quantity'],
-        price: req.body.stocks['price']
+        ticker: req.body.ticker,
+        quantity: -req.body.quantity,
+        price: req.body.price
 
     }).then(function (transaction) {
         sendJsonResponse(res, 200, 'Success');

@@ -1,3 +1,5 @@
+// global buy/sell flag
+var buy = 1;
 
 function getAllPortfolios() {
     $.ajax({
@@ -126,11 +128,17 @@ function getDollarChange(purchasePrice, currentPrice) {
 }
 
 function fillBuyStockForm () {
-
+    // var ticker = $('#tickerSelected');
+    var ticker = 'AAPL'
+    getLatestPrice(ticker);
+    buy = 1;
 }
 
 function fillSellStockForm () {
-
+    // var ticker = $('#tickerSelected');
+    var ticker = 'AAPL'
+    getLatestPrice(ticker);
+    buy = 0;
 }
 
 function createPortfolio () {
@@ -163,6 +171,46 @@ function getPortfolioCompositionById(pid) {
             populateCompositionChart(data, '#myChart');
             populateCompositionChart(data, '#nv-donut-chart');
         });
+}
+
+function getLatestPrice(ticker) {
+    var url = '/getLatestPrice'
+    $.ajax({
+        url: url,
+        type: 'GET',
+        data: {
+            "ticker" : ticker
+        },
+        datatype: 'application/json'
+    })
+        .done(function (data) {
+            console.log('getting latest price: $' + data);
+            $('#latestPrice').text('$'+ data);
+        })
+}
+
+function performTransaction() {
+    if (buy == 0) {
+        var url = '/api/transaction/sellStock';
+    } else {
+        var url = '/api/transaction/buyStock';
+    }
+    var arr = window.location.href.split('/');
+    var currentpid = arr[arr.length - 1];
+
+    var ticker = 'MSFT'
+    var latestPrice = $('#latestPrice').text().substr(1);
+    var quantity = $('#quantity').val();
+    $.ajax({
+        url: url + '/' + currentpid,
+        type: 'POST',
+        data: {
+            "ticker" : ticker,
+            "quantity" : quantity,
+            "price" : latestPrice
+        },
+        datatype: 'application/json'
+    })
 }
 
 

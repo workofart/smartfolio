@@ -55,8 +55,6 @@ block content
                 div.modal-body
                     h4 Latest Price: &nbsp
                         span(class='label label-warning' id='latestPrice')
-                    h4 Portfolio Id:
-                        span(class='label label-info' id='pId')= pid
                     div.input-group
                         span(class='input-group-addon' id='basic-addon1') Ticker: APPL
                     div.input-group
@@ -67,7 +65,7 @@ block content
                         span(class='label label-danger' id='totalAmount')
                 div.modal-footer
                     button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
-                    button(type='button' onclick='addPortfolio();' class='btn btn-primary' data-dismiss='modal') Submit
+                    button(type='button' onclick='performTransaction();' class='btn btn-primary' data-dismiss='modal') Submit
     script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js')
     script(type='text/javascript' src='/javascripts/nv.d3.min.js')
     script(type='text/javascript' src='/javascripts/Chart.min.js')

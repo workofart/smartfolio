@@ -4,6 +4,7 @@ var moment = require('moment');
 var sqlz = require('sequelize');
 var connection = require('../../app_server/configs/sequelize');
 var model = require('../../app_server/models/models');
+var csv = require('papaparse');
 
 var sendJsonResponse = function (res, status, content){
     res.status(status);
@@ -128,6 +129,7 @@ module.exports.portfolioCount = function (req, res) {
     }
 }
 
+
 /**
  * Utility function for getting the current user
  * @param req
@@ -192,6 +194,4 @@ module.exports.getPortfolioCompositionById = function (req, res) {
             }
         })
     }
-
-    
 }
