@@ -73,7 +73,9 @@ client.query('CREATE TABLE transactions(transactionid SERIAL,' +
 
 // Password is 1234
 client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test', '$2a$08$7/AjFJISfFFIQ83vkV9AAeInVmANXU/af0/Nnu4y6xRRHTsOykS8W');");
+client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test2', '$2a$08$7/AjFJISfFFIQ83vkV9AAeInVmANXU/af0/Nnu4y6xRRHTsOykS8W');");
 client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname) VALUES (1, 'BESTportfolio');");
+client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname) VALUES (2, 'TESTportfolio');");
 client.query("INSERT INTO STOCK_DAILY (TICKER, NAME, DATETIME, OPEN, CLOSE, HIGH, LOW) VALUES " +
     "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00, 12.15, 15.23, 8.99);");
 client.query("INSERT INTO STOCK_LIVE (TICKER, NAME, DATETIME, price) VALUES " +
@@ -86,3 +88,5 @@ client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity,
     "(1, CURRENT_TIMESTAMP, 'FB', 100, 30.00);");
 client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price) VALUES " +
     "(1, CURRENT_TIMESTAMP, 'GOOG', 100, 20.00);");
+client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price) VALUES " +
+    "(2, CURRENT_TIMESTAMP, 'INTC', 1000, 30.00);");
