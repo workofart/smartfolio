@@ -166,8 +166,6 @@ module.exports.getPortfolioCompositionById = function (req, res) {
     var uid = parseInt(user.userid);
     var pid = parseInt(req.params.pid);
 
-    
-
     if (Object.keys(user).length === 0) {
         sendJsonResponse(res, 404, 'Not authorized to perform that action');
     } else {
