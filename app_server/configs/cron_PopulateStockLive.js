@@ -58,7 +58,7 @@ var job = new CronJob({
     // Follows format in http://crontab.org/
     // Runs every 30 seconds 9 AM to 5 PM Monday to Friday, last run is 16:59:30 
     cronTime: '0,30 * 9-16 * * 1-5',
-    onTick: GetYahooFinanceLiveQuotes('AAPL'),
+    onTick: function() { GetYahooFinanceLiveQuotes('AAPL'); },
     onComplete: function() {
         // This only runs when the entire job exits, i.e. never for a forever running job
         console.log('Job completed');
