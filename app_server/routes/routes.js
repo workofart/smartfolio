@@ -6,6 +6,7 @@ module.exports = function(passport) {
     var ctrlIndex = require('../controllers/index');
     var ctrlPortfolio = require('../controllers/portfolio');
     var signupController = require('../controllers/signup');
+    var loginController = require('../controllers/login');
 
     var isAuthenticated = function (req, res, next) {
         if (req.isAuthenticated())
@@ -37,10 +38,11 @@ module.exports = function(passport) {
         res.render('login', { message: req.flash('loginMessage') });
     })
     router.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/',
+        // Don't set successRedirect. When login succeeds, will be caught by 2nd callback
+        // successRedirect: '/',
         failureRedirect: '/login',
         failureFlash: true
-    }));
+    }), loginController.login);
 
     /* Signup Page */
     router.get('/signup', function(req, res) {

@@ -11,6 +11,8 @@ module.exports.index = function(req, res) {
 	} else {
 		custom.isLoggedIn = false;
 	}
+
+	console.log(req.session);
 	
 	res.render('index', custom);
 };
