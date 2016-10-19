@@ -1,62 +1,29 @@
 var model = require('../models/models');
 var request = require('request');
 var csv = require('papaparse');
-require('./common');
+var common = require('./common');
 
 
-/* GET portfolio page. */
-var renderPortfolio = function(req, res) {
-    var user = req.user.get({
-        plain: true
-    });
-    var userid = user.userid;
-    var username = user.username;
+module.exports.portfolio = function(req, res) {
 
+    // When users get to here, they are already verified by Passport
+    // Which means the req.session.portfolios are set
     var custom = {
-        title: 'Smartfolio - Portfolio',
-        ids: ids,
-        count: totalPortfolios,
-        username: username
+        title: 'Smartfolio - Portfolio'
     };
 
+    // Therefore, do not need this check. But for good measure
     if (req.user) {
         custom.isLoggedIn = true;
+        custom.ids = req.session.portfolios.ids;
+        custom.count = req.session.portfolios.count;
+        custom.username = req.session.user.username;
     } else {
         custom.isLoggedIn = false;
     }
 
-    res.render('portfolio', custom);
-
-};
-
-module.exports.portfolio = function(req, res) {
     getAllPortfolios(req, res, renderPortfolio);
 };
-
-
-var ids = [];
-var totalPortfolios = 0;
-function getAllPortfolios(req, res, callback) {
-    var user = req.user.get({
-        plain: true
-    });
-    var userid = user.userid;
-    var username = user.username;
-
-    model.Portfolios.findAll({ where: { isactive : 'true', userid : userid }}).then(function (portfolios) {
-        ids = [];
-        for (var i = 0; i < portfolios.length; i++){
-            ids.push(portfolios[i].get({
-                plain: true
-            }).portfolioid);
-        }
-        model.Portfolios.count( { where: { isactive : 'true', userid : userid }}).then (function (c) {
-            console.log('Count: ' + c);
-            totalPortfolios = c;
-            callback(req, res);
-        });
-    });
-}
 
 module.exports.latestPrice = function (req, res) {
     path = 'http://download.finance.yahoo.com/d/quotes.csv?s=' + req.query.ticker + '&f=l1';
@@ -70,7 +37,7 @@ module.exports.latestPrice = function (req, res) {
         requestOptions,
         function(err, response, body) {
             if (response.statusCode === 200) {
-                sendJsonResponse(res, 200, body);
+                common.sendJsonResponse(res, 200, body);
             } else {
                 throw err;
             }

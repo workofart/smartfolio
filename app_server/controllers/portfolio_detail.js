@@ -1,42 +1,29 @@
 var request = require('request');
-require('./common');
+var common = require('./common');
 
 /* GET 'Portfolio details' page */
 module.exports.portfolioDetail = function(req, res){
-    getPortfolioDetails(req, res, renderDetailPage);
-};
+    var requestOptions, path;
+    path = "/api/portfolio/" + req.params.pid;
+    requestOptions = {
+        url: common.apiOptions.server + path,
+        method: "GET",
+        json : {}
+    };
 
-
-var renderDetailPage = function (req, res, data) {
     var custom = {
         title: 'Smartfolio - Portfolio ' + req.params.pid,
         header: 'Portfolio ' + req.params.pid,
-        ids: ids,
-        pId: data.portfolioid,
-        portfolioname: data.portfolioname,
-        balance: data.balance,
-        userid: data.userid,
+        ids: req.session.portfolios.ids,
         Message: req.flash('accessMessage')
     };
 
+    // If req.user is not set, then cannot make the following GET request anyway
     if (req.user) {
         custom.isLoggedIn = true;
     } else {
         custom.isLoggedIn = false;
     }
-
-    res.render('portfolio_detail', custom);
-}
-
-var getPortfolioDetails = function (req, res, callback) {
-    // Make get request to api/portfolio/{id}
-    var requestOptions, path;
-    path = "/api/portfolio/" + req.params.pid;
-    requestOptions = {
-        url: apiOptions.server + path,
-        method: "GET",
-        json : {}
-    };
 
     request (
         requestOptions,
@@ -45,10 +32,15 @@ var getPortfolioDetails = function (req, res, callback) {
             console.log('body: ' + JSON.stringify(data));
             if (response.statusCode === 200) {
                 // pass the returned data to res.render
-                callback(req, res, data);
+                custom.pId = data.portfolioid;
+                custom.portfolioname = data.portfolioname;
+                custom.balance = data.balance;
+                custom.userid = data.userid;
+                res.render('portfolio_detail', custom);
             } else {
+                // FIXME: should handle rather than crash
                 throw err;
             }
         }
     );
-}
+};
