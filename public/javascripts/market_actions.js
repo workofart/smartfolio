@@ -505,7 +505,7 @@ function PopulateChart(dataQuotes) {
 	var chartData = {
 		name: companyName[$("#searchBox2").val()].text + " (" + ticker[$("#searchBox2").val()].text + ")",
 		ohlc: Preprocess(dataQuotes),
-		preroll: 100
+		preroll: 15
 	};
 
 	return BigChart(chartData);
