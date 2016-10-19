@@ -170,8 +170,9 @@ function PopulateTable(ticker, data) {
 		array.push(data[i].high);
 		array.push(data[i].low);
 		array.push(data[i].volume);
-		table.row.add(array).draw();
+		table.row.add(array);
 	}
+	table.draw();
 }
 
 function PopulateChart(dataQuotes) {
