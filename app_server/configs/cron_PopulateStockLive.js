@@ -7,14 +7,17 @@ var connection = require('./sequelize');
 var GetYahooFinanceLiveQuotes = function(ticker) {
 
     var ticker = 'AAPL';
-    var baseUrl = 'https://query.yahooapis.com/v1/public/yql?q=';
-    var YQLquery = 'select * from yahoo.finance.quotes where symbol IN ("' + ticker + '")';
-    var moreUrl = '&format=json&env=http://datatables.org/alltables.env';
+    // var baseUrl = 'https://query.yahooapis.com/v1/public/yql?q=';
+    // var YQLquery = 'select * from yahoo.finance.quotes where symbol IN ("' + ticker + '")';
+    // var moreUrl = '&format=json&env=http://datatables.org/alltables.env';
 
-    console.log(baseUrl + YQLquery + moreUrl);
+    path = 'http://download.finance.yahoo.com/d/quotes.csv?s=' + ticker + '&f=l1';
+
+    // console.log(baseUrl + YQLquery + moreUrl);
 
     requestOptions = {
-        uri: baseUrl + YQLquery + moreUrl,
+        // uri: baseUrl + YQLquery + moreUrl,
+        uri: path,
         method: "GET",
 
     };
@@ -23,14 +26,16 @@ var GetYahooFinanceLiveQuotes = function(ticker) {
         requestOptions,
         function(err, response, body) {
             // If ticker is a list, than quotes is a array of jsons
-            var json = JSON.parse(body);
-            var quotes = json["query"]["results"]["quote"];
+            // var json = JSON.parse(body);
+            // var quotes = json["query"]["results"]["quote"];
 
             // For single quote, quotes is just a json
-            var ticker = quotes.symbol;
-            var name = quotes.Name; // FIXME, might not be the same 
+            // var ticker = quotes.symbol;
+            // var name = quotes.Name; // FIXME, might not be the same
+            var name = 'APPLE';
             var datetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-            var price = parseFloat(quotes.PreviousClose) + parseFloat(quotes.Change);
+            // var price = parseFloat(quotes.PreviousClose) + parseFloat(quotes.Change);
+            var price = body;
             console.log(ticker);
             console.log(name);
             console.log(datetime);
