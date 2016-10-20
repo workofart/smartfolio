@@ -25,6 +25,8 @@ module.exports.createPortfolioWithStock = function (req, res) {
         model.Portfolios.create({ userid : user.userid , portfolioname : req.body.pName}).then(
             function (portfolio) {
                 console.log(portfolio);
+                req.session.portfolios.count++;
+                req.session.portfolios.ids.push(portfolio.portfolioid);
                 model.Transactions.create( {
                     portfolioid: portfolio.get({
                         plain: true
@@ -54,6 +56,8 @@ module.exports.createPortfolio = function (req, res) {
         model.Portfolios.create({ userid : user.userid, portfolioname : String(req.body.pName)}).then(
             function (portfolio) {
                 console.log('created new portfolio: ' + portfolio);
+                req.session.portfolios.count++;
+                req.session.portfolios.ids.push(portfolio.portfolioid);
                 sendJsonResponse(res, 200, portfolio);
                 return;
             });
