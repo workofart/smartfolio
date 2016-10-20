@@ -302,9 +302,7 @@ var populateCompositionChart = function(data, chartId) {
                 .donut(true)
                 .donutRatio(.35)
                 .width(600)
-                .height(400)
-                .padAngle(.03)
-                .cornerRadius(5);
+                .height(400);
 
             a.title("Portfolio");
             a.pie.labelsOutside(true).donut(true);
