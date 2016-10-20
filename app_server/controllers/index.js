@@ -8,11 +8,12 @@ module.exports.index = function(req, res) {
 
 	if (req.user) {
 		custom.isLoggedIn = true;
+		// If req.user is set, then the req.session.portfolios should be set too
+		// This is done in controllers/login.js
+		custom.ids = req.session.portfolios.ids;
 	} else {
 		custom.isLoggedIn = false;
 	}
-
-	console.log(req.session);
 	
 	res.render('index', custom);
 };

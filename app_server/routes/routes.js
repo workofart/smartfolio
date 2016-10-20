@@ -5,6 +5,7 @@ module.exports = function(passport) {
     var ctrlMarket = require('../controllers/market');
     var ctrlIndex = require('../controllers/index');
     var ctrlPortfolio = require('../controllers/portfolio');
+    var ctrlPortfolioDetail = require('../controllers/portfolio_detail');
     var signupController = require('../controllers/signup');
     var loginController = require('../controllers/login');
 
@@ -23,7 +24,7 @@ module.exports = function(passport) {
     router.get('/portfolio', isAuthenticated, ctrlPortfolio.portfolio);
 
     /* GET Individual Portfolio page */
-    router.get('/portfolio/:pid', isAuthenticated, ctrlPortfolio.portfolioDetail);
+    router.get('/portfolio/:pid', isAuthenticated, ctrlPortfolioDetail.portfolioDetail);
 
     /* GET request for getting stock data from Google */
     router.get('/market/GetGoogleFinanceData/', ctrlMarket.GetGoogleFinanceData)

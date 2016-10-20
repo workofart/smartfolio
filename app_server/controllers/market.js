@@ -13,6 +13,7 @@ var renderMarket = function(req, res) {
 
 	if (req.user) {
 		custom.isLoggedIn = true;
+		custom.ids = req.session.portfolios.ids;
 	} else {
 		custom.isLoggedIn = false;
 	}

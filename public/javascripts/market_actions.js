@@ -170,8 +170,9 @@ function PopulateTable(ticker, data) {
 		array.push(data[i].high);
 		array.push(data[i].low);
 		array.push(data[i].volume);
-		table.row.add(array).draw();
+		table.row.add(array);
 	}
+	table.draw();
 }
 
 function PopulateChart(dataQuotes) {
@@ -505,7 +506,7 @@ function PopulateChart(dataQuotes) {
 	var chartData = {
 		name: companyName[$("#searchBox2").val()].text + " (" + ticker[$("#searchBox2").val()].text + ")",
 		ohlc: Preprocess(dataQuotes),
-		preroll: 100
+		preroll: 15
 	};
 
 	return BigChart(chartData);

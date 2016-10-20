@@ -31,6 +31,9 @@ module.exports.login = function(req, res) {
                     userid : userid 
                 }
             }).then (function (c) {
+                req.session.user = {};
+                req.session.user.userid = userid;
+                req.session.user.username = username;
                 req.session.portfolios = {};
                 req.session.portfolios.count = c;
                 req.session.portfolios.ids = ids;
