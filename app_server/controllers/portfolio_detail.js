@@ -1,5 +1,6 @@
 var request = require('request');
 var common = require('./common');
+var moment = require('moment');
 
 /* GET 'Portfolio details' page */
 module.exports.portfolioDetail = function(req, res){
@@ -36,11 +37,26 @@ module.exports.portfolioDetail = function(req, res){
                 custom.portfolioname = data.portfolioname;
                 custom.balance = data.balance;
                 custom.userid = data.userid;
-                res.render('portfolio_detail', custom);
+
             } else {
                 // FIXME: should handle rather than crash
                 throw err;
             }
         }
     );
+
+    request ({
+        uri: common.apiOptions.server + '/api/transaction/' + req.params.pid,
+        method: 'GET',
+        json: {}
+    }, function (err, response, body) {
+        if (response.statusCode === 200) {
+            custom.transactions = body;
+            res.render('portfolio_detail', custom);
+        } else {
+            // FIXME: should handle rather than crash
+            throw err;
+        }
+
+    });
 };

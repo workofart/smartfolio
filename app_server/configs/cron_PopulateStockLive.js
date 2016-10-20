@@ -6,7 +6,6 @@ var connection = require('./sequelize');
 // Should move this after, or not?
 var GetYahooFinanceLiveQuotes = function(ticker) {
 
-    var ticker = 'AAPL';
     // var baseUrl = 'https://query.yahooapis.com/v1/public/yql?q=';
     // var YQLquery = 'select * from yahoo.finance.quotes where symbol IN ("' + ticker + '")';
     // var moreUrl = '&format=json&env=http://datatables.org/alltables.env';

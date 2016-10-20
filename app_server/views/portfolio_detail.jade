@@ -25,27 +25,30 @@ block content
     div.row
         table(class='table table-condensed table-hover')
             thead(class='table-hover')
-                h4 Stocks in #{header}
+                h4 #{header} Transactions
                 tr(class='info' id='header')
                     th Buy
                     th Sell
+                    th Transaction ID
                     th Date
                     th Ticker (Symbol)
-                    th Company
                     th Price
                     th Quantity
             tbody(class='table-hover' id='quoteBody')
-                td
-                    button(onclick='fillBuyStockForm();' type='button' data-toggle='modal' data-target='#buyStock')
-                        span(class='glyphicon glyphicon-plus')
-                td
-                    button(onclick='fillSellStockForm();' type='button' data-toggle='modal' data-target='#buyStock')
-                        span(class='glyphicon glyphicon-minus')
-                td 2016/04/26
-                td AAPL
-                td APPLE
-                td $12
-                td 10000
+                if transactions
+                    each val in transactions
+                        tr
+                            td
+                                button(onclick='fillBuyStockForm();' type='button' data-toggle='modal' data-target='#buyStock')
+                                    span(class='glyphicon glyphicon-plus')
+                            td
+                                button(onclick='fillSellStockForm();' type='button' data-toggle='modal' data-target='#buyStock')
+                                    span(class='glyphicon glyphicon-minus')
+                            td #{val.transactionid}
+                            td #{val.datetime}
+                            td #{val.ticker}
+                            td #{val.price}
+                            td #{val.quantity}
     div(class='modal fade' id='buyStock' tabindex='-1' role='dialog' aria-labelledby='buyStockLabel')
         div(class='modal-dialog' role='document')
             div.modal-content
@@ -66,6 +69,7 @@ block content
                 div.modal-footer
                     button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
                     button(type='button' onclick='performTransaction();' class='btn btn-primary' data-dismiss='modal') Submit
+
     script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js')
     script(type='text/javascript' src='/javascripts/nv.d3.min.js')
     script(type='text/javascript' src='/javascripts/Chart.min.js')

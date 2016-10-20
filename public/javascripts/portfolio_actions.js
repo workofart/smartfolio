@@ -213,6 +213,21 @@ function performTransaction() {
     })
 }
 
+function getTransactions () {
+    var arr = window.location.href.split('/');
+    var currentpid = arr[arr.length - 1];
+
+    $.ajax({
+        url: '/api/transaction' + '/' + currentpid,
+        type: 'GET',
+        data: {},
+        datatype: 'application/json'
+    })
+        .done(function (data) {
+            console.log(data);
+        })
+}
+
 
 /* Chart JS */
 // var ctx = $("#myChart");

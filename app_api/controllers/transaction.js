@@ -43,7 +43,7 @@ module.exports.sellStock = function (req, res) {
 }
 
 module.exports.getTransactions = function (req, res) {
-    model.Transactions.find({ where: { portfolioid: req.params.id }}).then(function (transactions) {
+    model.Transactions.findAll( {where: { portfolioid: req.params.id }}).then(function (transactions) {
         sendJsonResponse(res, 200, transactions);
     });
 }
