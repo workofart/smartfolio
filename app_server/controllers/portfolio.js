@@ -22,7 +22,7 @@ module.exports.portfolio = function(req, res) {
         custom.isLoggedIn = false;
     }
 
-    getAllPortfolios(req, res, renderPortfolio);
+    res.render('portfolio', custom);
 };
 
 module.exports.latestPrice = function (req, res) {
