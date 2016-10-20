@@ -69,11 +69,13 @@ client.query('CREATE TABLE transactions(transactionid SERIAL,' +
                             'ticker VARCHAR(8) NOT NULL,' +
                             'quantity INTEGER NOT NULL,' +
                             'price MONEY NOT NULL,' +
+                            'status INTEGER NOT NULL DEFAULT 0,' +
                             'PRIMARY KEY (transactionid));');
 
 // Password is 1234
 client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test', '$2a$08$7/AjFJISfFFIQ83vkV9AAeInVmANXU/af0/Nnu4y6xRRHTsOykS8W');");
 client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test2', '$2a$08$7/AjFJISfFFIQ83vkV9AAeInVmANXU/af0/Nnu4y6xRRHTsOykS8W');");
+client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test3', '$2a$08$7/AjFJISfFFIQ83vkV9AAeInVmANXU/af0/Nnu4y6xRRHTsOykS8W');");
 client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname) VALUES (1, 'BESTportfolio');");
 client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname) VALUES (2, 'TESTportfolio');");
 client.query("INSERT INTO STOCK_DAILY (TICKER, NAME, DATETIME, OPEN, CLOSE, HIGH, LOW) VALUES " +
