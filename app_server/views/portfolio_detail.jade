@@ -8,20 +8,20 @@ block content
                 small Cash Balance: #{balance} &nbsp
                     button(class='btn btn-warning btn-xs') Recharge &nbsp
                         span(class='glyphicon glyphicon-flash')
-            br
-    div.row
-        div.col-md-6
-            div(class='panel panel-primary')
-                div(class='panel-heading') Portfolio Composition
-                div(class='panel-body')
-                    div(class='svg-container')
-                        div(id='myChart')
-        div.col-md-6
-            div(class='panel panel-primary')
-                div(class='panel-heading') Portfolio Composition
-                div(class='panel-body')
-                    div(class='svg-container')
-                        div(id='nv-donut-chart')
+    div.container-fluid
+        div.row
+            div(class='col-lg-6 col-sm-12')
+                div(class='panel panel-primary')
+                    div(class='panel-heading') Portfolio Composition
+                    div(class='panel-body')
+                        div(class='svg-container')
+                            div(id='myChart')
+            div(class='col-lg-6 col-sm-12')
+                div(class='panel panel-primary')
+                    div(class='panel-heading') Portfolio Composition
+                    div(class='panel-body')
+                        div(class='svg-container')
+                            div(id='nv-donut-chart')
     div.row
         table(class='table table-condensed table-hover')
             thead(class='table-hover')
