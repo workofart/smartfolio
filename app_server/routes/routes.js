@@ -36,6 +36,11 @@ module.exports = function(passport) {
 
     /* Login Page */
     router.get('/login', function(req, res) {
+        if (req.query.redirectTo) {
+            req.session.redirectTo = '/' + req.query.redirectTo;
+        } else {
+            req.session.redirectTo = '/';
+        }
         res.render('login', { message: req.flash('loginMessage') });
     })
     router.post('/login', passport.authenticate('local-login', {
