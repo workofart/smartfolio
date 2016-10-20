@@ -37,11 +37,21 @@ module.exports.login = function(req, res) {
                 req.session.portfolios = {};
                 req.session.portfolios.count = c;
                 req.session.portfolios.ids = ids;
-                res.redirect('/');
+                if (req.session.redirectTo) {
+                    var link = req.session.redirectTo; 
+                    res.redirect(link);
+                } else {
+                    res.redirect('/');
+                }
             });
         });
     } else {
         // Will never be here, but for good measures (?)
-        res.redirect('/');
+        if (req.session.redirectTo) {
+            var link = req.session.redirectTo;
+            res.redirect(link);
+        } else {
+            res.redirect('/');
+        }
     }
 }

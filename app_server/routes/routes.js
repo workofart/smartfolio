@@ -17,9 +17,9 @@ module.exports = function(passport) {
     }
 
     /* GET home page. */
-    router.get('/', ctrlIndex.index);
+    router.get('/', function(req, res, next) { req.session.redirectTo = '/'; next(); }, ctrlIndex.index);
     /* GET Analysis page */
-    router.get('/market', ctrlMarket.market);
+    router.get('/market', function(req, res, next) { req.session.redirectTo = '/market'; next(); }, ctrlMarket.market);
     /* GET Portfolio Overview page */
     router.get('/portfolio', isAuthenticated, ctrlPortfolio.portfolio);
 
