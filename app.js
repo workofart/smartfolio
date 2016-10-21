@@ -82,6 +82,7 @@ app.use(function (req, res, next) {
 
 // Start running cronjob
 require('./app_server/configs/cron_PopulateStockLive');
+require('./app_server/configs/cron_PopulateStockDaily');
 
 // error handlers
 

@@ -29,14 +29,15 @@ client.query('DROP TABLE IF EXISTS transactions cascade;');
 client.query('DROP TABLE IF EXISTS portfolios cascade;');
 client.query('DROP TABLE IF EXISTS users;');
 
-const query = client.query('CREATE TABLE stock_daily(ticker VARCHAR(8) NOT NULL,' +
-                            'name VARCHAR(256) NOT NULL,' +
+const query = client.query('CREATE TABLE stock_daily(insertId SERIAL,' +
+                            'ticker VARCHAR(8) NOT NULL,' +
+                            // 'name VARCHAR(256) NOT NULL,' +
                             'datetime TIMESTAMP NOT NULL,' +
                             'open MONEY NOT NULL,' +
                             'close MONEY NOT NULL,' +
                             'high MONEY NOT NULL,' +
                             'low MONEY NOT NULL,' +
-                            'PRIMARY KEY (ticker, datetime));');
+                            'PRIMARY KEY (insertId));');
 
 const query1 = client.query('CREATE TABLE stock_live(ticker VARCHAR(8) NOT NULL,' +
                             'name VARCHAR(256) NOT NULL,' +
@@ -78,8 +79,8 @@ client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test2', '$2a$08$7/
 client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test3', '$2a$08$7/AjFJISfFFIQ83vkV9AAeInVmANXU/af0/Nnu4y6xRRHTsOykS8W');");
 client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname) VALUES (1, 'BESTportfolio');");
 client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname) VALUES (2, 'TESTportfolio');");
-client.query("INSERT INTO STOCK_DAILY (TICKER, NAME, DATETIME, OPEN, CLOSE, HIGH, LOW) VALUES " +
-    "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00, 12.15, 15.23, 8.99);");
+// client.query("INSERT INTO STOCK_DAILY (TICKER, NAME, DATETIME, OPEN, CLOSE, HIGH, LOW) VALUES " +
+//     "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00, 12.15, 15.23, 8.99);");
 client.query("INSERT INTO STOCK_LIVE (TICKER, NAME, DATETIME, price) VALUES " +
     "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00);");
 client.query("INSERT INTO dw_historical (TICKER, NAME, DATETIME, price) VALUES " +
