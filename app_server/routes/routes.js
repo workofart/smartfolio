@@ -30,6 +30,8 @@ module.exports = function(passport) {
     router.get('/market/GetGoogleFinanceData/', ctrlMarket.GetGoogleFinanceData)
     /* GET request for Yahoo Finance News */
     router.get('/market/GetYahooFinanceNews', ctrlMarket.GetYahooFinanceNews)
+    /* GET request for companies in Database */
+    router.get('/market/GetCompanyList', ctrlMarket.GetCompanyList)
 
     /* GET latest price from Yahoo Finance */
     router.get('/getLatestPrice', ctrlPortfolio.latestPrice);

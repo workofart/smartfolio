@@ -3,6 +3,7 @@ var request = require("request");
 var moment = require("moment");
 var async = require("async");
 var http = require('http');
+var model = require('../models/models');
 
 var renderMarket = function(req, res) {
 
@@ -164,4 +165,13 @@ module.exports.GetYahooFinanceNews = function(req, res) {
 		console.log("Returning live news");
 		getNewsRSSInJson(ticker, num);
 	}
+}
+
+// Get companies from database
+module.exports.GetCompanyList = function(req, res) {
+	model.Companies.findAll({
+		order: 'companyid'
+	}).then(function(companies) {
+		res.send(companies);
+	})
 }

@@ -3,16 +3,57 @@ var GoogleFinanceData = GoogleFinanceData || {};
 
 
 // Get companyList JSON
+// var ticker = [];
+// var companyName = [];
+
+// var companyList = $.ajax({
+// 		url: '/javascripts/companyList.json',
+// 		type: 'GET'
+// 	})
+// 	.done(function(data) {
+// 		console.log('done~!');
+// 		// Select2 placeholder requires an empty option 
+// 		$("#searchBox").append($("<option>"));
+// 		$("#searchBox2").append($("<option>"));
+// 		for (var i = 0; i < data.length; i++) {
+// 			ticker.push({
+// 				id: i,
+// 				text: data[i].ticker
+// 			});
+// 			companyName.push({
+// 				id: i,
+// 				text: data[i].companyName
+// 			});
+// 		}
+// 		$("#searchBox").select2({
+// 			// Placeholder defined in Jade file apparently doesn't work
+// 			placeholder: "Company Name",
+// 			data: companyName
+// 		});
+// 		$("#searchBox2").select2({
+// 			placeholder: "Ticker",
+// 			data: ticker
+// 		});
+
+// 		// Search a random ticker when page loads
+// 		var random = Math.floor((Math.random() * data.length) + 1);
+// 		var $box1 = $("#searchBox").select2();
+// 		var $box2 = $("#searchBox2").select2();
+// 		$box1.val(42).trigger("change");
+// 		$box2.val(42).trigger("change");
+// 		searchQuote();
+
+// 		return data;
+// 	})
+
+// Sending companyList over GET request takes a long time,
+// Avoidable unless using cookies or storing the list in public/
 var ticker = [];
 var companyName = [];
-
 var companyList = $.ajax({
-		url: '/javascripts/companyList.json',
+		url: '/market/GetCompanyList',
 		type: 'GET'
-	})
-	.done(function(data) {
-		console.log('done~!');
-		// Select2 placeholder requires an empty option 
+	}).done(function(data) {
 		$("#searchBox").append($("<option>"));
 		$("#searchBox2").append($("<option>"));
 		for (var i = 0; i < data.length; i++) {
@@ -22,7 +63,7 @@ var companyList = $.ajax({
 			});
 			companyName.push({
 				id: i,
-				text: data[i].companyName
+				text: data[i].name
 			});
 		}
 		$("#searchBox").select2({
