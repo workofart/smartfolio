@@ -19,3 +19,8 @@ module.exports.Transactions = Transactions;
 var StockDailyMeta = require('./stockDaily');
 var StockDaily = connection.define('stock_daily', StockDailyMeta.attributes, StockDailyMeta.options);
 module.exports.StockDaily = StockDaily;
+
+/* companies */
+var CompaniesMeta = require('./companies');
+var Companies = connection.define('companies', CompaniesMeta.attributes, CompaniesMeta.options);
+module.exports.Companies = Companies;

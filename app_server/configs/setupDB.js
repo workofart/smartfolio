@@ -22,6 +22,7 @@ client.on('error', function(error) {
 });
 
 
+client.query('DROP TABLE IF EXISTS companies;');
 client.query('DROP TABLE IF EXISTS stock_daily;');
 client.query('DROP TABLE IF EXISTS stock_live;');
 client.query('DROP TABLE IF EXISTS dw_Historical;');
@@ -72,6 +73,25 @@ client.query('CREATE TABLE transactions(transactionid SERIAL,' +
                             'price MONEY NOT NULL,' +
                             'status INTEGER NOT NULL DEFAULT 0,' +
                             'PRIMARY KEY (transactionid));');
+
+client.query('CREATE TABLE companies(companyid SERIAL,' +
+                            'ticker TEXT NOT NULL,' +
+                            'name TEXT NOT NULL,' +
+                            'exchange TEXT NOT NULL,' +
+                            'PRIMARY KEY (companyid));',
+             function(err, result) {
+                // Load companies in callback, otherwise table may not be created...
+                var model = require('../models/models');
+                var companyList = require('./companyList.json');
+                for (var i = 0; i < companyList.length; i++) {
+                    // No need for checking because we drop the table every time, so no duplication
+                    model.Companies.create({
+                        ticker: companyList[i].ticker,
+                        name: companyList[i].companyName,
+                        exchange: 'NASDAQ'
+                    });
+                }
+             });
 
 // Password is 1234
 client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test', '$2a$08$7/AjFJISfFFIQ83vkV9AAeInVmANXU/af0/Nnu4y6xRRHTsOykS8W');");
