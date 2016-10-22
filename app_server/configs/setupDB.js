@@ -34,22 +34,22 @@ const query = client.query('CREATE TABLE stock_daily(insertId SERIAL,' +
                             'ticker VARCHAR(8) NOT NULL,' +
                             // 'name VARCHAR(256) NOT NULL,' +
                             'datetime TIMESTAMP NOT NULL,' +
-                            'open MONEY NOT NULL,' +
-                            'close MONEY NOT NULL,' +
-                            'high MONEY NOT NULL,' +
-                            'low MONEY NOT NULL,' +
+                            'open NUMERIC NOT NULL,' +
+                            'close NUMERIC NOT NULL,' +
+                            'high NUMERIC NOT NULL,' +
+                            'low NUMERIC NOT NULL,' +
                             'PRIMARY KEY (insertId));');
 
 const query1 = client.query('CREATE TABLE stock_live(ticker VARCHAR(8) NOT NULL,' +
                             'name VARCHAR(256) NOT NULL,' +
                             'datetime TIMESTAMP NOT NULL,' +
-                            'price MONEY NOT NULL,' +
+                            'price NUMERIC NOT NULL,' +
                             'PRIMARY KEY (ticker, datetime));');
 
 const query2 = client.query('CREATE TABLE dw_Historical(ticker VARCHAR(8) NOT NULL,' +
                             'name VARCHAR(256) NOT NULL,' +
                             'datetime TIMESTAMP NOT NULL,' +
-                            'price MONEY NOT NULL,' +
+                            'price NUMERIC NOT NULL,' +
                             'PRIMARY KEY (ticker, datetime));');
 
 client.query('CREATE TABLE users(userid SERIAL,' +
@@ -61,7 +61,7 @@ client.query('CREATE TABLE users(userid SERIAL,' +
 client.query('CREATE TABLE portfolios(portfolioid SERIAL,' +
                             'userid INTEGER REFERENCES users(userid),' +
                             'portfolioname VARCHAR(32) NOT NULL,' +
-                            'balance MONEY NOT NULL DEFAULT 0,' +
+                            'balance NUMERIC NOT NULL DEFAULT 0,' +
                             'isActive boolean NOT NULL DEFAULT TRUE ,' +
                             'PRIMARY KEY (portfolioid));');
 
@@ -70,7 +70,7 @@ client.query('CREATE TABLE transactions(transactionid SERIAL,' +
                             'datetime TIMESTAMP NOT NULL,' +
                             'ticker VARCHAR(8) NOT NULL,' +
                             'quantity INTEGER NOT NULL,' +
-                            'price MONEY NOT NULL,' +
+                            'price NUMERIC NOT NULL,' +
                             'status INTEGER NOT NULL DEFAULT 0,' +
                             'PRIMARY KEY (transactionid));');
 
@@ -105,11 +105,11 @@ client.query("INSERT INTO STOCK_LIVE (TICKER, NAME, DATETIME, price) VALUES " +
     "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00);");
 client.query("INSERT INTO dw_historical (TICKER, NAME, DATETIME, price) VALUES " +
     "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00);");
-client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price) VALUES " +
-    "(1, CURRENT_TIMESTAMP, 'AAPL', 100, 10.00);");
-client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price) VALUES " +
-    "(1, CURRENT_TIMESTAMP, 'FB', 100, 30.00);");
-client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price) VALUES " +
-    "(1, CURRENT_TIMESTAMP, 'GOOG', 100, 20.00);");
+client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price, status) VALUES " +
+    "(1, CURRENT_TIMESTAMP, 'AAPL', 100, 10.00, 1);");
+client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price, status) VALUES " +
+    "(1, CURRENT_TIMESTAMP, 'FB', 100, 30.00, 1);");
+client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price, status) VALUES " +
+    "(1, CURRENT_TIMESTAMP, 'GOOG', 100, 20.00,1 );");
 client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price) VALUES " +
     "(2, CURRENT_TIMESTAMP, 'INTC', 1000, 30.00);");
