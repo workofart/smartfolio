@@ -181,7 +181,7 @@ function getPortfolioBookValueById(pid) {
         })
         .done(function(data) {
             console.log(data);
-            populateCompositionChart(data, '#myChart');
+            populateCompositionChart(data, '#myChart', 'Book Value');
         });
 }
 
@@ -193,7 +193,7 @@ function getPortfolioRealValueById(pid) {
         })
         .done(function(data) {
             console.log(data);
-            populateCompositionChart(data, '#nv-donut-chart');
+            populateCompositionChart(data, '#nv-donut-chart', 'Market Value');
         });
 }
 
@@ -295,7 +295,7 @@ function getTransactions () {
 
 /* D3 */
 // Disadvantage -- does not easily resize
-var populateCompositionChart = function(data, chartId) {
+var populateCompositionChart = function(data, chartId, title) {
     var blue="#348fe2",
     blueLight="#5da5e8",
     blueDark="#1993E4",
@@ -328,7 +328,7 @@ var populateCompositionChart = function(data, chartId) {
                 .width(600)
                 .height(400);
 
-            a.title("Portfolio");
+            a.title(title);
             a.pie.labelsOutside(true).donut(true);
             
             // LISTEN TO WINDOW RESIZE
