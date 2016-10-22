@@ -197,3 +197,69 @@ module.exports.getPortfolioCompositionById = function (req, res) {
         })
     }
 }
+
+module.exports.getPortfolioRealValueById = function (req, res) {
+    var user = getUserObject(req);
+    // var uid = parseInt(req.params.uid);
+    var uid = parseInt(user.userid);
+    var pid = parseInt(req.params.pid);
+
+    if (Object.keys(user).length === 0) {
+        sendJsonResponse(res, 404, 'Not authorized to perform that action');
+    } else {
+
+        model.Portfolios.findOne({
+            where: { portfolioid: pid }
+        }).then(function(result) {
+            if (user.userid !== result.dataValues.userid) {
+                sendJsonResponse(res, 404, 'Not authorized to perform that action');
+            } else {
+                query = 'SELECT * FROM public.GetPortfolioRealValueById(:pid);'
+                connection.query(query, 
+                    {
+                        replacements: {
+                            pid: pid
+                        },
+                        type: connection.QueryTypes.SELECT
+                    })
+                    .then(function(result) {
+                        console.log(result);
+                        sendJsonResponse(res, 200, result);
+                    })
+            }
+        })
+    }
+}
+
+module.exports.getPortfolioBookValueById = function (req, res) {
+    var user = getUserObject(req);
+    // var uid = parseInt(req.params.uid);
+    var uid = parseInt(user.userid);
+    var pid = parseInt(req.params.pid);
+
+    if (Object.keys(user).length === 0) {
+        sendJsonResponse(res, 404, 'Not authorized to perform that action');
+    } else {
+
+        model.Portfolios.findOne({
+            where: { portfolioid: pid }
+        }).then(function(result) {
+            if (user.userid !== result.dataValues.userid) {
+                sendJsonResponse(res, 404, 'Not authorized to perform that action');
+            } else {
+                query = 'SELECT * FROM public.GetPortfolioBookValueById(:pid);'
+                connection.query(query, 
+                    {
+                        replacements: {
+                            pid: pid
+                        },
+                        type: connection.QueryTypes.SELECT
+                    })
+                    .then(function(result) {
+                        console.log(result);
+                        sendJsonResponse(res, 200, result);
+                    })
+            }
+        })
+    }
+}

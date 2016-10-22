@@ -154,21 +154,44 @@ function createPortfolio () {
     });
 }
 
-function getPortfolioCompositionById(pid) {
-    var urlparts = '/' + pid;
+// function getPortfolioCompositionById(pid) {
+//     var urlparts = '/' + pid;
+//     $.ajax({
+//             url: '/api/portfolio/composition' + urlparts,
+//             type: 'GET',
+//             datatype: 'application/json'
+//         })
+//         .done(function(data) {
+//             console.log(data);
+//             // Do not need this after converting money to numeric
+//             // for (var i = 0; i < data.length; i++) {
+//             //     data[i].portion = Number((data[i].portion).replace(/[^0-9\.]+/g,""));
+//             // }
+//             populateCompositionChart(data, '#myChart');
+//         });
+// }
+
+function getPortfolioBookValueById(pid) {
     $.ajax({
-            url: '/api/portfolio/composition' + urlparts,
+            url: '/api/portfolio/bookvalue/' + pid,
             type: 'GET',
             datatype: 'application/json'
         })
         .done(function(data) {
             console.log(data);
-            // Do not need this after converting money to numeric
-            // for (var i = 0; i < data.length; i++) {
-            //     data[i].portion = Number((data[i].portion).replace(/[^0-9\.]+/g,""));
-            // }
-            populateCompositionChart(data, '#myChart');
-            populateCompositionChart(data, '#nv-donut-chart');
+            populateCompositionChart(data, '#myChart', 'Book Value');
+        });
+}
+
+function getPortfolioRealValueById(pid) {
+    $.ajax({
+            url: '/api/portfolio/realvalue/' + pid,
+            type: 'GET',
+            datatype: 'application/json'
+        })
+        .done(function(data) {
+            console.log(data);
+            populateCompositionChart(data, '#nv-donut-chart', 'Market Value');
         });
 }
 
@@ -271,7 +294,7 @@ function getTransactions () {
 
 /* D3 */
 // Disadvantage -- does not easily resize
-var populateCompositionChart = function(data, chartId) {
+var populateCompositionChart = function(data, chartId, title) {
     var blue="#348fe2",
     blueLight="#5da5e8",
     blueDark="#1993E4",
@@ -295,7 +318,7 @@ var populateCompositionChart = function(data, chartId) {
         function(){
             var a = nv.models.pieChart()
                 .x(function(e){return e.ticker})
-                .y(function(e){return e.portion})
+                .y(function(e){return e.value})
                 .showLabels(!0)
                 .labelThreshold(.05)
                 .labelType("percent")
@@ -304,7 +327,7 @@ var populateCompositionChart = function(data, chartId) {
                 .width(600)
                 .height(400);
 
-            a.title("Portfolio");
+            a.title(title);
             a.pie.labelsOutside(true).donut(true);
             
             // LISTEN TO WINDOW RESIZE

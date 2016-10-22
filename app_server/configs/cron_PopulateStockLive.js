@@ -4,7 +4,7 @@ var moment = require('moment');
 var connection = require('./sequelize');
 
 // Should move this after, or not?
-var GetYahooFinanceLiveQuotes = function(ticker) {
+var PopulateStockLive = function(ticker) {
 
     // var baseUrl = 'https://query.yahooapis.com/v1/public/yql?q=';
     // var YQLquery = 'select * from yahoo.finance.quotes where symbol IN ("' + ticker + '")';
@@ -58,15 +58,23 @@ var GetYahooFinanceLiveQuotes = function(ticker) {
 }
 
 
+var companyList = ['AAPL', 'MSFT', 'INTC', 'GOOG', 'FB'];
+function PopulateStockLiveForAllCompanies() {
+    for (var i = 0; i < companyList.length; i++) {
+        var ticker = companyList[i];
+        PopulateStockLive(ticker);
+    }
+}
+
 var job = new CronJob({
     // Follows format in http://crontab.org/
     // Runs every 30 seconds 9 AM to 5 PM Monday to Friday, last run is 16:59:30 
     cronTime: '0,30 * 9-16 * * 1-5',
-    onTick: function() { GetYahooFinanceLiveQuotes('AAPL'); },
+    onTick: function() { PopulateStockLiveForAllCompanies(); },
     onComplete: function() {
         // This only runs when the entire job exits, i.e. never for a forever running job
         console.log('Job completed');
     },
     start: true, // Set to false means need to do job.start() later
-    runOnInit: false // Fire once immediately
+    runOnInit: true // Fire once immediately
 });
