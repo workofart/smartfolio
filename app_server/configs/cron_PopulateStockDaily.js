@@ -62,7 +62,7 @@ var PopulateStockDaily = function(ticker) {
     })
 }
 
-var companyList = ['AAPL', 'MSFT', 'INTC', 'GOOG'];
+var companyList = ['AAPL', 'MSFT', 'INTC', 'GOOG', 'FB'];
 function PopulateStockDailyForAllCompanies() {
     for (var i = 0; i < companyList.length; i++) {
         var ticker = companyList[i];
