@@ -9,7 +9,7 @@ CREATE OR REPLACE FUNCTION public.GetPortfolioCompositionByID
 )
 RETURNS TABLE (
     ticker VARCHAR,
-    portion MONEY
+    portion NUMERIC
 )
 AS
 $$

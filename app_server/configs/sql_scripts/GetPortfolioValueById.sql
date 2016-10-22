@@ -7,7 +7,7 @@ CREATE OR REPLACE FUNCTION public.GetPortfolioValueById
     s_portfolioid INTEGER
 )
 RETURNS TABLE (
-    value MONEY
+    value NUMERIC
 )
 AS
 $$
