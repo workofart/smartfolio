@@ -165,9 +165,10 @@ function getPortfolioCompositionById(pid) {
         })
         .done(function(data) {
             console.log(data);
-            for (var i = 0; i < data.length; i++) {
-                data[i].portion = Number((data[i].portion).replace(/[^0-9\.]+/g,""));
-            }
+            // Do not need this after converting money to numeric
+            // for (var i = 0; i < data.length; i++) {
+            //     data[i].portion = Number((data[i].portion).replace(/[^0-9\.]+/g,""));
+            // }
             populateCompositionChart(data, '#myChart');
             populateCompositionChart(data, '#nv-donut-chart');
         });
