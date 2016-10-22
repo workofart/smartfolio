@@ -8,6 +8,7 @@ module.exports = function(passport) {
     var ctrlPortfolioDetail = require('../controllers/portfolio_detail');
     var signupController = require('../controllers/signup');
     var loginController = require('../controllers/login');
+    var ctrlTesting = require('../controllers/testing');
 
     var isAuthenticated = function (req, res, next) {
         if (req.isAuthenticated())
@@ -20,6 +21,9 @@ module.exports = function(passport) {
     router.get('/', function(req, res, next) { req.session.redirectTo = '/'; next(); }, ctrlIndex.index);
     /* GET Analysis page */
     router.get('/market', function(req, res, next) { req.session.redirectTo = '/market'; next(); }, ctrlMarket.market);
+    /* GET Testing page */
+    router.get('/testing', function(req, res, next) { req.session.redirectTo = '/testing'; next(); }, ctrlTesting.testing);
+
     /* GET Portfolio Overview page */
     router.get('/portfolio', isAuthenticated, ctrlPortfolio.portfolio);
 

@@ -20,8 +20,8 @@ module.exports.buyStock = function (req, res) {
         datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
         ticker: req.body.ticker,
         quantity: req.body.quantity,
-        price: req.body.price
-
+        price: req.body.price,
+        status: 1
     }).then(function (transaction) {
         sendJsonResponse(res, 200, 'Success');
     });
@@ -35,7 +35,8 @@ module.exports.sellStock = function (req, res) {
         datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
         ticker: req.body.ticker,
         quantity: -req.body.quantity,
-        price: req.body.price
+        price: req.body.price,
+        status: 1
 
     }).then(function (transaction) {
         sendJsonResponse(res, 200, 'Success');

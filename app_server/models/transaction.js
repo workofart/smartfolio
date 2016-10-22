@@ -20,6 +20,9 @@ var attributes = {
     },
     price: {
         type: Sequelize.DOUBLE
+    },
+    status: {
+        type: Sequelize.INTEGER
     }
 };
 
