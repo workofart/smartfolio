@@ -8,6 +8,10 @@ block page-specific-js-css
     script(defer type='text/javascript' src='/javascripts/testing_actions.js')
 block content
     div.row
-        div.col-md-6
+        div.col-md-12
             div.well
-                button(onclick='performTransactionTest();' class='btn btn-primary btn-lg') Bulk Add Transactions
+                ul(class='nav nav-pills nav-stacked')
+                    li
+                        button(onclick='performTransactionTest();' class='btn btn-primary btn-lg') Bulk Add Transactions
+                    li
+                        button(onclick='reloadDB();' class='btn btn-primary btn-lg') Reload DB

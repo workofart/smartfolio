@@ -21,8 +21,10 @@ module.exports = function(passport) {
     router.get('/', function(req, res, next) { req.session.redirectTo = '/'; next(); }, ctrlIndex.index);
     /* GET Analysis page */
     router.get('/market', function(req, res, next) { req.session.redirectTo = '/market'; next(); }, ctrlMarket.market);
+
     /* GET Testing page */
     router.get('/testing', function(req, res, next) { req.session.redirectTo = '/testing'; next(); }, ctrlTesting.testing);
+    router.get('/testing/reloadDB', ctrlTesting.reloadDB);
 
     /* GET Portfolio Overview page */
     router.get('/portfolio', isAuthenticated, ctrlPortfolio.portfolio);

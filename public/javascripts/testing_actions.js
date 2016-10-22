@@ -27,3 +27,12 @@ function performTransactionTest() {
     }
 
 }
+
+function reloadDB() {
+    $.ajax({
+        url: '/testing/reloadDB',
+        type: 'GET',
+        data: {},
+        datatype: 'application/json'
+    });
+}
