@@ -1,4 +1,6 @@
 var exec = require('child_process').exec;
+var moment = require('moment');
+var model = require('../models/models');
 
 var renderTesting = function(req, res) {
 
@@ -16,6 +18,29 @@ module.exports.testing = function(req, res) {
 
 module.exports.reloadDB = function (req, res) {
     reloadDB();
+}
+
+module.exports.testingDiffDates = function(req, res) {
+    var tickers = ['AAPL', 'MSFT', 'FB', 'GOOG', 'INTC'];
+    for (var i = 0; i < 1000; i++) {
+        var quantity = Math.floor((Math.random() * 1000)) - 500;
+        var price = Math.floor((Math.random() * 1000));
+        var date = new Date();
+        date.setDate(date.getDate() - Math.floor((Math.random() * 730)));
+        var datetime = moment(date).format('YYYY/MM/DD HH:mm:ss');
+        var ticker = tickers[Math.floor(Math.random() * 5)];
+
+        model.Transactions.create({
+            portfolioid: 1,
+            datetime: datetime,
+            ticker: ticker,
+            quantity: quantity,
+            price: price,
+            status: 1
+        });
+    }
+
+    res.send('Completed');
 }
 
 function reloadDB() {

@@ -24,6 +24,7 @@ module.exports = function(passport) {
 
     /* GET Testing page */
     router.get('/testing', function(req, res, next) { req.session.redirectTo = '/testing'; next(); }, ctrlTesting.testing);
+    router.get('/testing/withDates', ctrlTesting.testingDiffDates);
     router.get('/testing/reloadDB', ctrlTesting.reloadDB);
 
     /* GET Portfolio Overview page */

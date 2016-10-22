@@ -28,6 +28,13 @@ function performTransactionTest() {
 
 }
 
+function performTransactionTest2() {
+    $.ajax({
+        url: '/testing/withDates',
+        type: 'GET',
+    });
+}
+
 function reloadDB() {
     $.ajax({
         url: '/testing/reloadDB',
