@@ -1,0 +1,10 @@
+svg {
+    display: block;
+}
+
+#performance-line-graph {
+    margin: 0px;
+    padding: 0px;
+    height: 600px;
+    width: 100%;
+}

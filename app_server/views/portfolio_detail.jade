@@ -1,6 +1,7 @@
 extends layout
 block page-specific-js-css
     link(rel='stylesheet', href='/stylesheets/nv.d3.min.css')
+    link(rel='stylesheet', href='/stylesheets/portfolio_detail.css')
 block content
     div.row
         div(class='col-md-12' id='panelList')
@@ -22,6 +23,14 @@ block content
                     div(class='panel-body')
                         div(class='svg-container')
                             div(id='nv-donut-chart')
+        div.row
+            div(class='col-lg-12 col-sm-12')
+                div(class='panel panel-primary')
+                    div(class='panel-heading') Performance Graph
+                    div(class='panel-body')
+                        div(class='svg-container')
+                            div(id='performance-line-graph' class='with-3d-shadow with-transition')
+                                svg
     div.row
         table(class='table table-condensed table-hover' id='transactiontable')
             thead(class='table-hover')

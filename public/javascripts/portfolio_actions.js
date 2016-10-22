@@ -252,48 +252,8 @@ function getTransactions () {
 }
 
 
-/* Chart JS */
-// var ctx = $("#myChart");
-
-// var data = {
-//     labels: [
-//         "Red",
-//         "Blue",
-//         "Yellow"
-//     ],
-//     datasets: [
-//         {
-//             data: [300, 50, 100],
-//             backgroundColor: [
-//                 "#FF6384",
-//                 "#36A2EB",
-//                 "#FFCE56"
-//             ],
-//             hoverBackgroundColor: [
-//                 "#FF6384",
-//                 "#36A2EB",
-//                 "#FFCE56"
-//             ]
-//         }]
-// };
-
-// var myChart = new Chart(ctx, {
-//     type: 'doughnut',
-//     data: data,
-//     options: {
-//         scales: {
-//             yAxes: [{
-//                 ticks: {
-//                     beginAtZero:true
-//                 }
-//             }]
-//         }
-//     }
-// });
-
 
 /* D3 */
-// Disadvantage -- does not easily resize
 var populateCompositionChart = function(data, chartId, title) {
     var blue="#348fe2",
     blueLight="#5da5e8",
@@ -363,133 +323,52 @@ var populateCompositionChart = function(data, chartId, title) {
     );
 }
 
-// var blue="#348fe2",
-//     blueLight="#5da5e8",
-//     blueDark="#1993E4",
-//     aqua="#49b6d6",
-//     aquaLight="#6dc5de",
-//     aquaDark="#3a92ab",
-//     green="#00acac",
-//     greenLight="#33bdbd",
-//     greenDark="#008a8a",
-//     orange="#f59c1a",
-//     orangeLight="#f7b048",
-//     orangeDark="#c47d15",
-//     dark="#2d353c",
-//     grey="#b6c2c9",
-//     purple="#727cb6",
-//     purpleLight="#8e96c5",
-//     purpleDark="#5b6392",
-//     red="#ff5b57";
+var populatePerformanceLineGraph = function(data, chartId) {
 
-// var e=[
-//     {label:"One",value:29,color:red},
-//     {label:"Two",value:12,color:orange},
-//     {label:"Three",value:32,color:green},
-//     {label:"Four",value:196,color:aqua},
-//     {label:"Five",value:17,color:blue},
-//     {label:"Six",value:98,color:purple},
-//     {label:"Seven",value:13,color:grey},
-//     {label:"Eight",value:5,color:dark}];
+}
 
-// // Left Chart
-// nv.addGraph(
-//     function(){
-//         var a = nv.models.pieChart()
-//             .x(function(e){return e.label})
-//             .y(function(e){return e.value})
-//             .showLabels(!0)
-//             .labelThreshold(.05)
-//             .labelType("percent")
-//             .donut(true)
-//             .donutRatio(.35)
-//             .width(600)
-//             .height(400)
-//             .padAngle(.03)
-//             .cornerRadius(5);
 
-//         a.title("Portfolio");
-//         a.pie.labelsOutside(true).donut(true);
-        
-//         // LISTEN TO WINDOW RESIZE
-//         // nv.utils.windowResize(a.update);
-//         // LISTEN TO CLICK EVENTS ON SLICES OF THE PIE/DONUT
-//         // a.pie.dispatch.on('elementClick', function() {
-//         //     code...
-//         // });
-//         // a.pie.dispatch.on('chartClick', function() {
-//         //     code...
-//         // });
-//         // LISTEN TO DOUBLECLICK EVENTS ON SLICES OF THE PIE/DONUT
-//         // a.pie.dispatch.on('elementDblClick', function() {
-//         //     code...
-//         // });
-//         // LISTEN TO THE renderEnd EVENT OF THE PIE/DONUT
-//         // a.pie.dispatch.on('renderEnd', function() {
-//         //     code...
-//         // });
-
-//         //nv.utils.windowResize(function() { a.update() });
-//         return d3.select("#myChart")
-//             .append("svg")
-//             .attr("preserveAspectRatio", "xMinYMin meet")
-//             .attr("viewBox", "0 0 600 400")
-//             .classed("svg-content-responsive", true)
-//             .datum(e)
-//             .transition()
-//             .duration(350)
-//             .call(a)
-//             .style({ 'width': 600, 'height': 400 }),a
-//     }
-// );
-
-// // Right Chart
-// nv.addGraph(
-//     function(){
-//         var a = nv.models.pieChart()
-//             .x(function(e){return e.label})
-//             .y(function(e){return e.value})
-//             .showLabels(!0)
-//             .labelThreshold(.05)
-//             .labelType("percent")
-//             .donut(true)
-//             .donutRatio(.35)
-//             .width(600)
-//             .height(400)
-//             .padAngle(.03)
-//             .cornerRadius(5);
-
-//         a.title("Portfolio");
-//         a.pie.labelsOutside(true).donut(true);
-        
-//         // LISTEN TO WINDOW RESIZE
-//         // nv.utils.windowResize(a.update);
-//         // LISTEN TO CLICK EVENTS ON SLICES OF THE PIE/DONUT
-//         // a.pie.dispatch.on('elementClick', function() {
-//         //     code...
-//         // });
-//         // a.pie.dispatch.on('chartClick', function() {
-//         //     code...
-//         // });
-//         // LISTEN TO DOUBLECLICK EVENTS ON SLICES OF THE PIE/DONUT
-//         // a.pie.dispatch.on('elementDblClick', function() {
-//         //     code...
-//         // });
-//         // LISTEN TO THE renderEnd EVENT OF THE PIE/DONUT
-//         // a.pie.dispatch.on('renderEnd', function() {
-//         //     code...
-//         // });
-
-//         //nv.utils.windowResize(function() { a.update() });
-//         return d3.select("#nv-donut-chart")
-//             .append("svg")
-//             .attr("preserveAspectRatio", "xMinYMin meet")
-//             .attr("viewBox", "0 0 600 400")
-//             .classed("svg-content-responsive", true)
-//             .datum(e)
-//             .transition()
-//             .duration(350)
-//             .call(a)
-//             .style({ 'width': 600, 'height': 400 }),a
-//     }
-// );
+    nv.addGraph(function() {
+        console.log(testData());
+        var chart = nv.models.lineWithFocusChart();
+        chart.brushExtent([50,70]);
+        chart.xAxis.tickFormat(d3.format(',f')).axisLabel("Stream - 3,128,.1");
+        chart.x2Axis.tickFormat(d3.format(',f'));
+        chart.yTickFormat(d3.format(',.2f'));
+        chart.useInteractiveGuideline(true);
+        d3.select('#performance-line-graph svg')
+            .datum(testData())
+            .call(chart);
+        nv.utils.windowResize(chart.update);
+        return chart;
+    });
+    function testData() {
+        return stream_layers(3,128,.1).map(function(data, i) {
+            return {
+                key: 'Stream' + i,
+                area: i === 1,
+                values: data
+            };
+        });
+    }
+    function stream_layers(n, m, o) {
+        if (arguments.length < 3) o = 0;
+        function bump(a) {
+            var x = 1 / (.1 + Math.random()),
+                y = 2 * Math.random() - .5,
+                z = 10 / (.1 + Math.random());
+            for (var i = 0; i < m; i++) {
+            var w = (i / m - y) * z;
+            a[i] += x * Math.exp(-w * w);
+            }
+        }
+        return d3.range(n).map(function() {
+            var a = [], i;
+            for (i = 0; i < m; i++) a[i] = o + o * Math.random();
+            for (i = 0; i < 5; i++) bump(a);
+            return a.map(stream_index);
+            });
+        }
+    function stream_index(d, i) {
+  return {x: i, y: Math.max(0, d)};
+}
