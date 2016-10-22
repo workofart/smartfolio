@@ -127,16 +127,14 @@ function getDollarChange(purchasePrice, currentPrice) {
     return dollarChanges;
 }
 
-function fillBuyStockForm () {
-    // var ticker = $('#tickerSelected');
-    var ticker = 'AAPL'
+function fillBuyStockForm (ticker) {
+    console.log('ticker' + ticker);
     getLatestPrice(ticker);
     buy = 1;
 }
 
-function fillSellStockForm () {
-    // var ticker = $('#tickerSelected');
-    var ticker = 'AAPL'
+function fillSellStockForm (ticker) {
+    console.log('ticker' + ticker);
     getLatestPrice(ticker);
     buy = 0;
 }
@@ -187,6 +185,7 @@ function getLatestPrice(ticker) {
         .done(function (data) {
             console.log('getting latest price: $' + data);
             $('#latestPrice').text('$'+ data);
+            $('#tickerDisplay').text(ticker);
         })
 }
 
@@ -199,7 +198,7 @@ function performTransaction() {
     var arr = window.location.href.split('/');
     var currentpid = arr[arr.length - 1];
 
-    var ticker = 'MSFT'
+    var ticker = $('#tickerDisplay').text();
     var latestPrice = $('#latestPrice').text().substr(1);
     var quantity = $('#quantity').val();
     $.ajax({
