@@ -156,20 +156,43 @@ function createPortfolio () {
     });
 }
 
-function getPortfolioCompositionById(pid) {
-    var urlparts = '/' + pid;
+// function getPortfolioCompositionById(pid) {
+//     var urlparts = '/' + pid;
+//     $.ajax({
+//             url: '/api/portfolio/composition' + urlparts,
+//             type: 'GET',
+//             datatype: 'application/json'
+//         })
+//         .done(function(data) {
+//             console.log(data);
+//             // Do not need this after converting money to numeric
+//             // for (var i = 0; i < data.length; i++) {
+//             //     data[i].portion = Number((data[i].portion).replace(/[^0-9\.]+/g,""));
+//             // }
+//             populateCompositionChart(data, '#myChart');
+//         });
+// }
+
+function getPortfolioBookValueById(pid) {
     $.ajax({
-            url: '/api/portfolio/composition' + urlparts,
+            url: '/api/portfolio/bookvalue/' + pid,
             type: 'GET',
             datatype: 'application/json'
         })
         .done(function(data) {
             console.log(data);
-            // Do not need this after converting money to numeric
-            // for (var i = 0; i < data.length; i++) {
-            //     data[i].portion = Number((data[i].portion).replace(/[^0-9\.]+/g,""));
-            // }
             populateCompositionChart(data, '#myChart');
+        });
+}
+
+function getPortfolioRealValueById(pid) {
+    $.ajax({
+            url: '/api/portfolio/realvalue/' + pid,
+            type: 'GET',
+            datatype: 'application/json'
+        })
+        .done(function(data) {
+            console.log(data);
             populateCompositionChart(data, '#nv-donut-chart');
         });
 }
@@ -296,7 +319,7 @@ var populateCompositionChart = function(data, chartId) {
         function(){
             var a = nv.models.pieChart()
                 .x(function(e){return e.ticker})
-                .y(function(e){return e.portion})
+                .y(function(e){return e.value})
                 .showLabels(!0)
                 .labelThreshold(.05)
                 .labelType("percent")
