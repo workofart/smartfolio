@@ -50,6 +50,28 @@ function getPortfolioById() {
         })
 }
 
+var ticker = [];
+
+var companyList = $.ajax({
+    url: '/market/GetCompanyList',
+    type: 'GET'
+}).done(function(data) {
+    $("#tickerBox").append($("<option>"));
+    for (var i = 0; i < data.length; i++) {
+        ticker.push({
+            id: i,
+            text: data[i].ticker
+        });
+    }
+    $("#tickerBox").select2({
+        // Placeholder defined in Jade file apparently doesn't work
+        placeholder: "Ticker",
+        data: ticker
+    });
+
+    return data;
+})
+
 
 // auto fill the add to portfolio fields
 function fillAddToPortfolioForm() {
@@ -65,12 +87,20 @@ function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
 // calculates the total dollar amount based on the latest price and quantity entered by user
 function getTotalAmount() {
     var latestPrice = $('#latestPrice').text().substr(1);
+    if (latestPrice == '') {
+        latestPrice = $('#latestPrice_newStock').text().substr(1);
+    }
+    console.log('LatestPrice: ' + latestPrice);
     var quantity = $('#quantity').val();
+    if (quantity == '') {
+        quantity = $('#quantity_newStock').val();
+    }
+    console.log('Quantity: ' + quantity);
     if (isNumber(quantity)) {
         var totalAmount = (Number(latestPrice) * Number(quantity)).toFixed(2);
         $('#totalAmount').text(totalAmount);
+        $('#totalAmount_newStock').text(totalAmount);
     }
-
 }
 
 
@@ -195,6 +225,12 @@ function getPortfolioRealValueById(pid) {
         });
 }
 
+function fillLatestPrice() {
+    var ticker = $("#tickerBox option:selected").text();
+    console.log('filllatestPrice: ' + ticker);
+    getLatestPrice(ticker);
+}
+
 function getLatestPrice(ticker) {
     var url = '/getLatestPrice'
     $.ajax({
@@ -208,6 +244,7 @@ function getLatestPrice(ticker) {
         .done(function (data) {
             console.log('getting latest price: $' + data);
             $('#latestPrice').text('$'+ data);
+            $('#latestPrice_newStock').text('$' + data);
             $('#tickerDisplay').text(ticker);
         })
 }
@@ -224,6 +261,11 @@ function performTransaction() {
     var ticker = $('#tickerDisplay').text();
     var latestPrice = $('#latestPrice').text().substr(1);
     var quantity = $('#quantity').val();
+
+    ticker == '' ? ticker = $("#tickerBox option:selected").text() : ticker = $('#tickerDisplay').text();
+    latestPrice == '' ? latestPrice = $('#latestPrice_newStock').text().substr(1) : latestPrice = $('#latestPrice').text().substr(1);
+    quantity == '' ? quantity = $('#quantity_newStock').val() : quantity = $('#quantity').val();
+
     $.ajax({
         url: url + '/' + currentpid,
         type: 'POST',
@@ -251,6 +293,11 @@ function getTransactions () {
         })
 }
 
+$("#tickerBox").on("select2:select", function() {
+    var index = $("#tickerBox").val();
+    var $box2 = $("#tickerBox").select2();
+    $box2.val(index).trigger("change");
+});
 
 
 /* D3 */
