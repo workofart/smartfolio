@@ -1,25 +1,42 @@
 extends layout
 block content
-    h1= title
     div.container
         if Message && Message.length
             div(class='alert alert-danger') #{Message}
-    div.container
-        div.row
-            div(class='col-md-4 cols-sm-8')
-                a(href='/market')
-                    div(class='text-center')
+    div.row
+        div.jumbotron
+            div.container
+                h1 Welcome to Smartfolio
+                p= headline
+                p
+                    a(class='btn btn-primary btn-lg' href='/signup' role='button') Register Now
+                    &nbsp
+                    a(class='btn btn-default btn-lg' href='#' role='button') Learn More
+        div(class='row')
+            div(class='col-sm-6 col-md-4')
+                div(class='thumbnail')
+                    a(href='/market')
                         img(src='images/dashboard.png' class='img-rounded')
-                        p
-                            button(type='button' class='btn btn-primary') Market
-            div(class='col-md-4 cols-sm-8')
-                a(href='/portfolio')
-                    div(class='text-center')
+                    div.caption
+                        h3 Markets
+                        p= market_subtitle
+                        p(class='text-center')
+                            a(href='/market' role='button' class='btn btn-info') Markets
+            div(class='col-sm-6 col-md-4')
+                div(class='thumbnail')
+                    a(href='/portfolio')
                         img(src='images/portfolio.png' class='img-rounded')
-                        p
-                            button(type='button' class='btn btn-primary') Portfolio
-            div(class='col-md-4 cols-sm-8')
-                div(class='text-center')
-                    img(src='images/idea.png' class='img-rounded')
-                    p
-                        a(type='button' class='btn btn-primary') Insights
+                    div.caption
+                        h3 Portfolios
+                        p= portfolio_subtitle
+                        p(class='text-center')
+                            a(href='/portfolio' role='button' class='btn btn-info') Portfolios
+            div(class='col-sm-6 col-md-4')
+                div(class='thumbnail')
+                    a(href='/insight')
+                        img(src='images/idea.png' class='img-rounded')
+                    div.caption
+                        h3 Insights
+                        p= insight_subtitle
+                        p(class='text-center')
+                            a(href='/insights' role='button' class='btn btn-info') Insights
