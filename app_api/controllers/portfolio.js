@@ -21,7 +21,8 @@ module.exports.getPortfolioById = function (req, res){
 // POST: localhost:3000/api/portfoliowithstock
 module.exports.createPortfolioWithStock = function (req, res) {
     var user = getUserObject(req);
-    if (user != {}){
+    console.log('createPortfolioWithStock | ' + JSON.stringify(user));
+    if (JSON.stringify(user) != '{}'){
         model.Portfolios.create({ userid : user.userid , portfolioname : req.body.pName}).then(
             function (portfolio) {
                 console.log(portfolio);
@@ -166,11 +167,11 @@ function getUserObject (req) {
 //           {"ticker":"GOOG","portion":"$2,000.00"}]
 module.exports.getPortfolioCompositionById = function (req, res) {
     var user = getUserObject(req);
-    // var uid = parseInt(req.params.uid);
     var uid = parseInt(user.userid);
     var pid = parseInt(req.params.pid);
 
     if (Object.keys(user).length === 0) {
+        console.log('getPortfolioCompositionById user is wrong');
         sendJsonResponse(res, 404, 'Not authorized to perform that action');
     } else {
 

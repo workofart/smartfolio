@@ -736,7 +736,10 @@ function createPortfolioWithStock() {
 		type: 'POST',
 		datatype: 'application/json',
 		data: jsonPortfolio
-	});
+	})
+		.fail(function() {
+			alert('Please login and try again!');
+		});
 }
 
 function getPortfolioId() {

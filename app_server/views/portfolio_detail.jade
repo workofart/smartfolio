@@ -16,10 +16,27 @@ block content
         div.row
             div(class='col-lg-6 col-sm-12')
                 div(class='panel panel-primary')
-                    div(class='panel-heading') Portfolio Composition
+                    div(class='panel-heading') Portfolio Composition &nbsp
                     div(class='panel-body')
                         div(class='svg-container')
                             div(id='myChart')
+                        a(class='btn btn-default' data-toggle='collapse' href='#tableViewPanel' aria-expanded='false' aria-controls='tableViewPanel') Table View &nbsp
+                            span(class='caret')
+                         //For displaying table view
+                        div(class='collapse' id='tableViewPanel')
+                            table(class='table table-condensed table-hover' id='stockTableView')
+                                thead(class='table-hover')
+                                    h4 Stocks in #{header}
+                                    tr(class='info' id='stockTableHeader')
+                                        th Ticker (Symbol)
+                                        th Price
+                                        th Quantity
+                                tbody(class='table-hover' id='stockTableBody')
+                                    tr
+                                        td AAPL
+                                        td $10
+                                        td 100
+
             div(class='col-lg-6 col-sm-12')
                 div(class='panel panel-primary')
                     div(class='panel-heading') Portfolio Composition
