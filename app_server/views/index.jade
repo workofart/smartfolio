@@ -15,7 +15,8 @@ block content
         div(class='row')
             div(class='col-sm-6 col-md-4')
                 div(class='thumbnail')
-                    img(src='images/dashboard.png' class='img-rounded')
+                    a(href='/market')
+                        img(src='images/dashboard.png' class='img-rounded')
                     div.caption
                         h3 Markets
                         p= market_subtitle
@@ -23,7 +24,8 @@ block content
                             a(href='/market' role='button' class='btn btn-info') Markets
             div(class='col-sm-6 col-md-4')
                 div(class='thumbnail')
-                    img(src='images/portfolio.png' class='img-rounded')
+                    a(href='/portfolio')
+                        img(src='images/portfolio.png' class='img-rounded')
                     div.caption
                         h3 Portfolios
                         p= portfolio_subtitle
@@ -31,7 +33,8 @@ block content
                             a(href='/portfolio' role='button' class='btn btn-info') Portfolios
             div(class='col-sm-6 col-md-4')
                 div(class='thumbnail')
-                    img(src='images/idea.png' class='img-rounded')
+                    a(href='/insight')
+                        img(src='images/idea.png' class='img-rounded')
                     div.caption
                         h3 Insights
                         p= insight_subtitle
