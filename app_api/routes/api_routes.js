@@ -19,6 +19,7 @@ router.get('/portfolio/realvalue/:pid', ctrlPortfolio.getPortfolioRealValueById)
 
 router.get('/portfolio/bookvalue/:pid/:date', ctrlPortfolio.getPortfolioBookValueForDateById);
 router.get('/portfolio/bookperformance/:pid', ctrlPortfolio.getPortfolioBookPerformance);
+router.get('/portfolio/realperformance/:pid', ctrlPortfolio.getPortfolioRealPerformance);
 
 router.post('/transaction/buyStock/:id', ctrlTransaction.buyStock);
 router.post('/transaction/sellStock/:id', ctrlTransaction.sellStock);

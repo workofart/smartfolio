@@ -372,6 +372,11 @@ var populateCompositionChart = function(data, chartId, title) {
 }
 
 function getPortfolioPerformance(pid) {
+    
+    var completed_requests = 0;
+    var graph = [];
+
+    // Book
     $.ajax({
         url: '/api/portfolio/bookperformance/' + pid,
         type: 'GET',
@@ -387,8 +392,37 @@ function getPortfolioPerformance(pid) {
         for (var i = 0; i < data.length; i++) {
             data[i].x = new Date(data[i].date);
         }
-        var graph = [{area: false, key: 'Book Value', values: data}];
-        populatePerformanceLineGraph(graph, '#performance-line-graph svg')
+        
+        graph.push({area: false, key: 'Book Value', values: data});
+
+        completed_requests++;
+        if (completed_requests == 2) {
+            populatePerformanceLineGraph(graph, '#performance-line-graph svg')
+        }
+    })
+
+    // Real
+    $.ajax({
+        url: '/api/portfolio/realperformance/' + pid,
+        type: 'GET',
+        datatype: 'application/json'
+    })
+    .done(function(data) {
+        // Need to sort first because it's possible to have out of order
+        // due to ajax requests
+        data.sort(function(a, b) {
+            return a.x - b.x;
+        })
+        // Need to recast date into an actual date object
+        for (var i = 0; i < data.length; i++) {
+            data[i].x = new Date(data[i].date);
+        }
+        graph.push({area: false, key: 'Market Value', values: data});
+
+        completed_requests++;
+        if (completed_requests == 2) {
+            populatePerformanceLineGraph(graph, '#performance-line-graph svg')
+        }
     })
 }
 

@@ -76,5 +76,5 @@ var job = new CronJob({
         console.log('Job completed');
     },
     start: true, // Set to false means need to do job.start() later
-    runOnInit: false // Fire once immediately
+    runOnInit: true // Fire once immediately
 });
