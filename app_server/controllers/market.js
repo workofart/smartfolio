@@ -15,6 +15,7 @@ var renderMarket = function(req, res) {
 	if (req.user) {
 		custom.isLoggedIn = true;
 		custom.ids = req.session.portfolios.ids;
+		custom.names = req.session.portfolios.names;
 	} else {
 		custom.isLoggedIn = false;
 	}

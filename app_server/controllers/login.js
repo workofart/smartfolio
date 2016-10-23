@@ -19,10 +19,14 @@ module.exports.login = function(req, res) {
             }
         }).then(function (portfolios) {
             var ids = [];
+            var names = [];
             for (var i = 0; i < portfolios.length; i++){
                 ids.push(portfolios[i].get({
                     plain: true
                 }).portfolioid);
+                names.push(portfolios[i].get({
+                    plain: true
+                }).portfolioname);
             }
 
             model.Portfolios.count({
@@ -37,6 +41,7 @@ module.exports.login = function(req, res) {
                 req.session.portfolios = {};
                 req.session.portfolios.count = c;
                 req.session.portfolios.ids = ids;
+                req.session.portfolios.names = names;
                 if (req.session.redirectTo) {
                     var link = req.session.redirectTo; 
                     res.redirect(link);

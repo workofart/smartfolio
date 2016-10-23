@@ -22,6 +22,7 @@ module.exports.index = function(req, res) {
 		// If req.user is set, then the req.session.portfolios should be set too
 		// This is done in controllers/login.js
 		custom.ids = req.session.portfolios.ids;
+		custom.names = req.session.portfolios.names;
 	} else {
 		custom.isLoggedIn = false;
 	}

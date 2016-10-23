@@ -16,6 +16,7 @@ module.exports.portfolio = function(req, res) {
     if (req.user) {
         custom.isLoggedIn = true;
         custom.ids = req.session.portfolios.ids;
+        custom.names = req.session.portfolios.names;
         custom.count = req.session.portfolios.count;
         custom.username = req.session.user.username;
     } else {

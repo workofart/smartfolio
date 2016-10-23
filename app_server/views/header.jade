@@ -21,9 +21,9 @@ nav(class='navbar navbar-default navbar-fixed-top')
 								li
 									a(href='/portfolio') Portfolio Overview
 								li(role='separator' class='divider')
-								each val in ids
+								- for (var i = 0; i < ids.length; i ++)
 									li
-										a(href='/portfolio/' + val) Portfolio #{val}
+										a(href='/portfolio/' + ids[i]) #{names[i]}
 						else
 							li
 								a(href='/login?redirectTo=portfolio') Login to see portfolios

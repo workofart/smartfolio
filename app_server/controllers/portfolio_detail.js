@@ -16,6 +16,7 @@ module.exports.portfolioDetail = function(req, res){
         title: 'Smartfolio - Portfolio ' + req.params.pid,
         header: 'Portfolio ' + req.params.pid,
         ids: req.session.portfolios.ids,
+        names: req.session.portfolios.names,
         Message: req.flash('accessMessage')
     };
 
