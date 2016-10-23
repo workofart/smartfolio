@@ -302,6 +302,9 @@ $("#tickerBox").on("select2:select", function() {
 
 /* D3 */
 var populateCompositionChart = function(data, chartId, title) {
+    if (data.length === 0) {
+        data.push({ticker: "No Data", value: ""});
+    }
     console.log(data);
     var blue="#348fe2",
     blueLight="#5da5e8",
@@ -444,7 +447,7 @@ var populatePerformanceLineGraph = function(data, chartId) {
             .axisLabel("Date")
             .tickFormat( function(d) { return d3.time.format('%Y-%m-%d')(new Date(d)); });
 
-        chart.yTickFormat(d3.format(',.2f'));
+        chart.yTickFormat(d3.format('s'));
         chart.useInteractiveGuideline(true);
 
         d3.select('#performance-line-graph svg')
