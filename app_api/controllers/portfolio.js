@@ -263,3 +263,95 @@ module.exports.getPortfolioBookValueById = function (req, res) {
         })
     }
 }
+
+module.exports.getPortfolioBookValueForDateById = function (req, res) {
+    var user = getUserObject(req);
+    // var uid = parseInt(req.params.uid);
+    var uid = parseInt(user.userid);
+    var pid = parseInt(req.params.pid);
+    var date = new Date(req.params.date);
+
+    if (Object.keys(user).length === 0) {
+        sendJsonResponse(res, 404, 'Not authorized to perform that action');
+    } else {
+
+        model.Portfolios.findOne({
+            where: { portfolioid: pid }
+        }).then(function(result) {
+            if (user.userid !== result.dataValues.userid) {
+                sendJsonResponse(res, 404, 'Not authorized to perform that action');
+            } else {
+                query = 'SELECT * FROM public.GetPortfolioBookValueForDateById(:pid, :date);'
+                connection.query(query, 
+                    {
+                        replacements: {
+                            pid: pid,
+                            date: date
+                        },
+                        type: connection.QueryTypes.SELECT
+                    })
+                    .then(function(result) {
+                        console.log(result);
+                        sendJsonResponse(res, 200, result);
+                    })
+            }
+        })
+    }
+}
+
+module.exports.getPortfolioBookPerformance = function(req, res) {
+    var user = getUserObject(req);
+    var uid = parseInt(user.userid);
+    var pid = parseInt(req.params.pid);
+    // var date = new Date(req.params.date);
+
+    if (Object.keys(user).length === 0) {
+        sendJsonResponse(res, 404, 'Not authorized to perform that action');
+    } else {
+
+        model.Portfolios.findOne({
+            where: { portfolioid: pid }
+        }).then(function(result) {
+            if (user.userid !== result.dataValues.userid) {
+                sendJsonResponse(res, 404, 'Not authorized to perform that action');
+            } else {
+
+
+                var num = 52;
+                var completed_queries = 0;
+                var outResult = [];
+
+                for (var i = 0; i < num; i++) {
+                    (function(index) {
+                        var date = new Date();
+                        date.setDate(date.getDate() - 7 * (num-1));
+                        date.setDate(date.getDate() + 7 * i);
+                        var datetime = moment(date).format('YYYY-MM-DD');
+
+                        query = 'SELECT * FROM public.GetPortfolioBookValueForDateById(:pid, :date);'
+                        connection.query(query, 
+                            {
+                                replacements: {
+                                    pid: pid,
+                                    date: new Date(datetime)
+                                },
+                                type: connection.QueryTypes.SELECT
+                            })
+                            .then(function(data) {
+                                completed_queries++;
+                                var total = 0;
+                                for (var j = 0; j < data.length; j++) {
+                                    total += parseFloat(data[j].value);
+                                }
+                                outResult.push({ x: index, y: total, date: datetime });
+                                
+                                if (completed_queries == num) {
+                                    sendJsonResponse(res, 200, outResult);
+                                }
+                            })
+                    })(i);
+                }
+            }
+        })
+    }
+}

@@ -23,7 +23,7 @@ module.exports.reloadDB = function (req, res) {
 module.exports.testingDiffDates = function(req, res) {
     var tickers = ['AAPL', 'MSFT', 'FB', 'GOOG', 'INTC'];
     for (var i = 0; i < 1000; i++) {
-        var quantity = Math.floor((Math.random() * 1000)) - 500;
+        var quantity = Math.floor((Math.random() * 100));
         var price = Math.floor((Math.random() * 1000));
         var date = new Date();
         date.setDate(date.getDate() - Math.floor((Math.random() * 730)));

@@ -255,6 +255,7 @@ function getTransactions () {
 
 /* D3 */
 var populateCompositionChart = function(data, chartId, title) {
+    console.log(data);
     var blue="#348fe2",
     blueLight="#5da5e8",
     blueDark="#1993E4",
@@ -323,52 +324,100 @@ var populateCompositionChart = function(data, chartId, title) {
     );
 }
 
-var populatePerformanceLineGraph = function(data, chartId) {
-
+function getPortfolioPerformance(pid) {
+    $.ajax({
+        url: '/api/portfolio/bookperformance/' + pid,
+        type: 'GET',
+        datatype: 'application/json'
+    })
+    .done(function(data) {
+        // Need to sort first because it's possible to have out of order
+        // due to ajax requests
+        data.sort(function(a, b) {
+            return a.x - b.x;
+        })
+        // Need to recast date into an actual date object
+        for (var i = 0; i < data.length; i++) {
+            data[i].x = new Date(data[i].date);
+        }
+        var graph = [{area: false, key: 'Book Value', values: data}];
+        populatePerformanceLineGraph(graph, '#performance-line-graph svg')
+    })
 }
 
+var populatePerformanceLineGraph = function(data, chartId) {
+    console.log(data);
+    var values = data[0].values;
 
     nv.addGraph(function() {
-        console.log(testData());
         var chart = nv.models.lineWithFocusChart();
-        chart.brushExtent([50,70]);
-        chart.xAxis.tickFormat(d3.format(',f')).axisLabel("Stream - 3,128,.1");
-        chart.x2Axis.tickFormat(d3.format(',f'));
+        
+        // Set focus to most recent month
+        // chart.brushExtent([values[values.length-4].x, values[values.length-1].x]);
+
+        // This requires values.x to be in Date format already
+        chart.xAxis
+            .axisLabel("Date")
+            .tickFormat( function(d) { return d3.time.format('%Y-%m-%d')(new Date(d)); });
+        chart.x2Axis
+            .axisLabel("Date")
+            .tickFormat( function(d) { return d3.time.format('%Y-%m-%d')(new Date(d)); });
+
         chart.yTickFormat(d3.format(',.2f'));
         chart.useInteractiveGuideline(true);
+
         d3.select('#performance-line-graph svg')
-            .datum(testData())
+            .datum(data)
             .call(chart);
+
         nv.utils.windowResize(chart.update);
         return chart;
     });
-    function testData() {
-        return stream_layers(3,128,.1).map(function(data, i) {
-            return {
-                key: 'Stream' + i,
-                area: i === 1,
-                values: data
-            };
-        });
-    }
-    function stream_layers(n, m, o) {
-        if (arguments.length < 3) o = 0;
-        function bump(a) {
-            var x = 1 / (.1 + Math.random()),
-                y = 2 * Math.random() - .5,
-                z = 10 / (.1 + Math.random());
-            for (var i = 0; i < m; i++) {
-            var w = (i / m - y) * z;
-            a[i] += x * Math.exp(-w * w);
-            }
-        }
-        return d3.range(n).map(function() {
-            var a = [], i;
-            for (i = 0; i < m; i++) a[i] = o + o * Math.random();
-            for (i = 0; i < 5; i++) bump(a);
-            return a.map(stream_index);
-            });
-        }
-    function stream_index(d, i) {
-  return {x: i, y: Math.max(0, d)};
 }
+
+
+
+//     nv.addGraph(function() {
+//         console.log(testData());
+//         var chart = nv.models.lineWithFocusChart();
+//         chart.brushExtent([50,70]);
+//         chart.xAxis.tickFormat(d3.format(',f')).axisLabel("Stream - 3,128,.1");
+//         chart.x2Axis.tickFormat(d3.format(',f'));
+//         chart.yTickFormat(d3.format(',.2f'));
+//         chart.useInteractiveGuideline(true);
+//         d3.select('#performance-line-graph svg')
+//             .datum(testData())
+//             .call(chart);
+//         nv.utils.windowResize(chart.update);
+//         return chart;
+//     });
+//     function testData() {
+//         return stream_layers(3,128,.1).map(function(data, i) {
+//             return {
+//                 key: 'Stream' + i,
+//                 area: i === 1,
+//                 values: data
+//             };
+//         });
+//     }
+//     function stream_layers(n, m, o) {
+//         if (arguments.length < 3) o = 0;
+//         function bump(a) {
+//             var x = 1 / (.1 + Math.random()),
+//                 y = 2 * Math.random() - .5,
+//                 z = 10 / (.1 + Math.random());
+//             for (var i = 0; i < m; i++) {
+//             var w = (i / m - y) * z;
+//             a[i] += x * Math.exp(-w * w);
+//             }
+//         }
+//         return d3.range(n).map(function() {
+//             var a = [], i;
+//             for (i = 0; i < m; i++) a[i] = o + o * Math.random();
+//             for (i = 0; i < 5; i++) bump(a);
+//             return a.map(stream_index);
+//             });
+//         }
+//     function stream_index(d, i) {
+//   return {x: i, y: Math.max(0, d)};
+// }
