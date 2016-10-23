@@ -2,7 +2,18 @@
 module.exports.index = function(req, res) {
 
 	var custom = {
-		title: 'Smartfolio', 
+		title: 'Smartfolio',
+		market_subtitle: 'Research your favourite companies through past \
+						  performance and current news to choose your \
+						  best pick',
+		portfolio_subtitle: 'Manage your portfolios, revisit your past transactions \
+							to achieve your strategic goals using our interactive tools',
+		insight_subtitle: 'Your best friend - it \
+						   will alert you when there\'s an opportunity based \
+						   on your risk appetite and many customizable strategies',
+		headline: 'The interactive risk-free trading simulator that let\'s\
+				   you play with real-time prices and players around the \
+				   world',
 		Message: req.flash('accessMessage')
 	};
 

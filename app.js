@@ -67,6 +67,10 @@ app.use('/api', routesApi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  res.render('error', {
+    err : err,
+    status : err.status
+  })
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
