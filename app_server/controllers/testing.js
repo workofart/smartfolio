@@ -26,7 +26,7 @@ module.exports.testingDiffDates = function(req, res) {
         var quantity = Math.floor((Math.random() * 100));
         var price = Math.floor((Math.random() * 1000));
         var date = new Date();
-        date.setDate(date.getDate() - Math.floor((Math.random() * 730)));
+        date.setDate(date.getDate() - Math.floor((Math.random() * 300)));
         var datetime = moment(date).format('YYYY/MM/DD HH:mm:ss');
         var ticker = tickers[Math.floor(Math.random() * 5)];
 
