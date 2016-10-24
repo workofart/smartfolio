@@ -202,6 +202,10 @@ function PopulateNews(listID, data) {
 		var downButton = '<a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-circle-arrow-down text-danger"></span></a>'
 		$(listID).append('<li class="news-item">' + entry.title + ' ' + link + upButton + downButton + '</li>')
 	}
+
+	if (length === 0) {
+		$(listID).append('<li class="news-item">No news at this moment, please refresh page later</li>');
+	}
 }
 
 

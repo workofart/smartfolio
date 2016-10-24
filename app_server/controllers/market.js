@@ -159,10 +159,15 @@ module.exports.GetYahooFinanceNews = function(req, res) {
 		// Internal parser
 		// If timeout occurs, it's on Yahoo
 		rsj.r2j(yahooFeedUrl, function(json) {
-			if (!ticker) {
-				YahooNews["top"] = json;
-			} else {
-				YahooNews[ticker] = json;
+			
+			// FIXME: json is a string, the goal is to check if there are news
+			// If json is more than 100 characters, then should have feed
+			if (json.length >= 100) {
+				if (!ticker) {
+					YahooNews["top"] = json;
+				} else {
+					YahooNews[ticker] = json;
+				}
 			}
 			res.send(json);
 		})
