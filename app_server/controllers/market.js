@@ -4,6 +4,7 @@ var moment = require("moment");
 var async = require("async");
 var http = require('http');
 var model = require('../models/models');
+var rsj = require('rsj');
 
 var renderMarket = function(req, res) {
 
@@ -139,20 +140,32 @@ module.exports.GetYahooFinanceNews = function(req, res) {
 		);
 		*/
 
-		request(
-			{
-				uri: 'http://rss2json.com/api.json?rss_url=' + yahooFeedUrl,
-				method: "GET"
-			},
-			function(error, respone, data) {
-				if (!ticker) {
-					YahooNews["top"] = data;
-				} else {
-					YahooNews[ticker] = data;
-				}
-				res.send(data);
+		// Commented out because rss2json has a limit on URL
+		// request(
+		// 	{
+		// 		uri: 'http://rss2json.com/api.json?rss_url=' + yahooFeedUrl,
+		// 		method: "GET"
+		// 	},
+		// 	function(error, respone, data) {
+		// 		if (!ticker) {
+		// 			YahooNews["top"] = data;
+		// 		} else {
+		// 			YahooNews[ticker] = data;
+		// 		}
+		// 		res.send(data);
+		// 	}
+		// );
+
+		// Internal parser
+		// If timeout occurs, it's on Yahoo
+		rsj.r2j(yahooFeedUrl, function(json) {
+			if (!ticker) {
+				YahooNews["top"] = json;
+			} else {
+				YahooNews[ticker] = json;
 			}
-		);
+			res.send(json);
+		})
 	}
 
 	/* FIXME: Need to add ways to remove feeds from memory, otherwise news would never update */

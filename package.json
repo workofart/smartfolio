@@ -31,6 +31,7 @@
     "passport-local": "^1.0.0",
     "pg": "^6.1.0",
     "request": "^2.75.0",
+    "rsj": "0.0.4",
     "select2": "^4.0.3",
     "sequelize": "^3.24.3",
     "serve-favicon": "^2.3.0",

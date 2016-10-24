@@ -182,10 +182,21 @@ function PopulateNews(listID, data) {
 	*/
 
 	// rss2json
-	var length = data["items"].length;
+	// var length = data["items"].length;
+	// length = length >= 10 ? 10 : length; 
+	// for (var i = 0; i < length; i++) {
+	// 	var entry = data["items"][i];
+	// 	var link = '<a href="' + entry.link + '">Read more...</a>'
+	// 	var upButton = '<a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-circle-arrow-up text-success"></span></a>'
+	// 	var downButton = '<a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-circle-arrow-down text-danger"></span></a>'
+	// 	$(listID).append('<li class="news-item">' + entry.title + ' ' + link + upButton + downButton + '</li>')
+	// }
+
+	// rsj
+	var length = data.length;
 	length = length >= 10 ? 10 : length; 
 	for (var i = 0; i < length; i++) {
-		var entry = data["items"][i];
+		var entry = data[i];
 		var link = '<a href="' + entry.link + '">Read more...</a>'
 		var upButton = '<a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-circle-arrow-up text-success"></span></a>'
 		var downButton = '<a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-circle-arrow-down text-danger"></span></a>'
