@@ -62,7 +62,7 @@ client.query('CREATE TABLE portfolios(portfolioid SERIAL,' +
                             'userid INTEGER REFERENCES users(userid),' +
                             'portfolioname VARCHAR(32) NOT NULL,' +
                             'investment NUMERIC NOT NULL DEFAULT 10000,' +
-                            'balance NUMERIC NOT NULL DEFAULT 0,' +
+                            'balance NUMERIC NOT NULL DEFAULT 10000,' +
                             'isActive boolean NOT NULL DEFAULT TRUE ,' +
                             'PRIMARY KEY (portfolioid));');
 

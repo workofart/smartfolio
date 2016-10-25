@@ -15,18 +15,28 @@ moment.createFromInputFallback = function(config) {
 };
 
 module.exports.buyStock = function (req, res) {
-    model.Transactions.create( {
-        portfolioid: req.params.id,
-        datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
-        ticker: req.body.ticker,
-        quantity: req.body.quantity,
-        price: req.body.price,
-        status: 1
-    }).then(function (transaction) {
-        sendJsonResponse(res, 200, 'Success');
-    });
-
-
+    // Get balance from portfolio
+    model.Portfolios.findOne({
+        where: {
+            portfolioid: req.params.id,
+        }
+    }).then(function(portfolio) {
+        if (portfolio.balance >= req.body.quantity * req.body.price) {
+            // Proceed with transaction
+            model.Transactions.create( {
+                portfolioid: req.params.id,
+                datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
+                ticker: req.body.ticker,
+                quantity: req.body.quantity,
+                price: req.body.price,
+                status: 1 // FIXME: order should be filled later
+            }).then(function (transaction) {
+                sendJsonResponse(res, 200, 'Success');
+            });
+        } else {
+            sendJsonResponse(res, 400, 'Insufficient funds to make transaction')
+        }
+    })
 }
 
 module.exports.sellStock = function (req, res) {
