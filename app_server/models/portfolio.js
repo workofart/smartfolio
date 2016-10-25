@@ -12,6 +12,9 @@ var attributes = {
     portfolioname: {
         type: Sequelize.STRING,
     },
+    investment: {
+        type: Sequelize.DOUBLE,
+    },
     balance: {
         type: Sequelize.DOUBLE,
     },
