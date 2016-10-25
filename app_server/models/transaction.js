@@ -18,6 +18,9 @@ var attributes = {
     quantity: {
         type: Sequelize.INTEGER
     },
+    position: {
+        type: Sequelize.INTEGER
+    },
     price: {
         type: Sequelize.DOUBLE
     },
