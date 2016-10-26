@@ -459,9 +459,55 @@ var populatePerformanceLineGraph = function(data, chartId) {
     });
 }
 
+/**
+ * Auto fill buy stock form price and reveal more info panel
+ */
 $('#tickerBox').on('select2:select', function(e) {
     fillLatestPrice();
-})
+    $('#moreInfoPanel').show(400, function() {
+        createMiniChart()
+        $('#commentList').show(500);
+    }); // show more info panel
+
+});
+
+/**
+ * Used to create the mini chart in the buy stock form
+  */
+function createMiniChart() {
+    var selectedTicker = $("#tickerBox option:selected").text();
+    var label = selectedTicker + '\'s recent price trend';
+    $('#miniHeader').text(label);
+    var ctx = document.getElementById("buyStockChart");
+    var scatterChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: selectedTicker,
+                data: [{
+                    x: -3,
+                    y: 0
+                }, {
+                    x: 0,
+                    y: 10
+                }, {
+                    x: 10,
+                    y: 5
+                }]
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom'
+                }]
+            }
+        }
+    });
+}
+
+
 
 //     nv.addGraph(function() {
 //         console.log(testData());

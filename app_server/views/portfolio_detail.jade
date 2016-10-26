@@ -120,6 +120,23 @@ block content
                     div(class='alert alert-danger' role='alert')
                         | Total Dollar Amount:
                         span(class='label label-danger' id='totalAmount_newStock')
+                    div(class='panel panel-default' id='moreInfoPanel' style='display: none')
+                        span(class='label label-default') More info
+                        div(class='panel-body')
+                            h5(id='miniHeader')
+                            canvas(id='buyStockChart' width='100' height='100')
+                            ul(class='list-group' id='commentList' style='display: none')
+                                li(class='list-group-item')
+                                    span.badge SmartUser
+                                    p This stock will rise, I think...
+                                li(class='list-group-item')
+                                    span.badge ArrogantUser
+                                    p This stock will drop, I'm have insider info, trust me...
+                            form(class='form-inline' role='form')
+                                div(class='form-group')
+                                    input(class='form-control' type='text' placeholder='Your comments')
+                                div(class='form-group')
+                                    button(class='btn btn-default') Add
                 div.modal-footer
                     button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
                     button(type='button' onclick='performTransaction();' class='btn btn-primary' data-dismiss='modal') Submit
