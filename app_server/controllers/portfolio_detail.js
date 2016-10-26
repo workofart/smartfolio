@@ -36,7 +36,7 @@ module.exports.portfolioDetail = function(req, res){
                 // pass the returned data to res.render
                 custom.pId = data.portfolioid;
                 custom.portfolioname = data.portfolioname;
-                custom.balance = data.balance;
+                custom.balance = parseFloat(Math.round(data.balance * 100) / 100).toFixed(2);
                 custom.userid = data.userid;
 
             } else {
