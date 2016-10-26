@@ -47,7 +47,8 @@ module.exports.buyStock = function (req, res) {
                         price: req.body.price,
                         status: 1 // FIXME: order should be filled later
                     }).then(function (transaction) {
-                        sendJsonResponse(res, 200, 'Success');
+                        // Don't need this due to double entry
+                        // sendJsonResponse(res, 200, 'Success');
                     });
                 } else {
                     // Has previous transaction with same ticker
@@ -60,9 +61,23 @@ module.exports.buyStock = function (req, res) {
                         price: req.body.price,
                         status: 1 // FIXME: order should be filled later
                     }).then(function (transaction) {
-                        sendJsonResponse(res, 200, 'Success');
+                        // Don't need this due to double entry
+                        // sendJsonResponse(res, 200, 'Success');
                     });
                 }
+                
+                // Double entry for cash
+                model.Transactions.create( {
+                    portfolioid: req.params.id,
+                    datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
+                    ticker: 'RESERVE',
+                    quantity: 1,
+                    position: parseFloat(currentBalance) - (parseFloat(req.body.quantity) * parseFloat(req.body.price)),
+                    price: -1 * parseFloat(req.body.price) * req.body.quantity,
+                    status: 1 // FIXME: order should be filled later
+                }).then(function (transaction) {
+                    sendJsonResponse(res, 200, 'Success');
+                });
             })
         } else {
             sendJsonResponse(res, 400, 'Insufficient funds to make transaction');
@@ -103,6 +118,19 @@ module.exports.sellStock = function (req, res) {
                     var currentBalance = parseFloat(portfolio.balance);
                     portfolio.updateAttributes({
                         balance: currentBalance + (parseFloat(req.body.quantity) * parseFloat(req.body.price))
+                    });
+                    
+                    // Double entry for cash
+                    model.Transactions.create( {
+                        portfolioid: req.params.id,
+                        datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
+                        ticker: 'RESERVE',
+                        quantity: 1,
+                        position: parseFloat(currentBalance) + (parseFloat(req.body.quantity) * parseFloat(req.body.price)),
+                        price: parseFloat(req.body.price) * req.body.quantity,
+                        status: 1 // FIXME: order should be filled later
+                    }).then(function (transaction) {
+                        // sendJsonResponse(res, 200, 'Success');
                     });
                 })
 

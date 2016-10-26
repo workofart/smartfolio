@@ -60,15 +60,10 @@ BEGIN
 	-- Add cash balance into output
     INSERT INTO OutputTable (ticker, value)
     SELECT
-        T.ticker,
-        Sum(T.quantity * T.price)
-    FROM portfolios AS P
-    INNER JOIN transactions AS T ON T.portfolioid = P.portfolioid
-    WHERE P.portfolioid = s_portfolioid
-      AND T.status = 1
-      AND T.ticker = 'RESERVE'
-      AND date(T.datetime) <= s_date
-    GROUP BY T.ticker;
+        SQ.ticker,
+        SQ.quantity
+    FROM StockQuantity AS SQ
+    WHERE SQ.ticker = 'RESERVE';
 
     RETURN QUERY
     SELECT *
