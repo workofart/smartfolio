@@ -71,7 +71,7 @@ client.query('CREATE TABLE transactions(transactionid SERIAL,' +
                             'datetime TIMESTAMP NOT NULL,' +
                             'ticker VARCHAR(8) NOT NULL,' +
                             'quantity INTEGER NOT NULL,' +
-                            'position INTEGER NOT NULL,' +
+                            'position NUMERIC NOT NULL,' +
                             'price NUMERIC NOT NULL,' +
                             'status INTEGER NOT NULL DEFAULT 0,' +
                             'PRIMARY KEY (transactionid));');
@@ -100,13 +100,15 @@ client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test', '$2a$08$7/A
 client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test2', '$2a$08$7/AjFJISfFFIQ83vkV9AAeInVmANXU/af0/Nnu4y6xRRHTsOykS8W');");
 client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test3', '$2a$08$7/AjFJISfFFIQ83vkV9AAeInVmANXU/af0/Nnu4y6xRRHTsOykS8W');");
 client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname) VALUES (1, 'BESTportfolio');");
+client.query("INSERT INTO TRANSACTIONS (portfolioid, datetime, ticker, quantity, position, price, status) VALUES (1, CURRENT_TIMESTAMP, 'RESERVE', 1, 10000, 10000, 1);");
 client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname) VALUES (2, 'TESTportfolio');");
+client.query("INSERT INTO TRANSACTIONS (portfolioid, datetime, ticker, quantity, position, price, status) VALUES (2, CURRENT_TIMESTAMP, 'RESERVE', 1, 10000, 10000, 1);");
 // client.query("INSERT INTO STOCK_DAILY (TICKER, NAME, DATETIME, OPEN, CLOSE, HIGH, LOW) VALUES " +
 //     "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00, 12.15, 15.23, 8.99);");
-client.query("INSERT INTO STOCK_LIVE (TICKER, NAME, DATETIME, price) VALUES " +
-    "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00);");
-client.query("INSERT INTO dw_historical (TICKER, NAME, DATETIME, price) VALUES " +
-    "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00);");
+// client.query("INSERT INTO STOCK_LIVE (TICKER, NAME, DATETIME, price) VALUES " +
+//     "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00);");
+// client.query("INSERT INTO dw_historical (TICKER, NAME, DATETIME, price) VALUES " +
+//     "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00);");
 // client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, position, price, status) VALUES " +
 //      "(1, CURRENT_TIMESTAMP, 'AAPL', 100, 100, 10.00, 1);");
 // client.query("INSERT INTO transactions (portfolioid, DATETIME, ticker, quantity, price, status) VALUES " +
