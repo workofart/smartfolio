@@ -771,3 +771,11 @@ function getPortfolioId() {
 		})
 	return id;
 }
+
+$('#searchBox').on('select2:select', function(e) {
+	searchQuote();
+});
+
+$('#searchBox2').on('select2:select', function(e) {
+	searchQuote();
+});

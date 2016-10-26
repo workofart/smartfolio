@@ -459,7 +459,9 @@ var populatePerformanceLineGraph = function(data, chartId) {
     });
 }
 
-
+$('#tickerBox').on('select2:select', function(e) {
+    fillLatestPrice();
+})
 
 //     nv.addGraph(function() {
 //         console.log(testData());
