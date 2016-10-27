@@ -7,9 +7,9 @@ block page-specific-js-css
 	script(defer type='text/javascript' src='/javascripts/dataTables.bootstrap.min.js')
 	script(defer type='text/javascript' src='/javascripts/market_actions.js')
 block content
-	div.row
+	div(class='row' id='overlay')
 		div.col-md-6
-			div.well
+			div(class='container' id='wrapperMarket')
 				div.input-group
 					span(class='input-group-addon' id='basic-addon1') Company Name
 					select(class='form-control' style='width:200px' id='searchBox')
@@ -57,7 +57,7 @@ block content
 							span(class='input-group-addon' id='interval-addon') Interval
 							input(type='text' class='form-control' placeholder='E.g. 15 minutes - 1 day' aria-describedby='sizing-addon1')
 			div(class='news-section')
-				div.col-md-6
+				div.col-sm-6
 					div(class='panel panel-primary')
 						div(class='panel-heading')
 							span(class='glyphicon glyphicon-list-alt') 
@@ -67,7 +67,7 @@ block content
 								div.col-xs-12
 									ul(id='featured-news-list')
 						div(class='panel-footer')
-				div.col-md-6
+				div.col-sm-6
 					div(class='panel panel-primary')
 						div(class='panel-heading')
 							span(class='glyphicon glyphicon-list-alt') 

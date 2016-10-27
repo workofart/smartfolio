@@ -4,11 +4,37 @@
 }
 body {
   padding: 70px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
+    background: url(../images/newyork.jpg) no-repeat center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#overlay{
+    padding: 40px;
+    /*margin: 10px;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*overflow: hidden;*/
+    background-color: rgba(238, 238, 238, 0.76);
+}
+
+#wrapperMarket{
+    padding: 10px;
 }
 
 .img-rounded {
 	padding: 5px;
+}
+
+#indexJumbotron {
+    background-color: rgba(238, 238, 238, 0.76);
+}
+
+.thumbnail {
+    background-color: rgba(238, 238, 238, 0.76);
 }
 
 /* Belongs to Analysis.css, should move */
