@@ -8,3 +8,10 @@ svg {
     height: 600px;
     width: 100%;
 }
+
+#volume-graph {
+    margin: 0px;
+    padding: 0px;
+    height: 600px;
+    width: 100%;
+}

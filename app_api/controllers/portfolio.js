@@ -415,3 +415,35 @@ module.exports.getPortfolioRealPerformance = function(req, res) {
         })
     }
 }
+
+module.exports.getPortfolioVolume = function(req, res) {
+    var user = getUserObject(req);
+    var uid = parseInt(user.userid);
+    var pid = parseInt(req.params.pid);
+    // var date = new Date(req.params.date);
+
+    if (Object.keys(user).length === 0) {
+        sendJsonResponse(res, 404, 'Not authorized to perform that action');
+    } else {
+
+        model.Portfolios.findOne({
+            where: { portfolioid: pid }
+        }).then(function(result) {
+            if (user.userid !== result.dataValues.userid) {
+                sendJsonResponse(res, 404, 'Not authorized to perform that action');
+            } else {
+                query = 'SELECT * FROM public.GetPortfolioTransactionsVolumneById(:pid);'
+                connection.query(query, 
+                    {
+                        replacements: {
+                            pid: pid,
+                        },
+                        type: connection.QueryTypes.SELECT
+                    })
+                    .then(function(data) {
+                        sendJsonResponse(res, 200, data);
+                    })
+            }
+        })
+    }
+}

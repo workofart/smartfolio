@@ -51,6 +51,14 @@ block content
                         div(class='svg-container')
                             div(id='performance-line-graph' class='with-3d-shadow with-transition')
                                 svg
+        div.row
+            div(class='col-lg-12 col-sm-12')
+                div(class='panel panel-primary')
+                    div(class='panel-heading') Performance Graph
+                    div(class='panel-body')
+                        div(class='svg-container')
+                            div(id='volume-graph')
+                                svg()
     div.row
         table(class='table table-condensed table-hover' id='transactiontable')
             thead(class='table-hover')
@@ -151,3 +159,4 @@ block content
         getPortfolioBookValueById(currentpid);
         getPortfolioRealValueById(currentpid);
         getPortfolioPerformance(currentpid);
+        getPortfolioTransactionVolume(currentpid);
