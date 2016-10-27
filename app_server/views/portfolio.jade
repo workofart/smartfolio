@@ -2,45 +2,46 @@ extends layout
 block page-specific-js-css
 	link(rel='stylesheet', href='/stylesheets/nv.d3.min.css')
 block content
-	div.row
-		h2 Welcome [#{username}] &nbsp
-			small You have #{count} portfolios
-		button(class='btn btn-warning btn-lg' data-toggle='modal' data-target='#createPortfolio') Create Portfolio &nbsp
-			span(class='glyphicon glyphicon-file')
-	div.row
-		h2 General Overview
-		div.col-md-6
-			div(class='panel panel-primary')
-				div(class='panel-heading') Placeholder - Each portfolio's value out of total
-				div(class='panel-body')
-					div(class='svg-container')
-						div(id='myChart')
-		div.col-md-6
-			div(class='panel panel-primary')
-				div(class='panel-heading') Placeholder - Industry Composition for all portfolios
-				div(class='panel-body')
-					div(class='svg-container')
-						div(id='nv-donut-chart')
-		div(class='modal fade' id='createPortfolio' tabindex='-1' role='dialog' aria-labelledby='createPortfolioLabel')
-			div(class='modal-dialog' role='document')
-				div.modal-content
-					div.modal-header
-						button(type='button' class='close' data-dismiss='modal' aria-label='Close' id='close') x
-						h4(class='modal-title' id='createPortfolioLabel') Create Portfolio
-					div.modal-body
-						div.input-group
-							span(class='input-group-addon' id='basic-addon1') Portfolio Name
-							input(type='text' id='portfolioname' class='form-control' placeholder='E.g. Best Portfolio' aria-describedby='basic-addon1')
-						div.input-group
-							div.checkbox
-								label
-									input(type='checkbox' disabled)
-									| Participate in Ranking (Work-in-progress)
-					div.modal-footer
-						button(type='button' class='btn btn-default' data-dismiss='modal' id='close')
-							span(class='glyphicon glyphicon-remove')
-						button(type='button' onclick='createPortfolio();window.location.reload()' class='btn btn-success' data-dismiss='modal')
-							span(class='glyphicon glyphicon-ok')
+	div(id='overlay')
+		div.row
+			h2 Welcome [#{username}] &nbsp
+				small You have #{count} portfolios
+			button(class='btn btn-warning btn-lg' data-toggle='modal' data-target='#createPortfolio') Create Portfolio &nbsp
+				span(class='glyphicon glyphicon-file')
+		div.row
+			h2 General Overview
+			div.col-md-6
+				div(class='panel panel-primary')
+					div(class='panel-heading') Placeholder - Each portfolio's value out of total
+					div(class='panel-body')
+						div(class='svg-container')
+							div(id='myChart')
+			div.col-md-6
+				div(class='panel panel-primary')
+					div(class='panel-heading') Placeholder - Industry Composition for all portfolios
+					div(class='panel-body')
+						div(class='svg-container')
+							div(id='nv-donut-chart')
+			div(class='modal fade' id='createPortfolio' tabindex='-1' role='dialog' aria-labelledby='createPortfolioLabel')
+				div(class='modal-dialog' role='document')
+					div.modal-content
+						div.modal-header
+							button(type='button' class='close' data-dismiss='modal' aria-label='Close' id='close') x
+							h4(class='modal-title' id='createPortfolioLabel') Create Portfolio
+						div.modal-body
+							div.input-group
+								span(class='input-group-addon' id='basic-addon1') Portfolio Name
+								input(type='text' id='portfolioname' class='form-control' placeholder='E.g. Best Portfolio' aria-describedby='basic-addon1')
+							div.input-group
+								div.checkbox
+									label
+										input(type='checkbox' disabled)
+										| Participate in Ranking (Work-in-progress)
+						div.modal-footer
+							button(type='button' class='btn btn-default' data-dismiss='modal' id='close')
+								span(class='glyphicon glyphicon-remove')
+							button(type='button' onclick='createPortfolio();window.location.reload()' class='btn btn-success' data-dismiss='modal')
+								span(class='glyphicon glyphicon-ok')
 	script(type='text/javascript' src='/javascripts/d3.352.min.js')
 	script(type='text/javascript' src='/javascripts/nv.d3.min.js')
 	script(type='text/javascript' src='/javascripts/Chart.min.js')
