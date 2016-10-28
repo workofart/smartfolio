@@ -208,6 +208,7 @@ function getPortfolioBookValueById(pid) {
             datatype: 'application/json'
         })
         .done(function(data) {
+            console.log(data);
             populateCompositionChart(data, '#myChart', 'Book Value');
         });
 }
@@ -219,6 +220,7 @@ function getPortfolioRealValueById(pid) {
             datatype: 'application/json'
         })
         .done(function(data) {
+            console.log(data);
             populateCompositionChart(data, '#nv-donut-chart', 'Market Value');
         });
 }
@@ -303,6 +305,7 @@ var populateCompositionChart = function(data, chartId, title) {
     if (data.length === 0) {
         data.push({ticker: "No Data", value: ""});
     }
+    console.log(data);
     var blue="#348fe2",
     blueLight="#5da5e8",
     blueDark="#1993E4",
@@ -427,6 +430,7 @@ function getPortfolioPerformance(pid) {
 }
 
 var populatePerformanceLineGraph = function(data, chartId) {
+    console.log(data);
     var values = data[0].values;
 
     nv.addGraph(function() {
@@ -461,7 +465,7 @@ var populatePerformanceLineGraph = function(data, chartId) {
 $('#tickerBox').on('select2:select', function(e) {
     fillLatestPrice();
     $('#moreInfoPanel').show(400, function() {
-        createMiniChart()
+        createMiniChart();
         $('#commentList').show(500);
     }); // show more info panel
 
@@ -472,132 +476,97 @@ $('#tickerBox').on('select2:select', function(e) {
   */
 function createMiniChart() {
     var selectedTicker = $("#tickerBox option:selected").text();
+    getPriceTrend(selectedTicker);
     var label = selectedTicker + '\'s recent price trend';
     $('#miniHeader').text(label);
-    var ctx = document.getElementById("buyStockChart");
-    var scatterChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            datasets: [{
-                label: selectedTicker,
-                data: [{
-                    x: -3,
-                    y: 0
-                }, {
-                    x: 0,
-                    y: 10
-                }, {
-                    x: 10,
-                    y: 5
-                }]
-            }]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    type: 'linear',
-                    position: 'bottom'
-                }]
-            }
-        }
-    });
 }
 
-
-function getPortfolioTransactionVolume(pid) {
+function getPriceTrend(ticker) {
+    console.log('getPriceTrend called: ' + ticker);
+    var attr = {"attr" : ["close", "datetime"]};
     $.ajax({
-        url: '/api/portfolio/volume/' + pid,
-        type: 'GET',
-        datatype: 'application/json'
-    })
-    .done(function(data) {
-        console.log(data);
-
-        var graph = [];
-        for (var i = 0; i < data.length; i++) {
-            var key = data[i].ticker;
-            var values = [];
-            var j;
-            for (j = i; j < data.length; j++) {
-                if (data[j].ticker != key) {
-                    break;
+            url: '/api/getPriceListByTicker/' + ticker,
+            method: 'GET',
+            data: attr,
+            datatype: 'application/json',
+            success: function (data) {
+                var priceList = [];
+                for (var i = 0; i < data.length; i++){
+                    var obj = {};
+                    obj.y = data[i].close;
+                    obj.x = data[i].datetime;
+                    priceList.push(obj);
                 }
-                values.push({x: new Date(data[j].date), y: parseInt(data[j].value)});
+                // console.log('pricelist: \n' + JSON.stringify(priceList));
+                var ctx = document.getElementById("buyStockChart");
+                var scatterChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        datasets: [{
+                            label: ticker,
+                            data: priceList
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                type: 'time',
+                                position: 'bottom'
+                            }]
+                        }
+                    }
+                });
+            },
+            error: function(e) {
+                throw e;
             }
-            i = j - 1;
-            graph.push({key: key, values: values });
-        }
 
-        console.log(graph);
-        populateVolumeGraph(graph);
-    })
+        });
 }
 
 
-function stream_layers(n, m, o) {
-  if (arguments.length < 3) o = 0;
-  function bump(a) {
-    var x = 1 / (.1 + Math.random()),
-        y = 2 * Math.random() - .5,
-        z = 10 / (.1 + Math.random());
-    for (var i = 0; i < m; i++) {
-      var w = (i / m - y) * z;
-      a[i] += x * Math.exp(-w * w);
-    }
-  }
-  return d3.range(n).map(function() {
-      var a = [], i;
-      for (i = 0; i < m; i++) a[i] = o + o * Math.random();
-      for (i = 0; i < 5; i++) bump(a);
-      return a.map(stream_index);
-    });
-}
 
-function stream_index(d, i) {
-  return {x: i, y: Math.max(0, d)};
-}
-
-
-function populateVolumeGraph(data) {
-    console.log(data);
-    nv.addGraph(function() {
-        var chart = nv.models.multiBarChart()
-        .duration(350)
-        .reduceXTicks(true)   //If 'false', every single x-axis tick label will be rendered.
-        .rotateLabels(0)      //Angle to rotate x-axis labels.
-        .showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
-        .groupSpacing(0.1)    //Distance between each group of bars.
-        ;
-
-        chart.multibar.stacked(true);
-
-        chart.xAxis
-            .axisLabel("Date")
-            .tickFormat( function(d) { return d3.time.format('%Y-%m-%d')(new Date(d)); });
-
-        // chart.xAxis
-        //     .tickFormat(d3.format(',f'));
-
-        chart.yAxis
-            .tickFormat(d3.format(',.1f'));
-
-        d3.select('#volume-graph svg')
-            .datum(data)
-            .call(chart);
-
-        nv.utils.windowResize(chart.update);
-        return chart;
-    });
-}
-
-
-//Generate some nice data.
-function exampleData() {
-  return stream_layers(3,10+Math.random()*100,.1).map(function(data, i) {
-    return {
-      key: 'Stream #' + i,
-      values: data
-    };
-  });
-}
-console.log(exampleData());
+//     nv.addGraph(function() {
+//         console.log(testData());
+//         var chart = nv.models.lineWithFocusChart();
+//         chart.brushExtent([50,70]);
+//         chart.xAxis.tickFormat(d3.format(',f')).axisLabel("Stream - 3,128,.1");
+//         chart.x2Axis.tickFormat(d3.format(',f'));
+//         chart.yTickFormat(d3.format(',.2f'));
+//         chart.useInteractiveGuideline(true);
+//         d3.select('#performance-line-graph svg')
+//             .datum(testData())
+//             .call(chart);
+//         nv.utils.windowResize(chart.update);
+//         return chart;
+//     });
+//     function testData() {
+//         return stream_layers(3,128,.1).map(function(data, i) {
+//             return {
+//                 key: 'Stream' + i,
+//                 area: i === 1,
+//                 values: data
+//             };
+//         });
+//     }
+//     function stream_layers(n, m, o) {
+//         if (arguments.length < 3) o = 0;
+//         function bump(a) {
+//             var x = 1 / (.1 + Math.random()),
+//                 y = 2 * Math.random() - .5,
+//                 z = 10 / (.1 + Math.random());
+//             for (var i = 0; i < m; i++) {
+//             var w = (i / m - y) * z;
+//             a[i] += x * Math.exp(-w * w);
+//             }
+//         }
+//         return d3.range(n).map(function() {
+//             var a = [], i;
+//             for (i = 0; i < m; i++) a[i] = o + o * Math.random();
+//             for (i = 0; i < 5; i++) bump(a);
+//             return a.map(stream_index);
+//             });
+//         }
+//     function stream_index(d, i) {
+//   return {x: i, y: Math.max(0, d)};
+// }
