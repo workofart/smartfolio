@@ -427,7 +427,18 @@ function getPortfolioPerformance(pid) {
 }
 
 var populatePerformanceLineGraph = function(data, chartId) {
+    console.log(data);
     var values = data[0].values;
+
+    // Added percentage
+    var perc = [];
+    var data2 = [];
+    var market_values = data[0].key == 'Market Value' ? data[0].values : data[1].values;
+    var book_values = data[0].key == 'Book Value' ? data[0].values : data[1].values;
+    for (var i = 0; i < market_values.length; i++) {
+        perc.push({ date: market_values[i].date, x: market_values[i].x, y: (market_values[i].y - book_values[i].y)});
+    }
+    data2.push({area: true, key: "Unrealize Gain", values: perc});
 
     nv.addGraph(function() {
         var chart = nv.models.lineWithFocusChart();
@@ -448,6 +459,30 @@ var populatePerformanceLineGraph = function(data, chartId) {
 
         d3.select('#performance-line-graph svg')
             .datum(data)
+            .call(chart);
+
+        nv.utils.windowResize(chart.update);
+        return chart;
+    });
+
+     nv.addGraph(function() {
+        chart = nv.models.lineChart()
+            .options({
+                duration: 300,
+                useInteractiveGuideline: true
+            })
+        ;
+        // chart sub-models (ie. xAxis, yAxis, etc) when accessed directly, return themselves, not the parent chart, so need to chain separately
+        chart.xAxis
+            .axisLabel("Date")
+            .tickFormat( function(d) { return d3.time.format('%Y-%m-%d')(new Date(d)); });
+        
+        chart.yAxis
+            .axisLabel('Unrealized Gain/Loss in %')
+            .tickFormat(d3.format('s'));
+
+        d3.select('#performance-perc-graph svg')
+            .datum(data2)
             .call(chart);
 
         nv.utils.windowResize(chart.update);
