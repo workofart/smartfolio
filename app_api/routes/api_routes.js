@@ -13,6 +13,7 @@ router.put('/portfolio/:id', ctrlPortfolio.changePortfolioById);
 router.delete('/portfolio/:id', ctrlPortfolio.deletePortfolioById);
 router.get('/portfolio', ctrlPortfolio.getAllPortfolios);
 router.get('/portfolioCount', ctrlPortfolio.portfolioCount);
+router.get('/getPriceListByTicker/:ticker', ctrlPortfolio.getPriceListByTicker);
 router.get('/portfolio/composition/:pid', ctrlPortfolio.getPortfolioCompositionById);
 router.get('/portfolio/bookvalue/:pid', ctrlPortfolio.getPortfolioBookValueById);
 router.get('/portfolio/realvalue/:pid', ctrlPortfolio.getPortfolioRealValueById);

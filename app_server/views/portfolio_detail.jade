@@ -3,159 +3,158 @@ block page-specific-js-css
     link(rel='stylesheet', href='/stylesheets/nv.d3.min.css')
     link(rel='stylesheet', href='/stylesheets/portfolio_detail.css')
 block content
-    div(id='overlay')
+    div.row
+        div(class='col-md-12' id='panelList')
+            h4 #{header} (#{portfolioname}) &nbsp
+                small Cash Balance: #{balance} &nbsp
+                button(class='btn btn-warning btn-xs') Recharge &nbsp
+                        span(class='glyphicon glyphicon-flash')
+                &nbsp
+                button(class='btn btn-success btn-xs' type='button' data-toggle='modal' data-target='#newStock') Buy Stocks &nbsp
+                        span(class='glyphicon glyphicon-usd')
+    // Buy New Stock (Incl. ticker picker)
+    div(class='modal fade' id='newStock' role='dialog' aria-labelledby='buyStockLabel')
+        div(class='modal-dialog' role='document')
+            div.modal-content
+                div.modal-header
+                    button(type='button' class='close' data-dismiss='modal' aria-label='Close' id='close') x
+                    h4(class='modal-title' id='buyStockLabel_newStock') Purchase a New Stock
+                div.modal-body
+                    h4 Ticker &nbsp
+                    div.input-group
+                        select(class='form-control' style='width:200px' id='tickerBox')
+                    h4 Latest Price: &nbsp
+                        span(class='label label-warning' id='latestPrice_newStock')
+                    div.input-group
+                        span(class='input-group-addon' id='basic-addon1') Quantity
+                        input(type='text' id='quantity_newStock' onkeyup='getTotalAmount();' class='form-control' placeholder='E.g. 1000' aria-describedby='basic-addon1')
+                    div(class='alert alert-danger' role='alert')
+                        | Total Dollar Amount:
+                        span(class='label label-danger' id='totalAmount_newStock')
+                    div(class='panel panel-default' id='moreInfoPanel' style='display: none')
+                        span(class='label label-default') More info
+                        div(class='panel-body')
+                            h5(id='miniHeader')
+                            canvas(id='buyStockChart' width='100' height='100')
+                            ul(class='list-group' id='commentList' style='display: none')
+                                li(class='list-group-item')
+                                    span.badge SmartUser
+                                    p This stock will rise, I think...
+                                li(class='list-group-item')
+                                    span.badge ArrogantUser
+                                    p This stock will drop, I'm have insider info, trust me...
+                            form(class='form-inline' role='form')
+                                div(class='form-group')
+                                    input(class='form-control' type='text' placeholder='Your comments')
+                                div(class='form-group')
+                                    button(class='btn btn-default') Add
+                div.modal-footer
+                    button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
+                    button(type='button' onclick='performTransaction();' class='btn btn-primary' data-dismiss='modal') Submit
+    div.container-fluid
         div.row
-            div(class='col-md-12' id='panelList')
-                h4 #{header} (#{portfolioname}) &nbsp
-                    small Cash Balance: #{balance} &nbsp
-                    button(class='btn btn-warning btn-xs') Recharge &nbsp
-                            span(class='glyphicon glyphicon-flash')
-                    &nbsp
-                    button(class='btn btn-success btn-xs' type='button' data-toggle='modal' data-target='#newStock') Buy Stocks &nbsp
-                            span(class='glyphicon glyphicon-usd')
-        div.container-fluid
-            div.row
-                div(class='col-lg-6 col-sm-10')
-                    div(class='panel panel-primary')
-                        div(class='panel-heading') Portfolio Composition &nbsp
-                        div(class='panel-body')
-                            div(class='svg-container')
-                                div(id='myChart')
-                            a(class='btn btn-default' data-toggle='collapse' href='#tableViewPanel' aria-expanded='false' aria-controls='tableViewPanel') Table View &nbsp
-                                span(class='caret')
-                             //For displaying table view
-                            div(class='collapse' id='tableViewPanel')
-                                table(class='table table-condensed table-hover' id='stockTableView')
-                                    thead(class='table-hover')
-                                        h4 Stocks in #{header}
-                                        tr(class='info' id='stockTableHeader')
-                                            th Ticker (Symbol)
-                                            th Price
-                                            th Quantity
-                                    tbody(class='table-hover' id='stockTableBody')
-                                        tr
-                                            td AAPL
-                                            td $10
-                                            td 100
-                div(class='col-lg-6 col-sm-10')
-                    div(class='panel panel-primary')
-                        div(class='panel-heading') Portfolio Composition
-                        div(class='panel-body')
-                            div(class='svg-container')
-                                div(id='nv-donut-chart')
-            div.row
-                div(class='col-lg-12 col-sm-12')
-                    div(class='panel panel-primary')
-                        div(class='panel-heading') Performance Graph
-                        div(class='panel-body')
-                            div(class='svg-container')
-                                div(id='performance-line-graph' class='with-3d-shadow with-transition')
-                                    svg
-            div.row
-                div(class='col-lg-12 col-sm-12')
-                    div(class='panel panel-primary')
-                        div(class='panel-heading') Performance Graph
-                        div(class='panel-body')
-                            div(class='svg-container')
-                                div(id='performance-perc-graph' class='with-3d-shadow with-transition')
-                                    svg
-            div.row
-                div(class='col-lg-12 col-sm-12')
-                    div(class='panel panel-primary')
-                        div(class='panel-heading') Volume Graph
-                        div(class='panel-body')
-                            div(class='svg-container')
-                                div(id='volume-graph')
-                                    svg
+            div(class='col-lg-6 col-sm-10')
+                div(class='panel panel-primary')
+                    div(class='panel-heading') Portfolio Composition &nbsp
+                    div(class='panel-body')
+                        div(class='svg-container')
+                            div(id='myChart')
+                        a(class='btn btn-default' data-toggle='collapse' href='#tableViewPanel' aria-expanded='false' aria-controls='tableViewPanel') Table View &nbsp
+                            span(class='caret')
+                         //For displaying table view
+                        div(class='collapse' id='tableViewPanel')
+                            table(class='table table-condensed table-hover' id='stockTableView')
+                                thead(class='table-hover')
+                                    h4 Stocks in #{header}
+                                    tr(class='info' id='stockTableHeader')
+                                        th Ticker (Symbol)
+                                        th Price
+                                        th Quantity
+                                tbody(class='table-hover' id='stockTableBody')
+                                    tr
+                                        td AAPL
+                                        td $10
+                                        td 100
+            div(class='col-lg-6 col-sm-10')
+                div(class='panel panel-primary')
+                    div(class='panel-heading') Portfolio Composition
+                    div(class='panel-body')
+                        div(class='svg-container')
+                            div(id='nv-donut-chart')
         div.row
-            table(class='table table-condensed table-hover' id='transactiontable')
-                thead(class='table-hover')
-                    h4 #{header} Transactions
-                    tr(class='info' id='header')
-                        th Transaction #
-                        th Date
-                        th Ticker (Symbol)
-                        th Price
-                        th Quantity
-                        th Buy
-                        th Sell
-                tbody(class='table-hover' id='quoteBody')
-                    if transactions
-                        - var i = 1
-                        each val in transactions
-                            tr
-                                td(id='transactionid')= i
-                                td #{val.datetime}
-                                td #{val.ticker}
-                                td #{parseFloat(Math.round(val.price * 100) / 100).toFixed(2)}
-                                td #{val.quantity}
-                                td
-                                    button(id='buystock'+i onclick="fillBuyStockForm('"+val.ticker+"');" type='button' data-toggle='modal' data-target='#buyStock')
-                                        span(class='glyphicon glyphicon-plus')
-                                td
-                                    button(id='sellstock'+i onclick="fillSellStockForm('" + val.ticker+ "');" type='button' data-toggle='modal' data-target='#buyStock')
-                                        span(class='glyphicon glyphicon-minus')
-                            - i++
-        // Buy/Sell Stock (in the transactions table)
-        div(class='modal fade' id='buyStock' tabindex='-1' role='dialog' aria-labelledby='buyStockLabel')
-            div(class='modal-dialog' role='document')
-                div.modal-content
-                    div.modal-header
-                        button(type='button' class='close' data-dismiss='modal' aria-label='Close' id='close') x
-                        h4(class='modal-title' id='buyStockLabel') Buy/Sell Stock
-                    div.modal-body
-                        h4 Latest Price: &nbsp
-                            span(class='label label-warning' id='latestPrice')
-                        h4 Ticker &nbsp
-                            small(id='tickerDisplay')
-                        div.input-group
-                            span(class='input-group-addon' id='basic-addon2') Quantity
-                            input(type='text' id='quantity' onkeyup='getTotalAmount();' class='form-control' placeholder='E.g. 1000' aria-describedby='basic-addon2')
-                        div(class='alert alert-danger' role='alert')
-                            | Total Dollar Amount:
-                            span(class='label label-danger' id='totalAmount')
-                    div.modal-footer
-                        button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
-                        button(type='button' onclick='performTransaction();' class='btn btn-primary' data-dismiss='modal') Submit
-        // Buy New Stock (Incl. ticker picker)
-        div(class='modal fade' id='newStock' role='dialog' aria-labelledby='buyStockLabel')
-            div(class='modal-dialog' role='document')
-                div.modal-content
-                    div.modal-header
-                        button(type='button' class='close' data-dismiss='modal' aria-label='Close' id='close') x
-                        h4(class='modal-title' id='buyStockLabel_newStock') Purchase a New Stock
-                    div.modal-body
-                        h4 Ticker &nbsp
-                        div.input-group
-                            select(class='form-control' style='width:200px' id='tickerBox')
-                        h4 Latest Price: &nbsp
-                            span(class='label label-warning' id='latestPrice_newStock')
-                        div.input-group
-                            span(class='input-group-addon' id='basic-addon1') Quantity
-                            input(type='text' id='quantity_newStock' onkeyup='getTotalAmount();' class='form-control' placeholder='E.g. 1000' aria-describedby='basic-addon1')
-                        div(class='alert alert-danger' role='alert')
-                            | Total Dollar Amount:
-                            span(class='label label-danger' id='totalAmount_newStock')
-                        div(class='panel panel-default' id='moreInfoPanel' style='display: none')
-                            span(class='label label-default') More info
-                            div(class='panel-body')
-                                h5(id='miniHeader')
-                                canvas(id='buyStockChart' width='100' height='100')
-                                ul(class='list-group' id='commentList' style='display: none')
-                                    li(class='list-group-item')
-                                        span.badge SmartUser
-                                        p This stock will rise, I think...
-                                    li(class='list-group-item')
-                                        span.badge ArrogantUser
-                                        p This stock will drop, I'm have insider info, trust me...
-                                form(class='form-inline' role='form')
-                                    div(class='form-group')
-                                        input(class='form-control' type='text' placeholder='Your comments')
-                                    div(class='form-group')
-                                        button(class='btn btn-default') Add
-                    div.modal-footer
-                        button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
-                        button(type='button' onclick='performTransaction();' class='btn btn-primary' data-dismiss='modal') Submit
+            div(class='col-lg-12 col-sm-12')
+                div(class='panel panel-primary')
+                    div(class='panel-heading') Performance Graph
+                    div(class='panel-body')
+                        div(class='svg-container')
+                            div(id='performance-line-graph' class='with-3d-shadow with-transition')
+                                svg
+        div.row
+            div(class='col-lg-12 col-sm-12')
+                div(class='panel panel-primary')
+                    div(class='panel-heading') Performance Graph
+                    div(class='panel-body')
+                        div(class='svg-container')
+                            div(id='performance-perc-graph' class='with-3d-shadow with-transition')
+                                svg
+        div.row
+            div(class='col-lg-12 col-sm-12')
+                div(class='panel panel-primary')
+                    div(class='panel-heading') Volume Graph
+                    div(class='panel-body')
+                        div(class='svg-container')
+                            div(id='volume-graph')
+                                svg
+    div.row
+        table(class='table table-condensed table-hover' id='transactiontable')
+            thead(class='table-hover')
+                h4 #{header} Transactions
+                tr(class='bg-primary' id='header')
+                    th Transaction #
+                    th Date
+                    th Ticker (Symbol)
+                    th Price
+                    th Quantity
+                    th Buy
+                    th Sell
+            tbody(class='table-hover' id='quoteBody')
+                if transactions
+                    - var i = 1
+                    each val in transactions
+                        tr(class='bg-info')
+                            td(id='transactionid')= i
+                            td #{val.datetime}
+                            td #{val.ticker}
+                            td #{parseFloat(Math.round(val.price * 100) / 100).toFixed(2)}
+                            td #{val.quantity}
+                            td
+                                button(id='buystock'+i onclick="fillBuyStockForm('"+val.ticker+"');" type='button' data-toggle='modal' data-target='#buyStock')
+                                    span(class='glyphicon glyphicon-plus')
+                            td
+                                button(id='sellstock'+i onclick="fillSellStockForm('" + val.ticker+ "');" type='button' data-toggle='modal' data-target='#buyStock')
+                                    span(class='glyphicon glyphicon-minus')
+                        - i++
+    // Buy/Sell Stock (in the transactions table)
+    div(class='modal fade' id='buyStock' tabindex='-1' role='dialog' aria-labelledby='buyStockLabel')
+        div(class='modal-dialog' role='document')
+            div.modal-content
+                div.modal-header
+                    button(type='button' class='close' data-dismiss='modal' aria-label='Close' id='close') x
+                    h4(class='modal-title' id='buyStockLabel') Buy/Sell Stock
+                div.modal-body
+                    h4 Latest Price: &nbsp
+                        span(class='label label-warning' id='latestPrice')
+                    h4 Ticker &nbsp
+                        small(id='tickerDisplay')
+                    div.input-group
+                        span(class='input-group-addon' id='basic-addon2') Quantity
+                        input(type='text' id='quantity' onkeyup='getTotalAmount();' class='form-control' placeholder='E.g. 1000' aria-describedby='basic-addon2')
+                    div(class='alert alert-danger' role='alert')
+                        | Total Dollar Amount:
+                        span(class='label label-danger' id='totalAmount')
+                div.modal-footer
+                    button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
+                    button(type='button' onclick='performTransaction();' class='btn btn-primary' data-dismiss='modal') Submit
 
     script(type='text/javascript' src='/javascripts/d3.352.min.js')
     script(type='text/javascript' src='/javascripts/nv.d3.min.js')
