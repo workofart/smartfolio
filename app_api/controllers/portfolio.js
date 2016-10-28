@@ -136,7 +136,8 @@ module.exports.portfolioCount = function (req, res) {
     }
 }
 
-// GET: localhost:3000/api/portfolio/getPriceListByTicker/ticker
+// GET: localhost:3000/api/getPriceListByTicker/ticker
+// FIXME: The 'attr' parameter still needs fixing, still getting all columns
 module.exports.getPriceListByTicker = function (req, res) {
     console.log(JSON.stringify(req.body));
     var user = getUserObject(req);
