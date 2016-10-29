@@ -59,7 +59,7 @@ block content
                     div(class='panel-body')
                         div(class='svg-container')
                             div(id='myChart')
-                        a(class='btn btn-default' data-toggle='collapse' href='#tableViewPanel' aria-expanded='false' aria-controls='tableViewPanel') Table View &nbsp
+                        a(class='btn btn-default' data-toggle='collapse' onclick='getCompositionTableView();' href='#tableViewPanel' aria-expanded='false' aria-controls='tableViewPanel') Table View &nbsp
                             span(class='caret')
                          //For displaying table view
                         div(class='collapse' id='tableViewPanel')
@@ -68,13 +68,14 @@ block content
                                     h4 Stocks in #{header}
                                     tr(class='info' id='stockTableHeader')
                                         th Ticker (Symbol)
-                                        th Price
                                         th Quantity
                                 tbody(class='table-hover' id='stockTableBody')
-                                    tr
-                                        td AAPL
-                                        td $10
-                                        td 100
+                                    if data
+                                        - var i = 1
+                                        each val in data
+                                            tr
+                                                td #{data.ticker}
+                                                td #{data.portion}
             div(class='col-lg-6 col-sm-10')
                 div(class='panel panel-primary')
                     div(class='panel-heading') Portfolio Composition
@@ -167,3 +168,4 @@ block content
         getPortfolioRealValueById(currentpid);
         getPortfolioPerformance(currentpid);
         getPortfolioTransactionVolume(currentpid);
+        var data = getCompositionTableView(currentpid);

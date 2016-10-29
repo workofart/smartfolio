@@ -557,6 +557,28 @@ function getPriceTrend(ticker) {
         });
 }
 
+function getCompositionTableView(currentpid) {
+
+    $.ajax({
+        url: '/api/portfolio/composition/' + currentpid,
+        type: 'GET',
+        datatype: 'application/json'
+    })
+        .done(function(data) {
+
+            for (var i = 0; i < data.length; i++) {
+                var trNode = $('<tr>');
+                var tickerNode = $('<td>' + data[i].ticker + '</td>');
+                var portionNode = $('<td>' + data[i].portion + '</td>');
+                trNode.append(tickerNode);
+                trNode.append(portionNode);
+                $('#stockTableBody').append(trNode);
+            }
+            console.log(data);
+            return data;
+        });
+}
+
 function getPortfolioTransactionVolume(pid) {
     $.ajax({
         url: '/api/portfolio/volume/' + pid,
