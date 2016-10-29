@@ -110,6 +110,7 @@ block content
                     th Ticker (Symbol)
                     th Price
                     th Quantity
+                    th Status
                     th Buy
                     th Sell
             tbody(class='table-hover' id='quoteBody')
@@ -122,6 +123,7 @@ block content
                             td #{val.ticker}
                             td #{parseFloat(Math.round(val.price * 100) / 100).toFixed(2)}
                             td #{val.quantity}
+                            td #{val.status}
                             td
                                 button(id='buystock'+i onclick="fillBuyStockForm('"+val.ticker+"');" type='button' data-toggle='modal' data-target='#buyStock')
                                     span(class='glyphicon glyphicon-plus')
