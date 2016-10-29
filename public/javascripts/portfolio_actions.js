@@ -180,7 +180,10 @@ function createPortfolio () {
         url: '/api/portfolio',
         type: 'POST',
         datatype: 'application/json',
-        data: jsonPortfolio
+        data: jsonPortfolio,
+        success: function() {
+            alert('You have successfully created [' + portfolioname + ']\nGo to your dedicated portfolio page to manage your portfolios');
+        }
     });
 }
 
@@ -257,11 +260,7 @@ function performTransaction() {
             $('#modal-body').append('<span class="label label-danger" id="userAlert">Please select a ticker first or add a quantity</span>')
         }
     } else {
-        if (buy == 0) {
-            var url = '/api/transaction/sellStock';
-        } else {
-            var url = '/api/transaction/buyStock';
-        }
+        var url = buy ? '/api/transaction/buyStock' : '/api/transaction/sellStock';
         var arr = window.location.href.split('/');
         var currentpid = arr[arr.length - 1];
 
@@ -281,7 +280,10 @@ function performTransaction() {
                 "quantity" : quantity,
                 "price" : latestPrice
             },
-            datatype: 'application/json'
+            datatype: 'application/json',
+            success: function() {
+                buy ? alert('You have successfully bought ' + quantity + ' shares of [' + ticker + ']') : alert('You have successfully sold ' + quantity + ' shares of [' + ticker + ']');
+            }
         });
 
         // dismiss modal

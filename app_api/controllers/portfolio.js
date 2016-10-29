@@ -20,6 +20,7 @@ module.exports.getPortfolioById = function (req, res){
 
 // POST: localhost:3000/api/portfoliowithstock
 module.exports.createPortfolioWithStock = function (req, res) {
+    var initialReserve = 10000; // TODO: Extract this to somewhere that's reusable
     var user = getUserObject(req);
     console.log('createPortfolioWithStock | ' + JSON.stringify(user));
     console.log('rreq.body: ' + JSON.stringify(req.body));
@@ -47,7 +48,7 @@ module.exports.createPortfolioWithStock = function (req, res) {
                         datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
                         ticker: 'RESERVE',
                         quantity: 1,
-                        position: (parseFloat(req.body['stocks[quantity]']) * parseFloat(req.body['stocks[price]'])),
+                        position: (initialReserve - (parseFloat(req.body['stocks[quantity]']) * parseFloat(req.body['stocks[price]']))),
                         price: -1 * parseFloat(req.body['stocks[price]']) * req.body['stocks[quantity]'],
                         status: 1 // FIXME: order should be filled later
                     }).then(function (transaction) {
