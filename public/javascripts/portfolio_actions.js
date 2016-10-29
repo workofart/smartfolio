@@ -184,7 +184,10 @@ function createPortfolio () {
         success: function() {
             alert('You have successfully created [' + portfolioname + ']\nGo to your dedicated portfolio page to manage your portfolios');
         }
-    });
+    })
+        .fail(function() {
+            alert('Transaction below was unsuccessful, please try again... \nPortfolio Name: ' + portfolioname);
+        });
 }
 
 // function getPortfolioCompositionById(pid) {
@@ -284,7 +287,10 @@ function performTransaction() {
             success: function() {
                 buy ? alert('You have successfully bought ' + quantity + ' shares of [' + ticker + ']') : alert('You have successfully sold ' + quantity + ' shares of [' + ticker + ']');
             }
-        });
+        })
+            .fail(function() {
+                alert('Transaction below was unsuccessful, please try again... \nShares: ' + quantity + '\tTicker: ' + ticker);
+            });
 
         // dismiss modal
         $('#newStock').modal('hide');
