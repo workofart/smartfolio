@@ -22,6 +22,7 @@ module.exports.getPortfolioById = function (req, res){
 module.exports.createPortfolioWithStock = function (req, res) {
     var user = getUserObject(req);
     console.log('createPortfolioWithStock | ' + JSON.stringify(user));
+    console.log('rreq.body: ' + JSON.stringify(req.body));
     if (JSON.stringify(user) != '{}'){
         model.Portfolios.create({ userid : user.userid , portfolioname : req.body.pName}).then(
             function (portfolio) {
@@ -36,8 +37,19 @@ module.exports.createPortfolioWithStock = function (req, res) {
                     datetime: moment.tz(moment().format('YYYY/MM/DD HH:mm:ss'), "America/New_York"),
                     ticker: req.body['stocks[ticker]'],
                     quantity: req.body['stocks[quantity]'],
-                    price: req.body['stocks[price]']
+                    price: req.body['stocks[price]'],
+                    position: req.body['stocks[quantity]']
 
+                });
+                // Double entry for cash
+                model.Transactions.create( {
+                    portfolioid: portfolio.portfolioid,
+                    datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
+                    ticker: 'RESERVE',
+                    quantity: 1,
+                    position: (parseFloat(req.body['stocks[quantity]']) * parseFloat(req.body['stocks[price]'])),
+                    price: -1 * parseFloat(req.body['stocks[price]']) * req.body['stocks[quantity]'],
+                    status: 1 // FIXME: order should be filled later
                 }).then(function (transaction) {
                     sendJsonResponse(res, 200, transaction);
                     return;

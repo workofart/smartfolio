@@ -250,32 +250,45 @@ function getLatestPrice(ticker) {
 }
 
 function performTransaction() {
-    if (buy == 0) {
-        var url = '/api/transaction/sellStock';
+    // check if there is a ticker selected, if not alert the user and prevent submission
+    if ($('#tickerDisplay').text() ==  '' || $('#totalAmount_newStock').text() == '' || $('#latestPrice_newStock').text() == '') {
+        // only append if element doesn't exist
+        if (!$('#userAlert').length) {
+            $('#modal-body').append('<span class="label label-danger" id="userAlert">Please select a ticker first or add a quantity</span>')
+        }
     } else {
-        var url = '/api/transaction/buyStock';
+        if (buy == 0) {
+            var url = '/api/transaction/sellStock';
+        } else {
+            var url = '/api/transaction/buyStock';
+        }
+        var arr = window.location.href.split('/');
+        var currentpid = arr[arr.length - 1];
+
+        var ticker = $('#tickerDisplay').text();
+        var latestPrice = $('#latestPrice').text().substr(1);
+        var quantity = $('#quantity').val();
+
+        ticker == '' ? ticker = $("#tickerBox option:selected").text() : ticker = $('#tickerDisplay').text();
+        latestPrice == '' ? latestPrice = $('#latestPrice_newStock').text().substr(1) : latestPrice = $('#latestPrice').text().substr(1);
+        quantity == '' ? quantity = $('#quantity_newStock').val() : quantity = $('#quantity').val();
+
+        $.ajax({
+            url: url + '/' + currentpid,
+            type: 'POST',
+            data: {
+                "ticker" : ticker,
+                "quantity" : quantity,
+                "price" : latestPrice
+            },
+            datatype: 'application/json'
+        });
+
+        // dismiss modal
+        $('#newStock').modal('hide');
     }
-    var arr = window.location.href.split('/');
-    var currentpid = arr[arr.length - 1];
 
-    var ticker = $('#tickerDisplay').text();
-    var latestPrice = $('#latestPrice').text().substr(1);
-    var quantity = $('#quantity').val();
 
-    ticker == '' ? ticker = $("#tickerBox option:selected").text() : ticker = $('#tickerDisplay').text();
-    latestPrice == '' ? latestPrice = $('#latestPrice_newStock').text().substr(1) : latestPrice = $('#latestPrice').text().substr(1);
-    quantity == '' ? quantity = $('#quantity_newStock').val() : quantity = $('#quantity').val();
-
-    $.ajax({
-        url: url + '/' + currentpid,
-        type: 'POST',
-        data: {
-            "ticker" : ticker,
-            "quantity" : quantity,
-            "price" : latestPrice
-        },
-        datatype: 'application/json'
-    })
 }
 
 function getTransactions () {
@@ -530,25 +543,30 @@ function getPriceTrend(ticker) {
                     obj.x = data[i].datetime;
                     priceList.push(obj);
                 }
-                // console.log('pricelist: \n' + JSON.stringify(priceList));
-                var ctx = document.getElementById("buyStockChart");
-                var scatterChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        datasets: [{
-                            label: ticker,
-                            data: priceList
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                type: 'time',
-                                position: 'bottom'
+                console.log('priceList: ' + priceList);
+                if (priceList != '') {
+                    var ctx = document.getElementById("buyStockChart");
+                    var scatterChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            datasets: [{
+                                label: ticker,
+                                data: priceList
                             }]
+                        },
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    type: 'time',
+                                    position: 'bottom'
+                                }]
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    $('#miniHeader').text('Sorry, the selected ticker doesn\'t have any price trend, please check back again');
+                }
+
             },
             error: function(e) {
                 throw e;

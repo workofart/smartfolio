@@ -729,32 +729,48 @@ function getTotalAmount() {
  * Creates a new portfolio by reading the form values, making the POST request with a given stock info
  */
 function createPortfolioWithStock() {
-	// var pId = getPortfolioId();
-	var ticker = $('#tickerInput').val();
-	var quantity = $('#quantity').val();
-	var amount = $('#totalAmount').text(); // not used
-	var price = $('#latestPrice').text().substr(1);
-	var pName = $('#portfolioName').val();
-	console.log(amount);
-	var jsonPortfolio = {
-		"pName" : pName,
-		"stocks" : {
-			"ticker" : ticker,
-			"quantity" : quantity,
-			"price" : price
+	// check if there is a ticker selected, if not alert the user and prevent submission
+	if ($('#tickerInput').val() ==  '' || $('#totalAmount').text() == '' || $('#latestPrice').text() == '') {
+		// only append if element doesn't exist
+		if (!$('#userAlert').length) {
+			$('#modal-body').append('<span class="label label-danger" id="userAlert">Please select a ticker first or add a quantity</span>')
 		}
-	};
-	var portStr = JSON.stringify(jsonPortfolio);
-	console.log(portStr);
-	$.ajax({
-		url: '/api/portfoliowithstock',
-		type: 'POST',
-		datatype: 'application/json',
-		data: jsonPortfolio
-	})
-		.fail(function() {
-			alert('Please login and try again!');
-		});
+	} else if ($('#portfolioName').val() == '') {
+		// only append if element doesn't exist
+		if (!$('#pNameAlert').length) {
+			$('#modal-body').append('<span class="label label-danger" id="pNameAlert">Please enter a portfolio name</span>')
+		}
+	} else {
+		var ticker = $('#tickerInput').val();
+		var quantity = $('#quantity').val();
+		var amount = $('#totalAmount').text(); // not used
+		var price = $('#latestPrice').text().substr(1);
+		var pName = $('#portfolioName').val();
+		console.log(amount);
+		var jsonPortfolio = {
+			"pName" : pName,
+			"stocks" : {
+				"ticker" : ticker,
+				"quantity" : quantity,
+				"price" : price
+			}
+		};
+		var portStr = JSON.stringify(jsonPortfolio);
+		console.log(portStr);
+		$.ajax({
+			url: '/api/portfoliowithstock',
+			type: 'POST',
+			datatype: 'application/json',
+			data: jsonPortfolio
+		})
+			.fail(function() {
+				alert('Please login and try again!');
+			});
+		// dismiss modal
+		$('#addToPortfolio').modal('hide');
+	}
+
+
 }
 
 function getPortfolioId() {
