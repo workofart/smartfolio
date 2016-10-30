@@ -180,13 +180,11 @@ module.exports.portfolioCount = function (req, res) {
 // GET: localhost:3000/api/getPriceListByTicker/ticker
 // FIXME: The 'attr' parameter still needs fixing, still getting all columns
 module.exports.getPriceListByTicker = function (req, res) {
-    console.log(JSON.stringify(req.body));
     var user = getUserObject(req);
     var ticker = req.params.ticker;
-    var attr = req.attr;
-    // var colList = ['close', 'datetime'];
-    console.log('ticker ' + ticker);
-    console.log('attr ' + attr);
+    var attr = req.query.attr;
+    console.log('ticker: ' + ticker);
+    console.log('attr: ' + attr);
     if (JSON.stringify(user) != '{}') {
         model.StockDaily.findAll( {
             where: {
