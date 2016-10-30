@@ -54,7 +54,7 @@ Updated (2016/10/29 9:10PM)
 * 215 ./public/stylesheets/chart.css
 * 23 ./public/stylesheets/portfolio_detail.css
 * 71 ./public/stylesheets/style.css
-*   4654 total
+* 4654 total
 
 ### What is this repository for? ###
 
