@@ -1,6 +1,9 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  div(class='row' id='overlay')
+
+    h1
+      span(class='glyphicon glyphicon-console')
+      small &nbsp #{title}
+

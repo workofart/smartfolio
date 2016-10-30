@@ -9,6 +9,8 @@ module.exports = function(passport) {
     var signupController = require('../controllers/signup');
     var loginController = require('../controllers/login');
     var ctrlTesting = require('../controllers/testing');
+    var ctrlComingSoon = require('../controllers/comingSoon');
+    var ctrlError = require('../controllers/error');
 
     var isAuthenticated = function (req, res, next) {
         if (req.isAuthenticated())
@@ -26,6 +28,13 @@ module.exports = function(passport) {
     router.get('/testing', function(req, res, next) { req.session.redirectTo = '/testing'; next(); }, ctrlTesting.testing);
     router.get('/testing/withDates', ctrlTesting.testingDiffDates);
     router.get('/testing/reloadDB', ctrlTesting.reloadDB);
+
+    /* GET Insight page */
+    router.get('/insight', ctrlComingSoon.comingSoon);
+
+
+    /* GET Learn more page */
+    router.get('/learnmore', ctrlComingSoon.comingSoon);
 
     /* GET Portfolio Overview page */
     router.get('/portfolio', isAuthenticated, ctrlPortfolio.portfolio);
@@ -70,6 +79,10 @@ module.exports = function(passport) {
         req.logout();
         res.redirect('/');
     });
+
+    /* GET Error page for all unknow url */
+    router.get('/*', ctrlError.error);
+
 
     return router;
 };
