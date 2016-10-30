@@ -6,6 +6,7 @@ var connection = require('../../app_server/configs/sequelize');
 var model = require('../../app_server/models/models');
 var csv = require('papaparse');
 
+const initialReserve = 10000; // TODO: Extract this to somewhere that's reusable
 var sendJsonResponse = function (res, status, content){
     res.status(status);
     res.json(content);
@@ -20,7 +21,6 @@ module.exports.getPortfolioById = function (req, res){
 
 // POST: localhost:3000/api/portfoliowithstock
 module.exports.createPortfolioWithStock = function (req, res) {
-    var initialReserve = 10000; // TODO: Extract this to somewhere that's reusable
     var user = getUserObject(req);
     console.log('createPortfolioWithStock | ' + JSON.stringify(user));
     console.log('rreq.body: ' + JSON.stringify(req.body));
@@ -41,20 +41,34 @@ module.exports.createPortfolioWithStock = function (req, res) {
                     price: req.body['stocks[price]'],
                     position: req.body['stocks[quantity]'],
                     status: 1 // FIXME: order should be filled later
-                }).then(function(done) {
-                    // Double entry for cash
-                    model.Transactions.create( {
-                        portfolioid: portfolio.portfolioid,
-                        datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
-                        ticker: 'RESERVE',
-                        quantity: 1,
-                        position: (initialReserve - (parseFloat(req.body['stocks[quantity]']) * parseFloat(req.body['stocks[price]']))),
-                        price: -1 * parseFloat(req.body['stocks[price]']) * req.body['stocks[quantity]'],
-                        status: 1 // FIXME: order should be filled later
-                    }).then(function (transaction) {
-                        sendJsonResponse(res, 200, transaction);
-                        return;
-                    });
+                });
+                model.Transactions.create( {
+                    portfolioid: portfolio.portfolioid,
+                    datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
+                    ticker: 'RESERVE',
+                    quantity: 1,
+                    position: initialReserve,
+                    price: initialReserve,
+                    status: 1 // FIXME: order should be filled later
+                });
+
+                // Update portfolio balance
+                portfolio.updateAttributes({
+                    balance: (initialReserve - (parseFloat(req.body['stocks[quantity]']) * parseFloat(req.body['stocks[price]']))),
+                });
+
+                // Double entry for cash
+                model.Transactions.create( {
+                    portfolioid: portfolio.portfolioid,
+                    datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
+                    ticker: 'RESERVE',
+                    quantity: 1,
+                    position: (initialReserve - (parseFloat(req.body['stocks[quantity]']) * parseFloat(req.body['stocks[price]']))),
+                    price: -1 * parseFloat(req.body['stocks[price]']) * req.body['stocks[quantity]'],
+                    status: 1 // FIXME: order should be filled later
+                }).then(function (transaction) {
+                    sendJsonResponse(res, 200, transaction);
+                    return;
                 });
             }
         );
@@ -75,8 +89,21 @@ module.exports.createPortfolio = function (req, res) {
                 req.session.portfolios.count++;
                 req.session.portfolios.ids.push(portfolio.portfolioid);
                 req.session.portfolios.names.push(portfolio.portfolioname);
-                sendJsonResponse(res, 200, portfolio);
-                return;
+                // sendJsonResponse(res, 200, portfolio);
+                // return;
+            })
+            .then(function (transaction) {
+                model.Transactions.create( {
+                    portfolioid: req.params.id,
+                    datetime: moment.parseZone(moment().format('YYYY/MM/DD HH:mm:ss')),
+                    ticker: 'RESERVE',
+                    quantity: 1,
+                    position: initialReserve,
+                    price: initialReserve,
+                    status: 1 // FIXME: order should be filled later
+                }).then(function (transaction) {
+                    sendJsonResponse(res, 200, 'Success');
+                });
             });
     }
     else {
