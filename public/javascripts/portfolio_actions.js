@@ -537,11 +537,13 @@ function createMiniChart() {
 
 function getPriceTrend(ticker) {
     console.log('getPriceTrend called: ' + ticker);
-    var attr = {"attr" : ["close", "datetime"]};
+    var attr = ["close", "datetime"];
     $.ajax({
             url: '/api/getPriceListByTicker/' + ticker,
             method: 'GET',
-            data: attr,
+            params: {
+                attr: JSON.stringify(attr)
+            },
             datatype: 'application/json',
             success: function (data) {
                 var priceList = [];
