@@ -43,3 +43,68 @@ function reloadDB() {
         datatype: 'application/json'
     });
 }
+
+function autoUpdateGraph() {
+    var dataPoints = []; // to store the randomly generated datapoints
+    var data = {
+        datasets: [{
+            label: 'Random Shit',
+            data: dataPoints
+        }]
+    };
+    var options = {
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom'
+            }]
+        }
+    };
+
+    var ctx = document.getElementById("autoUpdateGraph");
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+    });
+
+
+    // Initialize the graph parameters
+    // Bounds for random numbers
+    var xVal = 0;
+    var yVal = 100;
+
+    var updateInterval = 100; // in milliseconds
+    var visibleLimit = 500; // number of dataPoints visible at any point
+
+    /**
+     * Function for updating the chart with random datapoints
+     * @param count - how random we want the numbers
+     */
+    var updateChart = function (count) {
+        count = count || 1;
+        // count is number of times loop runs to generate random dataPoints.
+
+        // generate random number
+        for (var j = 0; j < count; j++) {
+            yVal = yVal +  Math.round(5 + Math.random() *(-10));
+            dataPoints.push({
+                x: xVal,
+                y: yVal
+            });
+            xVal++; // move the x-axis to the right
+        };
+
+        // check if the number of data points reached the visible limit, shift if needed
+        if (dataPoints.length > visibleLimit)
+        {
+            dataPoints.shift();
+        }
+
+        chart.update();
+
+    };
+    updateChart(visibleLimit);
+    setInterval(function() { updateChart()
+    }, updateInterval);
+}
