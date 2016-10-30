@@ -5,6 +5,8 @@ This README would normally document whatever steps are necessary to get your app
 ### Quick LOC Summary ###
 
 Updated (2016/10/29 9:10PM)
+### 4654 Total ###
+
 * 114 ./app.js
 * 516 ./app_api/controllers/portfolio.js
 * 154 ./app_api/controllers/transaction.js
@@ -54,7 +56,7 @@ Updated (2016/10/29 9:10PM)
 * 215 ./public/stylesheets/chart.css
 * 23 ./public/stylesheets/portfolio_detail.css
 * 71 ./public/stylesheets/style.css
-* 4654 total
+
 
 ### What is this repository for? ###
 
