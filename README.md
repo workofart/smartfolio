@@ -2,9 +2,9 @@
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
-### Quick LOC Summary ###
+## Quick LOC Summary ##
 
-Updated (2016/10/29 9:10PM)
+### Updated (2016/10/29 9:10PM) ###
 ### 4654 Total ###
 
 * 114 ./app.js
