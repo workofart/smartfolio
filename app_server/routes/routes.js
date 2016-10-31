@@ -81,7 +81,7 @@ module.exports = function(passport) {
     });
 
     /* GET Error page for all unknow url */
-    router.get('/*', ctrlError.error);
+    // router.get('/*', ctrlError.error);
 
 
     return router;
