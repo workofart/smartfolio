@@ -58,7 +58,7 @@ var PopulateStockLive = function(ticker) {
 }
 
 
-var companyList = ['AAPL', 'MSFT', 'INTC', 'GOOG', 'FB'];
+var companyList = ['AAPL', 'MSFT', 'INTC', 'GOOG', 'FB', 'NVDA', 'AMZN', 'QCOM', 'NFLX', 'SBUX'];
 function PopulateStockLiveForAllCompanies() {
     for (var i = 0; i < companyList.length; i++) {
         var ticker = companyList[i];
