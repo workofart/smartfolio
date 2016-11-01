@@ -117,7 +117,9 @@ function generateFakeTransactions() {
         var tickers = ['AAPL', 'MSFT', 'FB', 'ADMP', 'AXAS','ACIA','ACTG','ACHC','ACAD','ACST'];
         var ticker = tickers[Math.floor(Math.random()*10)];
         var urls = ['/api/transaction/buyStock', '/api/transaction/sellStock'];
-        var url = urls[Math.floor(Math.random()*2)];
+        var buySell = ['bought', 'sold'];
+        var buySellRandomNum = Math.floor(Math.random()*2);
+        var url = urls[buySellRandomNum];
         var currentpid = 3;
 
         // get latest price
@@ -141,11 +143,11 @@ function generateFakeTransactions() {
                     },
                     datatype: 'application/json',
                     success: function() {
-                        console.log('You have successfully made' + quantity + ' shares of [' + ticker + ']');
+                        console.log('You have successfully ' + buySell[buySellRandomNum] + ' ' + quantity + ' shares of [' + ticker + ']');
                     }
                 })
                     .fail(function() {
-                        console.log('Transaction below was unsuccessful, please try again... \nShares: ' + quantity + '\tTicker: ' + ticker);
+                        console.log('Transaction below was unsuccessful, please try again... \n|' + buySell[buySellRandomNum] + '| Shares: ' + quantity + '\tTicker: ' + ticker);
                     });
             });
 
