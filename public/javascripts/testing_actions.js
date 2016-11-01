@@ -108,3 +108,51 @@ function autoUpdateGraph() {
     setInterval(function() { updateChart()
     }, updateInterval);
 }
+
+function generateFakeTransactions() {
+
+    var createTransactions = function () {
+        // random parameters
+        var quantity = (Math.floor(Math.random()*10+1));
+        var tickers = ['AAPL', 'MSFT', 'FB', 'ADMP', 'AXAS','ACIA','ACTG','ACHC','ACAD','ACST'];
+        var ticker = tickers[Math.floor(Math.random()*10)];
+        var urls = ['/api/transaction/buyStock', '/api/transaction/sellStock'];
+        var url = urls[Math.floor(Math.random()*2)];
+        var currentpid = 3;
+
+        // get latest price
+        $.ajax({
+            url: '/getLatestPrice',
+            type: 'GET',
+            data: {
+                "ticker" : ticker
+            },
+            datatype: 'application/json'
+        })
+            .done(function (data) {
+                var latestPrice = data;
+                $.ajax({
+                    url: url + '/' + currentpid,
+                    type: 'POST',
+                    data: {
+                        "ticker" : ticker,
+                        "quantity" : quantity,
+                        "price" : latestPrice
+                    },
+                    datatype: 'application/json',
+                    success: function() {
+                        console.log('You have successfully made' + quantity + ' shares of [' + ticker + ']');
+                    }
+                })
+                    .fail(function() {
+                        console.log('Transaction below was unsuccessful, please try again... \nShares: ' + quantity + '\tTicker: ' + ticker);
+                    });
+            });
+
+
+    }
+    var updateInterval = 1000; // in milliseconds
+    setInterval(function() {
+        createTransactions();
+    }, updateInterval);
+}

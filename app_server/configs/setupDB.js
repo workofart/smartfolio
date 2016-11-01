@@ -102,7 +102,9 @@ client.query("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('test3', '$2a$08$7/
 client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname) VALUES (1, 'BESTportfolio');");
 client.query("INSERT INTO TRANSACTIONS (portfolioid, datetime, ticker, quantity, position, price, status) VALUES (1, CURRENT_TIMESTAMP, 'RESERVE', 1, 10000, 10000, 1);");
 client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname) VALUES (2, 'TESTportfolio');");
+client.query("INSERT INTO PORTFOLIOS (USERID, portfolioname, balance) VALUES (1, 'Fake', 1000000);");
 client.query("INSERT INTO TRANSACTIONS (portfolioid, datetime, ticker, quantity, position, price, status) VALUES (2, CURRENT_TIMESTAMP, 'RESERVE', 1, 10000, 10000, 1);");
+client.query("INSERT INTO TRANSACTIONS (portfolioid, datetime, ticker, quantity, position, price, status) VALUES (3, CURRENT_TIMESTAMP, 'RESERVE', 1, 1000000, 1000000, 1);");
 // client.query("INSERT INTO STOCK_DAILY (TICKER, NAME, DATETIME, OPEN, CLOSE, HIGH, LOW) VALUES " +
 //     "('AAPL', 'APPLE', CURRENT_TIMESTAMP, 10.00, 12.15, 15.23, 8.99);");
 // client.query("INSERT INTO STOCK_LIVE (TICKER, NAME, DATETIME, price) VALUES " +
