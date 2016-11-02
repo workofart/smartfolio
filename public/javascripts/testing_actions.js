@@ -46,10 +46,20 @@ function reloadDB() {
 
 function autoUpdateGraph() {
     var dataPoints = []; // to store the randomly generated datapoints
+    var upperBound = []; // to store the calculated bollinger band upper bound
+    var lowerBound = []; // to store the calculated bollinger band lower bound
     var data = {
         datasets: [{
             label: 'Random Shit',
             data: dataPoints
+        },{
+            label: 'UpperBound',
+            data: upperBound,
+            pointBackgroundColor: "#3845FF",
+        },{
+            label: 'LowerBound',
+            data: lowerBound,
+            pointBackgroundColor: "#FF584B",
         }]
     };
     var options = {
@@ -92,6 +102,7 @@ function autoUpdateGraph() {
                 x: xVal,
                 y: yVal
             });
+
             xVal++; // move the x-axis to the right
         };
 
@@ -101,8 +112,51 @@ function autoUpdateGraph() {
             dataPoints.shift();
         }
 
-        chart.update();
+        // Extract the y values into a separate array for bollinger bands calculation
+        var result = dataPoints.map(function(a) { return a.y});
 
+        // Calculate bollinger bands
+        $.ajax({
+            url: '/insight/getUpperBound',
+            method: 'POST',
+            data: { 'priceList' : result},
+            datatype: 'application/json'
+        })
+            .done(function (data) {
+                // console.log('Upper bound: ' + data);
+
+                // Insert the upper bound for the current dataset
+                upperBound.push({
+                    x: xVal,
+                    y: data
+                });
+
+                if (upperBound.length > visibleLimit)
+                {
+                    upperBound.shift();
+                }
+                // Calculate bollinger bands
+                $.ajax({
+                    url: '/insight/getLowerBound',
+                    method: 'POST',
+                    data: { 'priceList' : result},
+                    datatype: 'application/json'
+                })
+                    .done(function (data) {
+                        // Insert the upper bound for the current dataset
+                        lowerBound.push({
+                            x: xVal,
+                            y: data
+                        });
+
+                        if (lowerBound.length > visibleLimit)
+                        {
+                            lowerBound.shift();
+                        }
+
+                        chart.update();
+                    });
+            });
     };
     updateChart(visibleLimit);
     setInterval(function() { updateChart()
@@ -153,7 +207,7 @@ function generateFakeTransactions() {
 
 
     }
-    var updateInterval = 1000; // in milliseconds
+    var updateInterval = 500; // in milliseconds
     setInterval(function() {
         createTransactions();
     }, updateInterval);

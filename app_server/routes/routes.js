@@ -10,6 +10,7 @@ module.exports = function(passport) {
     var loginController = require('../controllers/login');
     var ctrlTesting = require('../controllers/testing');
     var ctrlComingSoon = require('../controllers/comingSoon');
+    var ctrlInsight = require('../controllers/insight');
     var ctrlError = require('../controllers/error');
 
     var isAuthenticated = function (req, res, next) {
@@ -51,6 +52,9 @@ module.exports = function(passport) {
 
     /* GET latest price from Yahoo Finance */
     router.get('/getLatestPrice', ctrlPortfolio.latestPrice);
+
+    router.post('/insight/getUpperBound', ctrlInsight.getUpperBound);
+    router.post('/insight/getLowerBound', ctrlInsight.getLowerBound);
 
     /* Login Page */
     router.get('/login', function(req, res) {

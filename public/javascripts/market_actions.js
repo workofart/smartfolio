@@ -610,7 +610,7 @@ var googleQuote = function(ticker, interval, period) {
 
 
 				// console.log('finished ' + i);
-				
+
 				addChildren(quote, ticker);
 			}
 
@@ -760,7 +760,8 @@ function createPortfolioWithStock() {
 		$.ajax({
 			url: '/api/portfoliowithstock',
 			type: 'POST',
-			datatype: 'application/json',			data: jsonPortfolio,
+			datatype: 'application/json',
+			data: jsonPortfolio,
 			success: function() {
 				alert('You have successfully created your portfolio ' + pName + '\nPlease check the portfolios page to manage your portfolio');
 			}

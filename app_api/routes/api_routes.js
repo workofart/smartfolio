@@ -4,6 +4,7 @@ var router = express.Router();
 // require the related controller files
 var ctrlPortfolio = require('../controllers/portfolio');
 var ctrlTransaction= require('../controllers/transaction');
+var ctrlInsight = require('../controllers/insight');
 
 // Define routes for Portfolio
 router.get('/portfolio/:id', ctrlPortfolio.getPortfolioById);
@@ -27,5 +28,7 @@ router.post('/transaction/buyStock/:id', ctrlTransaction.buyStock);
 router.post('/transaction/sellStock/:id', ctrlTransaction.sellStock);
 router.get('/transaction/:id', ctrlTransaction.getTransactions);
 router.get('/transaction', ctrlTransaction.getAllTransactions);
+
+// router.get('/insight/applyStrategy', ctrlInsight.applyStrategy);
 
 module.exports = router;

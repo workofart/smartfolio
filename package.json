@@ -35,6 +35,7 @@
     "select2": "^4.0.3",
     "sequelize": "^3.24.3",
     "serve-favicon": "^2.3.0",
+    "simple-statistics": "^2.2.0",
     "underscore": "^1.8.3"
   }
 }
