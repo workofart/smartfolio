@@ -10,7 +10,7 @@ var PopulateStockLive = function(ticker) {
     // var YQLquery = 'select * from yahoo.finance.quotes where symbol IN ("' + ticker + '")';
     // var moreUrl = '&format=json&env=http://datatables.org/alltables.env';
 
-    path = 'http://download.finance.yahoo.com/d/quotes.csv?s=' + ticker + '&f=l1';
+    path = 'http://download.finance.yahoo.com/d/quotes.csv?s=' + ticker + '&f=l1n';
 
     // console.log(baseUrl + YQLquery + moreUrl);
 
@@ -30,16 +30,18 @@ var PopulateStockLive = function(ticker) {
 
             // For single quote, quotes is just a json
             // var ticker = quotes.symbol;
-            // var name = quotes.Name; // FIXME, might not be the same
-            var name = 'APPLE';
+            body = String(body).split(/,(.+)?/);
+            var name = body[1].substring(1, body[1].length-1);
             var datetime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
             // var price = parseFloat(quotes.PreviousClose) + parseFloat(quotes.Change);
-            var price = body;
-            console.log(ticker);
-            console.log(name);
-            console.log(datetime);
-            console.log(price);
-            
+
+            var price = body[0];
+            console.log('\n----------\nbody: ' + body);
+            console.log('ticker ' + ticker);
+            console.log('name ' + name);
+            console.log('datetime ' + datetime);
+            console.log('price ' + price);
+
             // Insert into stock_live table
             // TODO: Create a model for this table and use Create() instead
             query = 'INSERT INTO stock_live (ticker, name, datetime, price) VALUES (:ticker, :name, :datetime, :price);'
