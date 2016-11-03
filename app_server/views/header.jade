@@ -1,9 +1,14 @@
 nav(class='navbar navbar-default navbar-fixed-top')
 	div.container-fluid
 		div.navbar-header
+			button(type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#navbar-collapse' aria-expanded='false')
+				span(class='sr-only') Toggle navigation
+				span(class='icon-bar')
+				span(class='icon-bar')
+				span(class='icon-bar')
 			a(href='/')
 				img(src='/images/chart.png' height='50px' width='50px')
-		div(id='navbar' class='navbar-collapse collapse')
+		div(id='navbar-collapse' class='navbar-collapse collapse')
 			ul(class='nav navbar-nav')
 				li
 					a(href='/') Home
