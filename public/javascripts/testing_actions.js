@@ -48,6 +48,8 @@ function autoUpdateGraph() {
     var dataPoints = []; // to store the randomly generated datapoints
     var upperBound = []; // to store the calculated bollinger band upper bound
     var lowerBound = []; // to store the calculated bollinger band lower bound
+    var factor = 2; // Used to set the upper/lower bounds (factor for standard Deviation)
+
     var data = {
         datasets: [{
             label: 'Random Shit',
@@ -119,7 +121,7 @@ function autoUpdateGraph() {
         $.ajax({
             url: '/insight/getUpperBound',
             method: 'POST',
-            data: { 'priceList' : result},
+            data: { 'priceList' : result, 'factor' : factor},
             datatype: 'application/json'
         })
             .done(function (data) {
@@ -139,7 +141,7 @@ function autoUpdateGraph() {
                 $.ajax({
                     url: '/insight/getLowerBound',
                     method: 'POST',
-                    data: { 'priceList' : result},
+                    data: { 'priceList' : result, 'factor' : factor},
                     datatype: 'application/json'
                 })
                     .done(function (data) {

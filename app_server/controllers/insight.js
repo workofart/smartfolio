@@ -11,12 +11,20 @@ var sendJsonResponse = function (res, status, content){
  * - Bollinger bands
  * - Moving averages
  */
+
+/**
+ * Bollinger Bands
+ * POST Request
+ * url: '/insight/getLowerBound'
+ * url: '/insight/getUpperBound'
+ * data: { 'priceList' : [Number, Number], 'factor' : Number},
+ */
 module.exports.getUpperBound = function (req, res) {
-    sendJsonResponse(res, 200, getUpperBound(req.body['priceList[]']));
+    sendJsonResponse(res, 200, getUpperBound(req.body['priceList[]'], req.body['factor']));
 }
 
 module.exports.getLowerBound = function (req, res) {
-    sendJsonResponse(res, 200, getLowerBound(req.body['priceList[]']));
+    sendJsonResponse(res, 200, getLowerBound(req.body['priceList[]'], req.body['factor']));
 }
 
 function getMovingAverage(priceList) {
@@ -25,17 +33,16 @@ function getMovingAverage(priceList) {
     }
 }
 
-function getUpperBound(priceList) {
+function getUpperBound(priceList, factor) {
     var avg = getMovingAverage(priceList);
     var std = ss.standardDeviation(priceList);
-    // console.log('std: ' + std);
-    var upperBound = std * 2 + avg;
-    // console.log('upperBound: ' + upperBound);
+    var upperBound = std * factor + avg;
     return upperBound;
 }
 
-function getLowerBound(priceList) {
-    var upperBound = getUpperBound(priceList);
+function getLowerBound(priceList, factor) {
     var avg = getMovingAverage(priceList);
-    return avg - (upperBound - avg);
+    var std = ss.standardDeviation(priceList);
+    var lowerBound = avg - std * factor;
+    return lowerBound;
 }
