@@ -1,6 +1,35 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## Things to keep in mind when making API requests: ##
+
+**1. The request originates from the server (E.g. /controller/portfolio.js)**
+
+url - must append 'http://localhost:3000' as the prefix
+
+request (
+        requestOptions,
+        function(err, response, body) {
+            if (response.statusCode === 200) {
+                sendJsonResponse(res, 200, JSON.parse(body));
+            } else {
+                throw err;
+            }
+        }
+    );
+
+**2. The request originates from the client (E.g. /javascripts/portfolio_actions.js)**
+
+url - can start with /api or /market etc...
+
+$.ajax({
+            requestOptions,
+            success: function (data) {
+                // Do stuff with data
+            },
+            error: function(e) {
+                throw e;
+            }
+        });
 
 ## Quick LOC Summary ##
 
