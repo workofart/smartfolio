@@ -2,34 +2,60 @@
 
 ## Things to keep in mind when making API requests: ##
 
-**1. The request originates from the server (E.g. /controller/portfolio.js)**
+**1. Request Library | The request originates from the server (E.g. /controller/portfolio.js)**
 
 url - must append 'http://localhost:3000' as the prefix
 
-request (
-        requestOptions,
-        function(err, response, body) {
-            if (response.statusCode === 200) {
-                sendJsonResponse(res, 200, JSON.parse(body));
-            } else {
-                throw err;
-            }
-        }
-    );
+qs (query string) - don't need to JSON.stringify()
 
-**2. The request originates from the client (E.g. /javascripts/portfolio_actions.js)**
+* E.g. qs: { attr: ['close', 'open'] }
+
+
+```
+request (
+
+        requestOptions,
+
+        function(err, response, body) {
+
+            if (response.statusCode === 200) {
+
+                sendJsonResponse(res, 200, JSON.parse(body));
+
+            } else {
+
+                throw err;
+
+            }
+
+        }
+
+    );
+```
+
+
+**2. AJAX | The request originates from the client (E.g. /javascripts/portfolio_actions.js)**
 
 url - can start with /api or /market etc...
 
+params (query string) - must use JSON.stringify() to convert params
+
+* E.g. params: { attr: JSON.stringify(attr) },
+
+```
 $.ajax({
-            requestOptions,
-            success: function (data) {
-                // Do stuff with data
-            },
-            error: function(e) {
-                throw e;
-            }
-        });
+        requestOptions,
+        success: function (data) {
+            // Do stuff with data
+        },
+        error: function(e) {
+            throw e;
+        }
+ });
+
+```
+
+
 
 ## Quick LOC Summary ##
 
