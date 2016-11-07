@@ -22,7 +22,7 @@ module.exports = function(passport) {
 
     /* GET home page. */
     router.get('/', function(req, res, next) { req.session.redirectTo = '/'; next(); }, ctrlIndex.index);
-    /* GET Analysis page */
+    /* GET Market page */
     router.get('/market', function(req, res, next) { req.session.redirectTo = '/market'; next(); }, ctrlMarket.market);
 
     /* GET Testing page */
@@ -44,17 +44,18 @@ module.exports = function(passport) {
     router.get('/portfolio/:pid', isAuthenticated, ctrlPortfolioDetail.portfolioDetail);
 
     /* GET request for getting stock data from Google */
-    router.get('/market/GetGoogleFinanceData/', ctrlMarket.GetGoogleFinanceData)
+    router.get('/market/GetGoogleFinanceData/', ctrlMarket.GetGoogleFinanceData);
     /* GET request for Yahoo Finance News */
-    router.get('/market/GetYahooFinanceNews', ctrlMarket.GetYahooFinanceNews)
+    router.get('/market/GetYahooFinanceNews', ctrlMarket.GetYahooFinanceNews);
     /* GET request for companies in Database */
-    router.get('/market/GetCompanyList', ctrlMarket.GetCompanyList)
+    router.get('/market/GetCompanyList', ctrlMarket.GetCompanyList);
 
     /* GET latest price from Yahoo Finance */
     router.get('/getLatestPrice', ctrlPortfolio.latestPrice);
 
     router.post('/insight/getUpperBound', ctrlInsight.getUpperBound);
     router.post('/insight/getLowerBound', ctrlInsight.getLowerBound);
+    router.get('/insight/dynamicMovingAverage/:ticker', ctrlInsight.dynamicMovingAverage);
 
     /* Login Page */
     router.get('/login', function(req, res) {

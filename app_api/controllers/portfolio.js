@@ -178,13 +178,16 @@ module.exports.portfolioCount = function (req, res) {
 }
 
 // GET: localhost:3000/api/getPriceListByTicker/ticker
+// Customizable columns query
 module.exports.getPriceListByTicker = function (req, res) {
-    var user = getUserObject(req);
+    // var user = getUserObject(req);
     var ticker = req.params.ticker;
-    var attr = req.query.attr;
+
+    var attr;
+    req.query.attr != undefined ? attr = req.query.attr : req.qs.attr;
     console.log('ticker: ' + ticker);
     console.log('attr: ' + attr);
-    if (JSON.stringify(user) != '{}') {
+    // if (JSON.stringify(user) != '{}') {
         model.StockDaily.findAll( {
             where: {
                 ticker : ticker
@@ -194,11 +197,11 @@ module.exports.getPriceListByTicker = function (req, res) {
             sendJsonResponse(res, 200, c);
             return;
         });
-    }
-    else {
-        sendJsonResponse(res, 404, 'Not authorized to perform that action');
-        return;
-    }
+    // }
+    // else {
+    //     sendJsonResponse(res, 404, 'Not authorized to perform that action');
+    //     return;
+    // }
 }
 
 

@@ -214,3 +214,23 @@ function generateFakeTransactions() {
         createTransactions();
     }, updateInterval);
 }
+
+function testDynamicMovingAverage() {
+    $.ajax({
+        url: '/insight/dynamicMovingAverage/FB',
+        type: 'GET',
+        data: {
+            'duration' : 256,
+            'freq' : 16
+        },
+        error: function(req, status, err) {
+            console.log('==========ERROR===========');
+            console.log(req.responseText);
+            // console.log(status.responseText);
+        }
+    })
+    .done(function(data) {
+        console.log(JSON.stringify(data));
+        return data;
+    });
+}
