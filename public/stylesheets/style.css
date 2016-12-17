@@ -63,6 +63,14 @@ body {
     padding: 2px;
 }
 
+#rangeSlider #freqSlider .slider-selection {
+    background: #BABABA;
+}
+
+#buyStockChart {
+    margin-top: 40px;
+}
+
 /* Hack -- Overrides the other css */
 div.dataTables_paginate ul.pagination li.paginate_button
 {

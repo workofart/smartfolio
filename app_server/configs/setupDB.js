@@ -93,6 +93,15 @@ client.query('CREATE TABLE companies(companyid SERIAL,' +
                         exchange: 'NASDAQ'
                     });
                 }
+                var companyList = require('./mutualFundList.json');
+                for (var i = 0; i < companyList.length; i++) {
+                    // No need for checking because we drop the table every time, so no duplication
+                    model.Companies.create({
+                        ticker: companyList[i].ticker,
+                        name: companyList[i].companyName,
+                        exchange: 'MUTF_CA'
+                    });
+                }
              });
 
 // Password is 1234

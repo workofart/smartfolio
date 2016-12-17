@@ -220,7 +220,7 @@ function testDynamicMovingAverage() {
         url: '/insight/dynamicMovingAverage/FB',
         type: 'GET',
         data: {
-            'duration' : 256,
+            'duration' : 32,
             'freq' : 16
         },
         error: function(req, status, err) {
@@ -234,3 +234,246 @@ function testDynamicMovingAverage() {
         return data;
     });
 }
+
+/**
+ * Given a list of prices, duration and frequency, calculate the
+ * average
+ * @param data
+ * @param duration
+ * @param freq
+ */
+function calculateMovingAverage(data, duration, freq) {
+    data = _.sortBy(data, 'date'); // clean up
+
+    var totalDuration = data.length;
+    // console.log('Total Duration: ' + totalDuration);
+    // console.log('Given Duration: ' + duration);
+
+    // specified duration is longer than total duration, not enough data
+    if (duration > totalDuration) {
+        alert('The specified [duration] is longer than the total duration, ' +
+            'please revise the [duration] and try again');
+        return;
+    }
+
+    // freq is not divisible by the total duration, change freq
+    // if (data.length % freq != 0) {
+    //     alert('The specified [frequency] is not divisible by the total duration,' +
+    //         'please revise the [frequency]and try again');
+    //     return;
+    // }
+
+    // specified duration is shorter than total duration, that's fine
+    else if (duration <= totalDuration) {
+        var counter = 0;
+        var totalSet = []; // set containing all the priceSets, (totalDuration / freq) sets
+        var priceSet = []; // represents a set containing 'freq' prices
+        for (var i = 0; i < duration; i++) {
+            if (counter < freq) {
+                priceSet.push(data[totalDuration - i - 1].close);
+                counter++;
+            }
+            else if (counter == freq) {
+                var subAverage = ss.mean(priceSet);
+                totalSet.push(subAverage);
+                priceSet = [];
+                counter = 0;
+            }
+        }
+        // console.log('totalSet: ' + totalSet);
+    }
+    console.log('Moving average: $' + ss.mean(totalSet).toFixed(3));
+    $('#movingAverageText').text('$' + ss.mean(totalSet).toFixed(3));
+}
+var MFsymbol = [];
+var MFName = [];
+
+var mutualFundList = $.ajax({
+    url: '/market/GetMutualFundList',
+    type: 'GET'
+}).done(function(data) {
+    $("#mfSearchBox").append($("<option>"));
+    for (var i = 0; i < data.length; i++) {
+        MFsymbol.push({
+            id: i,
+            text: data[i].ticker
+        });
+        MFName.push({
+            id: i,
+            text: data[i].name
+        });
+    }
+    $("#mfSearchBox").select2({
+        // Placeholder defined in Jade file apparently doesn't work
+        placeholder: "Company Name",
+        data: MFName
+    });
+
+    // Search a random ticker when page loads
+    var random = Math.floor((Math.random() * data.length) + 1);
+    var $box1 = $("#mfSearchBox").select2();
+    $box1.val(1).trigger("change");
+    searchMutualFund();
+
+    return data;
+})
+
+$('#mfSearchBox').on('select2:select', function(e) {
+    searchMutualFund();
+    var ctx = document.getElementById("buyStockChart");
+
+});
+
+
+function PopulateTable(ticker, data) {
+    var table = $("#stockQuotes").DataTable({
+        retrieve: true,
+        autoWidth: false
+    });
+    table.clear().draw();
+    for (var i = 0; i < data.length; i++) {
+        var array = [];
+        array.push(new Date(data[i].date));
+        array.push(data[i].close);
+        table.row.add(array);
+    }
+    table.draw();
+}
+// Slider for Range
+var rangeSlider = $('#rangeSlider').slider({
+    ticks: [0, 30, 60, 90, 120, 150, 180],
+    ticks_positions: [0, 16.6, 33.2, 49.8, 66.4, 83, 100],
+    ticks_labels: ['0', '30', '60', '90', '120', '150', '180'],
+    ticks_snap_bounds: 2,
+    formatter: function(value) {
+        $('#rangeSliderText').text('Past ' + value + ' days');
+        // return 'Current value: ' + value;
+    }
+});
+$('#rangeSlider').on('slideStop', function (e) {
+    searchMutualFund();
+});
+
+// Slider for Frequency
+var freqSlider = $('#freqSlider').slider({
+    formatter: function(value) {
+        $('#freqSliderText').text('   Every ' + value + ' days');
+        // return 'Current value: ' + value;
+    }
+});
+$('#freqSlider').on('slideStop', function (e) {
+    searchMutualFund();
+});
+
+// Function for handling when search button is clicked
+var searchMutualFund = function() {
+    var selectedTicker = MFsymbol[$("#mfSearchBox").val()].text;
+    var interval = 86400;
+    var period = '1Y';
+    var exchange = 'MUTF_CA'
+    var results;
+
+    $.ajax(
+        {
+            url: "/market/GetGoogleFinanceData?ticker=" + selectedTicker + "&interval=" + interval + "&period=" + period + "&exchange=" + exchange,
+            type: "GET"
+        })
+        .done(function(data) {
+            var duration = 30;
+            var freq = 1;
+            PopulateTable(selectedTicker, data);
+            console.log('rangeSlider: ' + rangeSlider.slider('getValue'));
+            // console.log('freqSlider: ' + $('#freqSlider').value);
+            calculateMovingAverage(data, rangeSlider.slider('getValue'), freqSlider.slider('getValue'));
+            // calculateMovingAverage(data, duration, freq);
+            populateControlPanel(data, selectedTicker);
+            // $('#rangeH4').append('<input id="rangeSlider" data-slider-id="rangeSlider" type="text" data-slider-min="1" data-slider-max="' + data.length + '" data-slider-step="1" data-slider-value="' + data.length / 10 + '"></input>');
+            // $('#rangeH4').append('<small id="rangeSliderText"></small>');
+            $('#MFPanel').show(400);
+            $('#moreInfoPanel').show(400, function() {
+                createMiniChart(data, selectedTicker);
+            });
+        })
+}
+
+/**
+ * Used to create the mini chart in the buy stock form
+ */
+function createMiniChart(data, selectedTicker) {
+    getPriceTrend(data, selectedTicker);
+
+}
+
+function populateControlPanel(data, selectedTicker){
+    var label = selectedTicker + '\'s recent price trend';
+    $('#miniHeader').text(label);
+
+    $('#currentPrice').text('$' + data[data.length-1].close);
+
+
+    prices = []
+    for (var i = 0; i < data.length; i++) {
+        prices.push(parseInt(data[i].close));
+    }
+    // console.log(prices);
+    meanPrice = ss.mean(prices);
+    $('#averagePrice').text('$' + meanPrice.toFixed(3));
+    stdPrice = ss.standardDeviation(prices);
+    $('#stdevPrice').text('$' + stdPrice.toFixed(3));
+
+    // console.log(data);
+    // console.log('rangeSlider: ' + $('#rangeSlider').value);
+    // console.log('freqSlider: ' + $('#freqSlider').value);
+    // calculateMovingAverage(data, $('#rangeSlider').value, $('#freqSlider').value);
+
+}
+
+function getPriceTrend(data, ticker) {
+    console.log('getPriceTrend called');
+
+    var priceList = [];
+    for (var i = 0; i < data.length; i++) {
+        var obj = {};
+        obj.y = data[i].close;
+        obj.x = data[i].date;
+        priceList.push(obj);
+    }
+    // console.log('priceList: ' + String(priceList[0].x));
+    if (priceList != '') {
+        var ctx = document.getElementById("buyStockChart");
+        // resizing
+        // ctx.canvas.width = 600;
+        // ctx.canvas.height = 600;
+        if (ctx) {
+            ctx.remove();
+            $('#chartPanel').append('<canvas id="buyStockChart"><canvas>');
+        }
+
+        var ctx = document.getElementById("buyStockChart");
+        var scatterChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: ticker,
+                    data: priceList
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        position: 'bottom'
+                    }]
+                },
+                responsive: true,
+                showLine: true,
+                borderColor: "rgba(75,192,192,1)"
+            }
+        });
+
+    } else {
+        $('#miniHeader').text('Sorry, the selected ticker doesn\'t have any price trend, please check back again');
+    }
+}
+
+

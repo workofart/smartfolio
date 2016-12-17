@@ -6,6 +6,7 @@ block page-specific-js-css
 	script(defer type='text/javascript' src='/javascripts/jquery.dataTables.min.js')
 	script(defer type='text/javascript' src='/javascripts/dataTables.bootstrap.min.js')
 	script(defer type='text/javascript' src='/javascripts/market_actions.js')
+	script(defer type='text/javascript' src='/javascripts/Chart.min.js')
 block content
 	div(class='row' id='overlay')
 		div.col-md-6
@@ -78,7 +79,7 @@ block content
 									ul(id='ticker-news-list')
 						div(class='panel-footer')
 		div.col-md-6
-			h4 Market
+			h4(id='companyH4')
 			table(class='table display' id='stockQuotes')
 				thead(class='table-hover')
 					tr(class='info' id='header')

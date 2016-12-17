@@ -1,0 +1,93 @@
+extends layout
+block page-specific-js-css
+	link(rel='stylesheet', href='/stylesheets/chart.css')
+	script(defer type='text/javascript' src='/javascripts/d3.min.js')
+	script(defer type='text/javascript' src='/javascripts/techan.min.js')
+	script(defer type='text/javascript' src='/javascripts/jquery.dataTables.min.js')
+	script(defer type='text/javascript' src='/javascripts/dataTables.bootstrap.min.js')
+	script(defer type='text/javascript' src='/javascripts/Chart.min.js')
+	script(defer type='text/javascript' src='/javascripts/bootstrap-slider.min.js')
+	script(defer type='text/javascript' src='/javascripts/underscore-min.js')
+	script(defer type='text/javascript' src='/javascripts/simple-statistics.min.js')
+	script(defer type='text/javascript' src='/javascripts/testing_actions.js')
+	link(rel='stylesheet', href='/stylesheets/bootstrap-slider.min.css')
+block content
+	div(class='row' id='overlay')
+		div.col-md-6
+			div(class='container' id='wrapperMarket')
+				div(class='btn-toolbar' role='toolbar')
+					div(class='btn-group' role='group')
+						button(onclick='fillAddToPortfolioForm();' type='button' class='btn btn-danger' data-toggle='modal' data-target='#addToPortfolio') Create Portfolio &nbsp
+							span(class='glyphicon glyphicon-plus')
+					div(class='modal fade' id='addToPortfolio' tabindex='-1' role='dialog' aria-labelledby='addToPortfolioLabel')
+						div(class='modal-dialog' role='document')
+							div.modal-content
+								div.modal-header
+									button(type='button' class='close' data-dismiss='modal' aria-label='Close' id='close') x
+									h4(class='modal-title' id='addToPortfolioLabel') Create Portfolio
+								div(class='modal-body' id='modal-body')
+									h4 Latest Price: &nbsp
+										span(class='label label-warning' id='latestPrice')
+									div.input-group
+										span(class='input-group-addon' id='basic-addon1') Portfolio Name
+										input(type='text' id='portfolioName' class='form-control' placeholder='E.g. Best Portfolio' aria-describedby='basic-addon1')
+									div.input-group
+										span(class='input-group-addon' id='basic-addon2') Ticker
+										input(type='text' id='tickerInput' class='form-control' placeholder='E.g. AAPL' aria-describedby='basic-addon2' disabled)
+									div.input-group
+										span(class='input-group-addon' id='basic-addon3') Quantity
+										input(type='number' id='quantity' onkeyup='getTotalAmount();' class='form-control' placeholder='E.g. 1000' aria-describedby='basic-addon3')
+									div(class='alert alert-danger' role='alert')
+										| Total Dollar Amount:
+										span(class='label label-danger' id='totalAmount')
+								div.modal-footer
+									button(type='button' class='btn btn-default' data-dismiss='modal' id='close') Close
+									button(type='button' onclick='createPortfolioWithStock();' class='btn btn-primary') Submit
+				div.input-group
+					span(class='input-group-addon' id='basic-addon2') Search Mutual Funds
+					select(class='form-control' style='width:200px' id='mfSearchBox')
+				div.row
+					div.col-md-8
+						div.container-fluid
+							div(class='panel panel-primary' id='moreInfoPanel' style='display: none')
+								div(class="panel-heading")
+									h3(class="panel-title" id='miniHeader')
+								div(class='panel-body' id='chartPanel')
+									canvas(id='buyStockChart')
+					div.col.md-4
+						div.container-fluid
+							div(class='panel panel-primary' id='MFPanel' style='display: none')
+								div(class="panel-heading")
+									h3(class="panel-title") Control Panel
+								div(class='panel-body')
+									h4 Current Price
+										span(class='label label-success' id='currentPrice')
+									h4 Average
+										span(class='label label-primary' id='averagePrice')
+									h4 Standard Deviation
+										span(class='label label-primary' id='stdevPrice')
+									h4(id='rangeH4') Range
+										br
+										input(id="rangeSlider" data-slider-id='rangeSlider' data-slider-tooltip="hide" type="text" data-slider-ticks="[0, 30, 60, 90, 120, 150, 180]" data-slider-ticks-labels="[0, 30, 60, 90, 120, 150, 180]"  data-slider-value="30" data-slider-ticks-snap-bounds="2")
+										div(class='pull-right')
+											span(class='label label-default' id="rangeSliderText")
+									br
+									h4(id='freqH4') Frequency
+										br
+										input(id="freqSlider" data-slider-id='freqSlider' data-slider-tooltip="hide" type="text" data-slider-min="0" data-slider-max="60" data-slider-step="1" data-slider-value="2" data-slider-ticks-snap-bounds="10")
+										div(class='pull-right')
+											span(class='label label-default' id="freqSliderText")
+									h4 Moving Average:
+										span(class="label label-danger" id='movingAverageText')
+				div.row
+					div.col.md-12
+						div.container-fluid
+							div(class='panel panel-default')
+								div(class="panel-heading")
+									h3(class="panel-title") Historical Prices
+								table(class='table display' id='stockQuotes')
+									thead(class='table-hover')
+										tr(class='info' id='header')
+											th Date
+											th Closing Price
+									tbody(class='table-hover' id='quoteBody')

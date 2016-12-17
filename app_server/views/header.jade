@@ -13,7 +13,13 @@ nav(class='navbar navbar-default navbar-fixed-top')
 				li
 					a(href='/') Home
 				li
-					a(href='/market') Market
+					a(class='dropdown-toggle' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') Market
+						span.caret
+					ul(class='dropdown-menu')
+						li
+							a(href='/market') Stock Market
+						li
+							a(href='/mutualFundMarket') Mutual Fund Market
 				li
 					a(class='dropdown-toggle' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') Portfolio
 						span.caret

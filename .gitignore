@@ -17,6 +17,7 @@ Icon
 .TemporaryItems
 .Trashes
 .VolumeIcon.icns
+commits.txt
 
 # Directories potentially created on remote AFP share
 .AppleDB
@@ -24,6 +25,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+.idea
 
 # node_modules should not be published
 node_modules/*

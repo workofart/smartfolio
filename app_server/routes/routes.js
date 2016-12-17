@@ -3,6 +3,7 @@ var express = require('express');
 module.exports = function(passport) {
     var router = express.Router();
     var ctrlMarket = require('../controllers/market');
+    var ctrlMFMarket = require('../controllers/mfMarket');
     var ctrlIndex = require('../controllers/index');
     var ctrlPortfolio = require('../controllers/portfolio');
     var ctrlPortfolioDetail = require('../controllers/portfolio_detail');
@@ -22,8 +23,11 @@ module.exports = function(passport) {
 
     /* GET home page. */
     router.get('/', function(req, res, next) { req.session.redirectTo = '/'; next(); }, ctrlIndex.index);
-    /* GET Market page */
+    /* GET Stock Market page */
     router.get('/market', function(req, res, next) { req.session.redirectTo = '/market'; next(); }, ctrlMarket.market);
+
+    /* GET Mutual Fund Market page */
+    router.get('/mutualFundMarket', function(req, res, next) { req.session.redirectTo = '/mutualFundMarket'; next(); }, ctrlMFMarket.mfMarket);
 
     /* GET Testing page */
     router.get('/testing', function(req, res, next) { req.session.redirectTo = '/testing'; next(); }, ctrlTesting.testing);
@@ -49,6 +53,8 @@ module.exports = function(passport) {
     router.get('/market/GetYahooFinanceNews', ctrlMarket.GetYahooFinanceNews);
     /* GET request for companies in Database */
     router.get('/market/GetCompanyList', ctrlMarket.GetCompanyList);
+    /* GET request for mutual funds in Database */
+    router.get('/market/GetMutualFundList', ctrlMarket.GetMutualFundList);
 
     /* GET latest price from Yahoo Finance */
     router.get('/getLatestPrice', ctrlPortfolio.latestPrice);

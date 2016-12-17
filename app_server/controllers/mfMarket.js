@@ -6,7 +6,7 @@ var http = require('http');
 var model = require('../models/models');
 var rsj = require('rsj');
 
-var renderMarket = function(req, res) {
+var renderMFMarket = function(req, res) {
 
 	var custom = {
 		title: 'Smartfolio', 
@@ -21,11 +21,11 @@ var renderMarket = function(req, res) {
 		custom.isLoggedIn = false;
 	}
 
-	res.render('market', custom);
+	res.render('mfMarket', custom);
 };
 
-module.exports.market = function(req, res) {
-	renderMarket(req, res);
+module.exports.mfMarket = function(req, res) {
+	renderMFMarket(req, res);
 };
 
 var StoredQuotes = {};

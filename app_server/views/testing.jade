@@ -5,10 +5,19 @@ block page-specific-js-css
     script(defer type='text/javascript' src='/javascripts/techan.min.js')
     script(defer type='text/javascript' src='/javascripts/jquery.dataTables.min.js')
     script(defer type='text/javascript' src='/javascripts/dataTables.bootstrap.min.js')
+    script(defer type='text/javascript' src='/javascripts/Chart.min.js')
+    script(defer type='text/javascript' src='/javascripts/bootstrap-slider.min.js')
+    script(defer type='text/javascript' src='/javascripts/underscore-min.js')
+    script(defer type='text/javascript' src='/javascripts/simple-statistics.min.js')
+    link(rel='stylesheet', href='/stylesheets/bootstrap-slider.min.css')
 
 block content
     div.row
         div.col-md-12
+            div.well
+                h1 Used for testing auto updating graphs
+                button(onclick='autoUpdateGraph();' class='btn btn-default') Graph graph
+                canvas(id='autoUpdateGraph' width='50' height='50')
             div.well
                 ul(class='nav nav-pills nav-stacked')
                     li
@@ -21,9 +30,54 @@ block content
                         button(onclick='generateFakeTransactions();' class='btn btn-primary btn-lg') Fake user generate transactions
                     li
                         button(onclick='testDynamicMovingAverage();' class='btn btn-primary btn-lg') Test Short Moving Average
-            div.well
-                h1 Used for testing auto updating graphs
-                button(onclick='autoUpdateGraph();' class='btn btn-default') Graph graph
-                canvas(id='autoUpdateGraph' width='50' height='50')
-    script(defer type='text/javascript' src='/javascripts/Chart.min.js')
+    div.row
+        div.col-md-12
+            div.input-group
+                span(class='input-group-addon' id='basic-addon2') Search Mutual Funds
+                select(class='form-control' style='width:200px' id='mfSearchBox')
+    div.row
+        div.col-md-8
+            div.container-fluid
+                div(class='panel panel-primary' id='moreInfoPanel' style='display: none')
+                    div(class="panel-heading")
+                        h3(class="panel-title" id='miniHeader')
+                    div(class='panel-body' id='chartPanel')
+                        canvas(id='buyStockChart')
+        div.col.md-4
+            div.container-fluid
+                div(class='panel panel-primary' id='MFPanel' style='display: none')
+                    div(class="panel-heading")
+                        h3(class="panel-title") Control Panel
+                    div(class='panel-body')
+                        h4 Current Price
+                            span(class='label label-success' id='currentPrice')
+                        h4 Average
+                            span(class='label label-primary' id='averagePrice')
+                        h4 Standard Deviation
+                            span(class='label label-primary' id='stdevPrice')
+                        h4(id='rangeH4') Range
+                            br
+                            input(id="rangeSlider" data-slider-id='rangeSlider' data-slider-tooltip="hide" type="text" data-slider-ticks="[0, 30, 60, 90, 120, 150, 180]" data-slider-ticks-labels="[0, 30, 60, 90, 120, 150, 180]"  data-slider-value="30" data-slider-ticks-snap-bounds="2")
+                            div(class='pull-right')
+                                span(class='label label-default' id="rangeSliderText")
+                        br
+                        h4(id='freqH4') Frequency
+                            br
+                            input(id="freqSlider" data-slider-id='freqSlider' data-slider-tooltip="hide" type="text" data-slider-min="0" data-slider-max="60" data-slider-step="1" data-slider-value="2" data-slider-ticks-snap-bounds="10")
+                            div(class='pull-right')
+                                span(class='label label-default' id="freqSliderText")
+                        h4 Moving Average:
+                            span(class="label label-danger" id='movingAverageText')
+    div.row
+        div.col.md-12
+            div.container-fluid
+                div(class='panel panel-default')
+                    div(class="panel-heading")
+                        h3(class="panel-title") Historical Prices
+                    table(class='table display' id='stockQuotes')
+                        thead(class='table-hover')
+                            tr(class='info' id='header')
+                                th Date
+                                th Closing Price
+                        tbody(class='table-hover' id='quoteBody')
     script(defer type='text/javascript' src='/javascripts/testing_actions.js')

@@ -85,7 +85,7 @@ var companyList = $.ajax({
 		searchQuote();
 
 		return data;
-	})
+	});
 
 var searchQuoteName = function() {
 	var selectedTicker = ticker[$("#searchBox").val()].text;
@@ -124,17 +124,18 @@ var searchQuote = function() {
 	var selectedTicker = ticker[$("#searchBox2").val()].text;
 	var interval = 86400;
 	var period = '1Y';
-
+	var exchange = 'NASD'
 	var results;
 
 	$.ajax(
 		{
-			url: "/market/GetGoogleFinanceData?ticker=" + selectedTicker + "&interval=" + interval + "&period=" + period,
+			url: "/market/GetGoogleFinanceData?ticker=" + selectedTicker + "&interval=" + interval + "&period=" + period + "&exchange=" + exchange,
 			type: "GET"
 		})
 		.done(function(data) {
 			PopulateTable(selectedTicker, data);
 			// Clear origin chart and populate
+			$('#companyH4').text(companyName[$("#searchBox").val()].text);
 			d3.select('div#bigChart').select("svg").remove();
 			d3.select('div#bigChart').call(PopulateChart(data));
 
