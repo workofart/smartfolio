@@ -28,4 +28,4 @@ Temporary Items
 .idea
 
 # node_modules should not be published
-node_modules/*
+node_modules/
