@@ -1,8 +1,63 @@
-# README #
+# Smartfolio - Stock Trading Simulator
+> Note that due to the [discontinuation of Yahoo Finance API](https://forums.yahoo.net/t5/Yahoo-Finance-help/Is-Yahoo-Finance-API-broken/m-p/251312/highlight/true#M3123) in 2017, combined with the stale development of this project, you will **not** be able to **build/run** this project locally. However, a live demo is still available [here](https://gentle-oasis-41659.herokuapp.com/) (without prices obviously)
 
-## Things to keep in mind when making API requests: ##
+## Screenshot
+![Screenshot](https://raw.githubusercontent.com/workofart/personal-page/master/public/img/smartfolio.png)
 
-**1. Request Library | The request originates from the server (E.g. /controller/portfolio.js)**
+
+## ~~Installing~~  (Removed due to Yahoo Finance API being discontinued)
+
+
+### Initial Configuration (Assuming DB is initialized)
+
+1. Before developing/using this project, make sure to modify the [DB Configs](https://github.com/workofart/smartfolio/blob/master/app_server/configs/setupDB.js)  accordingly.
+
+2. Then, run this [script](https://github.com/workofart/smartfolio/blob/master/app_server/configs/sql_scripts/LoadSQLFiles.py) to populate the DB with some [pre-defined functions](https://github.com/workofart/smartfolio/tree/master/app_server/configs/sql_scripts).
+
+
+## Developing
+
+Pre-dev house-keeping
+
+```shell
+git clone https://github.com/workofart/smartfolio.git
+cd smartfolio/
+npm install
+```
+
+### Building
+
+Since we used Jade/Pug as the template engine, building is not needed.
+
+## Features
+
+Stock-trading simulator
+* Market analysis (stock price graphs, historical prices, news for selected stocks)
+* Portfolio analysis (Portfolio Composition, Transactions, Performance)
+* User system (registration, login)
+
+
+## Contributing
+
+This repository has been stale since December 2016, and it has been used as a practice project for [Ben](https://github.com/belinghy) and [I](https://github.com/workofart) to get familiar with web technologies. We are no longer maintaining it.
+
+## Links
+
+- Project homepage: https://gentle-oasis-41659.herokuapp.com/
+- Repository: https://github.com/workofart/smartfolio
+- Related projects:
+  - Cryptocurrency Trading Bot: https://github.com/workofart/bit-trader
+  - Ben's Repositories: https://github.com/belinghy
+
+
+## Licensing
+
+The code in this project is licensed under MIT license.
+
+
+## Little tip learned
+
+**1. Using the [Request](https://github.com/request/request) Library | The request originates from the server (E.g. /controller/portfolio.js)**
 
 url - must append 'http://localhost:3000' as the prefix
 
@@ -34,7 +89,7 @@ request (
 ```
 
 
-**2. AJAX | The request originates from the client (E.g. /javascripts/portfolio_actions.js)**
+**2. Using [jQuery](https://github.com/jquery/jquery)'s ajax | The request originates from the client (E.g. /javascripts/portfolio_actions.js)**
 
 url - can start with /api or /market etc...
 
@@ -55,12 +110,10 @@ $.ajax({
 
 ```
 
+## Quick LOC Summary
 
-
-## Quick LOC Summary ##
-
-### Updated (2016/10/29 9:10PM) ###
-### 4654 Total ###
+### Updated (2016/10/29 9:10PM)
+### 4654 Lines Total
 
 * 114 ./app.js
 * 516 ./app_api/controllers/portfolio.js
@@ -112,29 +165,3 @@ $.ajax({
 * 23 ./public/stylesheets/portfolio_detail.css
 * 71 ./public/stylesheets/style.css
 
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
